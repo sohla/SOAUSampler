@@ -84,7 +84,6 @@ struct RenderDeataStruct {
 - (IBAction)onPlaySequence:(id)sender;
 
 
--(OSStatus)injectDataIntoPropertyList:(NSURL*)presetURL withDataBlock:(void (^)(NSDictionary*))blockWithInstrumentData;
 
 //-(void)changePitchTo:(int)val;
 /*

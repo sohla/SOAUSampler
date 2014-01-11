@@ -153,6 +153,10 @@ static OSStatus renderCallback(	void *							inRefCon,
 
 
 - (OSStatus)    loadSynthFromPresetURL:(NSURL *) presetURL;
+-(OSStatus)injectDataIntoPropertyList:(NSURL*)presetURL withDataBlock:(void (^)(NSDictionary*))blockWithInstrumentData;
+
+
+
 - (void)        registerForUIApplicationNotifications;
 - (BOOL)        createAUGraph;
 - (void)        configureAndStartAudioProcessingGraph: (AUGraph) graph;
@@ -410,38 +414,39 @@ static OSStatus renderCallback(	void *							inRefCon,
     [self injectDataIntoPropertyList:presetURL
                        withDataBlock:^(NSDictionary* plData){
     
+                           
+                           // NOTE : any of these changes only get passed to the sampler.
+                           // They are not written back out to the propertylist.
+                           
+                           // root object
                            NSDictionary *instrument = [plData objectForKey:@"Instrument"];
-                           NSArray *layers = [instrument objectForKey:@"Layers"];
                            
                            // get the layer at index
+                           NSArray *layers = [instrument objectForKey:@"Layers"];
                            NSDictionary *layer = [layers objectAtIndex:0];
                            
-                           
-                           // envelope
-                           NSArray *envelopes = [layer objectForKey:@"Envelopes"];
-                           NSDictionary *envelope = [envelopes objectAtIndex:0];
-                           NSArray *stages = [envelope objectForKey:@"Stages"];
-                           
-                           NSDictionary *params = [stages objectAtIndex:6];
-                           [params setValue:@0.1 forKey:@"time"];
-                           
-                           params = [stages objectAtIndex:5];
-                           [params setValue:@0.01 forKey:@"time"];
+//                           // envelope
+//                           NSArray *envelopes = [layer objectForKey:@"Envelopes"];
+//                           NSDictionary *envelope = [envelopes objectAtIndex:0];
+//                           NSArray *stages = [envelope objectForKey:@"Stages"];
+//                           
+//                           NSDictionary *params = [stages objectAtIndex:6];
+//                           [params setValue:@0.1 forKey:@"time"];
+//                           
+//                           params = [stages objectAtIndex:5];
+//                           [params setValue:@0.01 forKey:@"time"];
                            
                            // change sample
                            if(YES){
                                
+                               
+                               // each zone has an index to a waveform in the file-references dictinaory
                                NSArray *zones = [layer objectForKey:@"Zones"];
                                NSDictionary *zone = [zones objectAtIndex:0];
                                NSNumber *waveform = [zone objectForKey:@"waveform"];
-                               
-                               NSLog(@"%@",waveform);
-                               
                                [zone setValue:@2 forKey:@"waveform"];
                                
-                               NSLog(@"%@",zone);
-                               
-                               ////
+                               // add the file-reference path
                                NSMutableDictionary *files = [plData objectForKey:@"file-references"];
                                
                                
@@ -451,161 +456,14 @@ static OSStatus renderCallback(	void *							inRefCon,
                                //            NSString *path = [[NSBundle mainBundle] pathForResource:@"synthicoDrums" ofType:@"wav"];
                                //            NSString *path = [[NSBundle mainBundle] pathForResource:@"084 hardhop" ofType:@"wav"];
                                
-                               NSLog(@"%@",path);
-                               
                                [files setValue:path forKey:@"Sample:2"];
-                               
-                               NSLog(@"%@",files);
+
                            }
                            
                            
                            
     }];
         
-//    
-//	CFDataRef propertyResourceData = 0;
-//	Boolean status;
-//	SInt32 errorCode = 0;
-//	OSStatus result = noErr;
-//	
-//	// Read from the URL and convert into a CFData chunk
-//	status = CFURLCreateDataAndPropertiesFromResource (
-//                kCFAllocatorDefault,
-//                (__bridge CFURLRef) presetURL,
-//                &propertyResourceData,
-//                NULL,
-//                NULL,
-//                &errorCode
-//             );
-//
-//    NSAssert (status == YES && propertyResourceData != 0, @"Unable to create data and properties from a preset. Error code: %d '%.4s'", (int) errorCode, (const char *)&errorCode);
-//   	
-//	// Convert the data object into a property list
-//	CFPropertyListRef presetPropertyList = 0;
-//	CFPropertyListFormat dataFormat = 0;
-//	CFErrorRef errorRef = 0;
-//	presetPropertyList = CFPropertyListCreateWithData (
-//                            kCFAllocatorDefault,
-//                            propertyResourceData,
-//                            kCFPropertyListImmutable,
-//                            &dataFormat,
-//                            &errorRef
-//                        );
-//
-//    // Set the class info property for the Sampler unit using the property list as the value.
-//	if (presetPropertyList != 0) {
-//
-//        /*
-//         example of using core foundation...
-//         
-//        CFMutableDictionaryRef dict;
-//        dict = CFDictionaryCreateMutable( kCFAllocatorDefault,
-//                                         0,
-//                                         &kCFTypeDictionaryKeyCallBacks,
-//                                         &kCFTypeDictionaryValueCallBacks );        // convert to objc land
-//
-//        
-//        
-//        dict = (CFMutableDictionaryRef)CFDictionaryGetValue(presetPropertyList, CFSTR("Instrument"));;
-//        */
-//        
-//        
-//        NSDictionary *plData = (__bridge NSDictionary*)presetPropertyList;
-//		
-//        NSDictionary *instrument = [plData objectForKey:@"Instrument"];
-//        NSArray *layers = [instrument objectForKey:@"Layers"];
-//        
-//        // get the layer at index
-//        NSDictionary *layer = [layers objectAtIndex:0];
-//        
-//
-//        // envelope
-//        NSArray *envelopes = [layer objectForKey:@"Envelopes"];
-//        NSDictionary *envelope = [envelopes objectAtIndex:0];
-//        NSArray *stages = [envelope objectForKey:@"Stages"];
-//
-//        NSDictionary *params = [stages objectAtIndex:6];
-//        [params setValue:@0.1 forKey:@"time"];
-//        
-//        params = [stages objectAtIndex:5];
-//        [params setValue:@0.01 forKey:@"time"];
-//        
-//
-////        NSLog(@"%ld",result);
-////        NSAssert(result == noErr, @"Couldn't set sampler's kAudioUnitProperty_ClassInfo");
-//
-//        
-////        // layer coarse tune : should only be used on-load
-////        [layer setValue:@0 forKey:@"coarse tune"];
-//        
-//        // change sample
-//        if(YES){
-//            
-//            NSArray *zones = [layer objectForKey:@"Zones"];
-//            NSDictionary *zone = [zones objectAtIndex:0];
-//            NSNumber *waveform = [zone objectForKey:@"waveform"];
-//            
-//            NSLog(@"%@",waveform);
-//            
-//            [zone setValue:@2 forKey:@"waveform"];
-//            
-//            NSLog(@"%@",zone);
-//            
-//            ////
-//            NSMutableDictionary *files = [plData objectForKey:@"file-references"];
-//            
-//            
-////            NSString *path = [[NSBundle mainBundle] pathForResource:@"sine440" ofType:@"wav"];
-//            NSString *path = [[NSBundle mainBundle] pathForResource:@"zeb" ofType:@"wav"];
-////            NSString *path = [[NSBundle mainBundle] pathForResource:@"robotic1234" ofType:@"wav"];
-////            NSString *path = [[NSBundle mainBundle] pathForResource:@"synthicoDrums" ofType:@"wav"];
-////            NSString *path = [[NSBundle mainBundle] pathForResource:@"084 hardhop" ofType:@"wav"];
-//            
-//            NSLog(@"%@",path);
-//            
-//            [files setValue:path forKey:@"Sample:2"];
-//            
-//            NSLog(@"%@",files);
-//        }
-//        
-//        
-//        // copy data to CFPropertyListRef
-////        _samplerPropertyList = CFPropertyListCreateDeepCopy(CFAllocatorGetDefault(), presetPropertyList, kCFPropertyListMutableContainersAndLeaves);
-//
-//        
-//        // lets convert back the CFPropertyListRef
-//        presetPropertyList = (__bridge CFPropertyListRef)plData;
-//        
-//        
-//		result = AudioUnitSetProperty(
-//                                      self.samplerUnit,
-//                                      kAudioUnitProperty_ClassInfo,
-//                                      kAudioUnitScope_Global,
-//                                      0,
-//                                      &presetPropertyList,
-//                                      sizeof(CFPropertyListRef)
-//                                      );
-//       
-//
-//        
-//        result = AudioUnitGetProperty(
-//                                      self.samplerUnit,
-//                                      kAudioUnitProperty_ClassInfo,
-//                                      kAudioUnitScope_Global,
-//                                      0,
-//                                      &presetPropertyList,
-//                                      sizeof(CFPropertyListRef)
-//                                      );
-//                                      
-//                                      
-//        
-//		CFRelease(presetPropertyList);
-//	}
-//    
-//    
-//    if (errorRef) CFRelease(errorRef);
-//	CFRelease (propertyResourceData);
-
 	return true;
 }
 -(void)injectSampler:(AudioUnit)sampler withSample:(NSString*)samplePath atLayerIndex:(UInt8)layerIndex atZoneIndex:(UInt8)zoneIndex{
@@ -630,7 +488,10 @@ static OSStatus renderCallback(	void *							inRefCon,
                                                        &errorCode
                                                        );
     
-    NSAssert (status == YES && propertyResourceData != 0, @"Unable to create data and properties from a preset. Error code: %d '%.4s'", (int) errorCode, (const char *)&errorCode);
+    NSAssert (status == YES && propertyResourceData != 0,
+              @"Unable to create data and properties from a preset. Error code: %d '%.4s'",
+              (int) errorCode,
+              (const char *)&errorCode);
    	
 	// Convert the data object into a property list
 	CFPropertyListRef presetPropertyList = 0;
