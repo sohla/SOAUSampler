@@ -83,6 +83,55 @@ struct RenderDeataStruct {
 - (IBAction)onReleaseChanged:(UISlider *)sender;
 - (IBAction)onPlaySequence:(id)sender;
 
+
+-(OSStatus)injectDataIntoPropertyList:(NSURL*)presetURL withDataBlock:(void (^)(NSDictionary*))blockWithInstrumentData;
+
 //-(void)changePitchTo:(int)val;
+/*
+ 
+ grep -r '-10851' /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS6.1.sdk/System/Library/Frameworks/AudioUnit.framework
+ 
+ 
+ grep -r '-10851' /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS6.1.sdk/System/Library/Frameworks/AudioToolbox.framework
+ 
+ 
+ grep  '-10851' /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS6.1.sdk/System/Library/Frameworks/AVFoundation.framework
+ 
+ 
+ */
+
+
+/*
+ tested so far :
+    note on
+    note off
+    pitch bend (do we need it?)
+    pan control (midi cntl #10)
+    pitch control (midi cntl #2) 
+    sampler start (midi cntl #1) mapped to sample start factor
+ 
+ 
+ 
+ 
+ clean up code
+ start to structure out
+ test for layers / swapping layers
+    each layer can have it's own set of connections
+    can we share connections? test this
+    
+ 
+ 
+ test for : attack / decay
+ 
+ start to think
+    what the relationship of the envelope
+    previous model of what the attack/decay is
+    envelope <-> length/time
+ 
+ 
+ 
+ 
+ 
+ */
 
 @end

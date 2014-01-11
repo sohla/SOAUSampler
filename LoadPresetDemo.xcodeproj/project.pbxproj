@@ -41,6 +41,8 @@
 		F0441D5C18801BE100E19AFD /* sine440.wav in Resources */ = {isa = PBXBuildFile; fileRef = F0441D5B18801BE100E19AFD /* sine440.wav */; };
 		F0441D5E18801D5A00E19AFD /* zeb.wav in Resources */ = {isa = PBXBuildFile; fileRef = F0441D5D18801D5A00E19AFD /* zeb.wav */; };
 		F0911686186CCD7D0041A209 /* SweepPad.aupreset in Resources */ = {isa = PBXBuildFile; fileRef = F0911685186CCD7D0041A209 /* SweepPad.aupreset */; };
+		F09DE5F818810A6200971B1A /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F09DE5F718810A6200971B1A /* Default-568h@2x.png */; };
+		F09DE5FA18810F8A00971B1A /* KeyRange.aupreset in Resources */ = {isa = PBXBuildFile; fileRef = F09DE5F918810F8A00971B1A /* KeyRange.aupreset */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -84,6 +86,8 @@
 		F0441D5B18801BE100E19AFD /* sine440.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = sine440.wav; sourceTree = "<group>"; };
 		F0441D5D18801D5A00E19AFD /* zeb.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = zeb.wav; sourceTree = "<group>"; };
 		F0911685186CCD7D0041A209 /* SweepPad.aupreset */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = SweepPad.aupreset; sourceTree = "<group>"; };
+		F09DE5F718810A6200971B1A /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
+		F09DE5F918810F8A00971B1A /* KeyRange.aupreset */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = KeyRange.aupreset; path = ../../../../../Library/Audio/Presets/Apple/AUSampler/KeyRange.aupreset; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -160,6 +164,7 @@
 				F0441D48187F9CCA00E19AFD /* SweepPad2.aupreset */,
 				F0441D5318800DF800E19AFD /* SweepPad4.aupreset */,
 				F0441D59188019D000E19AFD /* SweepPad5.aupreset */,
+				F09DE5F918810F8A00971B1A /* KeyRange.aupreset */,
 				F0305D91186CD981002BECEF /* SweepTest.aupreset */,
 			);
 			name = Resources;
@@ -169,6 +174,7 @@
 		59E6DE19134F9EE7009F373F = {
 			isa = PBXGroup;
 			children = (
+				F09DE5F718810A6200971B1A /* Default-568h@2x.png */,
 				5912FFB1139B1CCD00E2ACAA /* ReadMe.txt */,
 				0A3559FF13CCB2E100AB9137 /* Classes */,
 				5993ABEF138DFAF500AF7AD8 /* Resources */,
@@ -235,7 +241,7 @@
 		59E6DE1B134F9EE7009F373F /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0420;
+				LastUpgradeCheck = 0500;
 				ORGANIZATIONNAME = Apple;
 			};
 			buildConfigurationList = 59E6DE1E134F9EE7009F373F /* Build configuration list for PBXProject "LoadPresetDemo" */;
@@ -270,7 +276,9 @@
 				F0305D96186CDDA7002BECEF /* Sounds in Resources */,
 				0A355A0D13CCB3E200AB9137 /* InfoPlist.strings in Resources */,
 				F0441D49187F9CCA00E19AFD /* SweepPad2.aupreset in Resources */,
+				F09DE5FA18810F8A00971B1A /* KeyRange.aupreset in Resources */,
 				0A355A0E13CCB3E200AB9137 /* MainViewController.xib in Resources */,
+				F09DE5F818810A6200971B1A /* Default-568h@2x.png in Resources */,
 				F0441D4C187FB50600E19AFD /* robotic1234.wav in Resources */,
 				0A355A0F13CCB3E200AB9137 /* MainWindow_iPhone.xib in Resources */,
 				F0305D92186CD981002BECEF /* SweepTest.aupreset in Resources */,
@@ -335,7 +343,6 @@
 		59E6DE48134F9EE8009F373F /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -346,6 +353,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
@@ -354,7 +362,6 @@
 		59E6DE49134F9EE8009F373F /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_VERSION = com.apple.compilers.llvmgcc42;

@@ -87,7 +87,7 @@ static OSStatus renderCallback(	void *							inRefCon,
             UInt32 onVelocity = 127;
             UInt32 noteCommand = 	kMIDIMessage_NoteOn << 4 | 0;
             
-            UInt32 randVal = 60 + (rand()%6);
+//            UInt32 randVal = 60 + (rand()%6);
             OSStatus result = noErr;
             
             renderData->modCntl += 32;
@@ -177,6 +177,38 @@ static OSStatus renderCallback(	void *							inRefCon,
 
 #pragma mark -
 #pragma mark Audio setup
+
+
+// Set up the audio session for this app.
+- (BOOL) setupAudioSession {
+    
+    AVAudioSession *mySession = [AVAudioSession sharedInstance];
+    
+    // Specify that this object is the delegate of the audio session, so that
+    //    this object's endInterruption method will be invoked when needed.
+    [mySession setDelegate: self];
+    
+    // Assign the Playback category to the audio session. This category supports
+    //    audio output with the Ring/Silent switch in the Silent position.
+    NSError *audioSessionError = nil;
+    [mySession setCategory: AVAudioSessionCategoryPlayback error: &audioSessionError];
+    if (audioSessionError != nil) {NSLog (@"Error setting audio session category."); return NO;}
+    
+    // Request a desired hardware sample rate.
+    self.graphSampleRate = 44100.0;    // Hertz
+    
+    [mySession setPreferredHardwareSampleRate: self.graphSampleRate error: &audioSessionError];
+    if (audioSessionError != nil) {NSLog (@"Error setting preferred hardware sample rate."); return NO;}
+    
+    // Activate the audio session
+    [mySession setActive: YES error: &audioSessionError];
+    if (audioSessionError != nil) {NSLog (@"Error activating the audio session."); return NO;}
+    
+    // Obtain the actual hardware sample rate and store it for later use in the audio processing graph.
+    self.graphSampleRate = [mySession currentHardwareSampleRate];
+    
+    return YES;
+}
 
 
 // Create an audio processing graph.
@@ -317,80 +349,8 @@ static OSStatus renderCallback(	void *							inRefCon,
     }
 }
 
-//-(void)changePitchTo:(int)val{
-//
-//    NSDictionary *xml = (__bridge NSDictionary*)self.samplerPropertyList;
-//    
-//    NSDictionary *instrument = [xml objectForKey:@"Instrument"];
-//    NSArray *layers = [instrument objectForKey:@"Layers"];
-//    NSDictionary *layer = [layers objectAtIndex:0];
-//    NSArray *zones = [layer objectForKey:@"Zones"];
-//    NSDictionary *zone = [zones objectAtIndex:0];
-//    
-//    [zone setValue:@(val) forKey:@"root key"];
-//
-//    // commit
-//    self.samplerPropertyList = (__bridge CFPropertyListRef)xml;
-//    
-//    AudioUnitSetProperty(
-//                         self.samplerUnit,
-//                         kAudioUnitProperty_ClassInfo,
-//                         kAudioUnitScope_Global,
-//                         0,
-//                         &_samplerPropertyList,
-//                         sizeof(CFPropertyListRef)
-//                         );
-//
-//}
 
 - (IBAction)onReleaseChanged:(UISlider *)sender {
-
-//    float val = 48.0 + 12.0 -  ([sender value] * 24.0);
-//    [self changePitchTo:(int)val];
-    
-
-//    NSDictionary *xml = (__bridge NSDictionary*)self.samplerPropertyList;
-//    
-//    NSDictionary *instrument = [xml objectForKey:@"Instrument"];
-//    NSArray *layers = [instrument objectForKey:@"Layers"];
-//    NSDictionary *layer = [layers objectAtIndex:0];
-//
-//    //    NSArray *envelopes = [layer objectForKey:@"Envelopes"];
-////    NSDictionary *envelope = [envelopes objectAtIndex:0];
-////    NSArray *stages = [envelope objectForKey:@"Stages"];
-////    NSDictionary *params = [stages objectAtIndex:6];
-////    params = [stages objectAtIndex:5];
-////
-////    float val = 0.1 + ([sender value] * 4.0);
-////    [params setValue:@(val) forKey:@"time"];
-//
-//    NSArray *zones = [layer objectForKey:@"Zones"];
-//    NSDictionary *zone = [zones objectAtIndex:1];
-//    float val = 48.0 + 12.0 -  ([sender value] * 24.0);
-//    [zone setValue:@((int)val) forKey:@"root key"];
-//    
-//    
-//    self.samplerPropertyList = (__bridge CFPropertyListRef)xml;
-//    
-//    
-//    AudioUnitSetProperty(
-//                                  self.samplerUnit,
-//                                  kAudioUnitProperty_ClassInfo,
-//                                  kAudioUnitScope_Global,
-//                                  0,
-//                                  &_samplerPropertyList,
-//                                  sizeof(CFPropertyListRef)
-//                                  );
-//
-    
-//• update / notify ?
-
-//    AudioUnitParameter changedUnit;
-//    changedUnit.mAudioUnit = self.samplerUnit;
-//    changedUnit.mParameterID = kAudioUnitProperty_ClassInfo;
-//    AUParameterListenerNotify (NULL, NULL, &changedUnit);
-    
-    
     
 }
 
@@ -447,21 +407,229 @@ static OSStatus renderCallback(	void *							inRefCon,
 // Load a synthesizer preset file and apply it to the Sampler unit
 - (OSStatus) loadSynthFromPresetURL: (NSURL *) presetURL {
     
-	CFDataRef propertyResourceData = 0;
+    [self injectDataIntoPropertyList:presetURL
+                       withDataBlock:^(NSDictionary* plData){
+    
+                           NSDictionary *instrument = [plData objectForKey:@"Instrument"];
+                           NSArray *layers = [instrument objectForKey:@"Layers"];
+                           
+                           // get the layer at index
+                           NSDictionary *layer = [layers objectAtIndex:0];
+                           
+                           
+                           // envelope
+                           NSArray *envelopes = [layer objectForKey:@"Envelopes"];
+                           NSDictionary *envelope = [envelopes objectAtIndex:0];
+                           NSArray *stages = [envelope objectForKey:@"Stages"];
+                           
+                           NSDictionary *params = [stages objectAtIndex:6];
+                           [params setValue:@0.1 forKey:@"time"];
+                           
+                           params = [stages objectAtIndex:5];
+                           [params setValue:@0.01 forKey:@"time"];
+                           
+                           // change sample
+                           if(YES){
+                               
+                               NSArray *zones = [layer objectForKey:@"Zones"];
+                               NSDictionary *zone = [zones objectAtIndex:0];
+                               NSNumber *waveform = [zone objectForKey:@"waveform"];
+                               
+                               NSLog(@"%@",waveform);
+                               
+                               [zone setValue:@2 forKey:@"waveform"];
+                               
+                               NSLog(@"%@",zone);
+                               
+                               ////
+                               NSMutableDictionary *files = [plData objectForKey:@"file-references"];
+                               
+                               
+                               //            NSString *path = [[NSBundle mainBundle] pathForResource:@"sine440" ofType:@"wav"];
+                               NSString *path = [[NSBundle mainBundle] pathForResource:@"zeb" ofType:@"wav"];
+                               //            NSString *path = [[NSBundle mainBundle] pathForResource:@"robotic1234" ofType:@"wav"];
+                               //            NSString *path = [[NSBundle mainBundle] pathForResource:@"synthicoDrums" ofType:@"wav"];
+                               //            NSString *path = [[NSBundle mainBundle] pathForResource:@"084 hardhop" ofType:@"wav"];
+                               
+                               NSLog(@"%@",path);
+                               
+                               [files setValue:path forKey:@"Sample:2"];
+                               
+                               NSLog(@"%@",files);
+                           }
+                           
+                           
+                           
+    }];
+        
+//    
+//	CFDataRef propertyResourceData = 0;
+//	Boolean status;
+//	SInt32 errorCode = 0;
+//	OSStatus result = noErr;
+//	
+//	// Read from the URL and convert into a CFData chunk
+//	status = CFURLCreateDataAndPropertiesFromResource (
+//                kCFAllocatorDefault,
+//                (__bridge CFURLRef) presetURL,
+//                &propertyResourceData,
+//                NULL,
+//                NULL,
+//                &errorCode
+//             );
+//
+//    NSAssert (status == YES && propertyResourceData != 0, @"Unable to create data and properties from a preset. Error code: %d '%.4s'", (int) errorCode, (const char *)&errorCode);
+//   	
+//	// Convert the data object into a property list
+//	CFPropertyListRef presetPropertyList = 0;
+//	CFPropertyListFormat dataFormat = 0;
+//	CFErrorRef errorRef = 0;
+//	presetPropertyList = CFPropertyListCreateWithData (
+//                            kCFAllocatorDefault,
+//                            propertyResourceData,
+//                            kCFPropertyListImmutable,
+//                            &dataFormat,
+//                            &errorRef
+//                        );
+//
+//    // Set the class info property for the Sampler unit using the property list as the value.
+//	if (presetPropertyList != 0) {
+//
+//        /*
+//         example of using core foundation...
+//         
+//        CFMutableDictionaryRef dict;
+//        dict = CFDictionaryCreateMutable( kCFAllocatorDefault,
+//                                         0,
+//                                         &kCFTypeDictionaryKeyCallBacks,
+//                                         &kCFTypeDictionaryValueCallBacks );        // convert to objc land
+//
+//        
+//        
+//        dict = (CFMutableDictionaryRef)CFDictionaryGetValue(presetPropertyList, CFSTR("Instrument"));;
+//        */
+//        
+//        
+//        NSDictionary *plData = (__bridge NSDictionary*)presetPropertyList;
+//		
+//        NSDictionary *instrument = [plData objectForKey:@"Instrument"];
+//        NSArray *layers = [instrument objectForKey:@"Layers"];
+//        
+//        // get the layer at index
+//        NSDictionary *layer = [layers objectAtIndex:0];
+//        
+//
+//        // envelope
+//        NSArray *envelopes = [layer objectForKey:@"Envelopes"];
+//        NSDictionary *envelope = [envelopes objectAtIndex:0];
+//        NSArray *stages = [envelope objectForKey:@"Stages"];
+//
+//        NSDictionary *params = [stages objectAtIndex:6];
+//        [params setValue:@0.1 forKey:@"time"];
+//        
+//        params = [stages objectAtIndex:5];
+//        [params setValue:@0.01 forKey:@"time"];
+//        
+//
+////        NSLog(@"%ld",result);
+////        NSAssert(result == noErr, @"Couldn't set sampler's kAudioUnitProperty_ClassInfo");
+//
+//        
+////        // layer coarse tune : should only be used on-load
+////        [layer setValue:@0 forKey:@"coarse tune"];
+//        
+//        // change sample
+//        if(YES){
+//            
+//            NSArray *zones = [layer objectForKey:@"Zones"];
+//            NSDictionary *zone = [zones objectAtIndex:0];
+//            NSNumber *waveform = [zone objectForKey:@"waveform"];
+//            
+//            NSLog(@"%@",waveform);
+//            
+//            [zone setValue:@2 forKey:@"waveform"];
+//            
+//            NSLog(@"%@",zone);
+//            
+//            ////
+//            NSMutableDictionary *files = [plData objectForKey:@"file-references"];
+//            
+//            
+////            NSString *path = [[NSBundle mainBundle] pathForResource:@"sine440" ofType:@"wav"];
+//            NSString *path = [[NSBundle mainBundle] pathForResource:@"zeb" ofType:@"wav"];
+////            NSString *path = [[NSBundle mainBundle] pathForResource:@"robotic1234" ofType:@"wav"];
+////            NSString *path = [[NSBundle mainBundle] pathForResource:@"synthicoDrums" ofType:@"wav"];
+////            NSString *path = [[NSBundle mainBundle] pathForResource:@"084 hardhop" ofType:@"wav"];
+//            
+//            NSLog(@"%@",path);
+//            
+//            [files setValue:path forKey:@"Sample:2"];
+//            
+//            NSLog(@"%@",files);
+//        }
+//        
+//        
+//        // copy data to CFPropertyListRef
+////        _samplerPropertyList = CFPropertyListCreateDeepCopy(CFAllocatorGetDefault(), presetPropertyList, kCFPropertyListMutableContainersAndLeaves);
+//
+//        
+//        // lets convert back the CFPropertyListRef
+//        presetPropertyList = (__bridge CFPropertyListRef)plData;
+//        
+//        
+//		result = AudioUnitSetProperty(
+//                                      self.samplerUnit,
+//                                      kAudioUnitProperty_ClassInfo,
+//                                      kAudioUnitScope_Global,
+//                                      0,
+//                                      &presetPropertyList,
+//                                      sizeof(CFPropertyListRef)
+//                                      );
+//       
+//
+//        
+//        result = AudioUnitGetProperty(
+//                                      self.samplerUnit,
+//                                      kAudioUnitProperty_ClassInfo,
+//                                      kAudioUnitScope_Global,
+//                                      0,
+//                                      &presetPropertyList,
+//                                      sizeof(CFPropertyListRef)
+//                                      );
+//                                      
+//                                      
+//        
+//		CFRelease(presetPropertyList);
+//	}
+//    
+//    
+//    if (errorRef) CFRelease(errorRef);
+//	CFRelease (propertyResourceData);
+
+	return true;
+}
+-(void)injectSampler:(AudioUnit)sampler withSample:(NSString*)samplePath atLayerIndex:(UInt8)layerIndex atZoneIndex:(UInt8)zoneIndex{
+
+ 
+}
+
+-(OSStatus)injectDataIntoPropertyList:(NSURL*)presetURL withDataBlock:(void (^)(NSDictionary*))blockWithInstrumentData{
+
+    CFDataRef propertyResourceData = 0;
 	Boolean status;
 	SInt32 errorCode = 0;
-	OSStatus result = noErr;
-	
+    OSStatus result = noErr;
+
 	// Read from the URL and convert into a CFData chunk
 	status = CFURLCreateDataAndPropertiesFromResource (
-                kCFAllocatorDefault,
-                (__bridge CFURLRef) presetURL,
-                &propertyResourceData,
-                NULL,
-                NULL,
-                &errorCode
-             );
-
+                                                       kCFAllocatorDefault,
+                                                       (__bridge CFURLRef) presetURL,
+                                                       &propertyResourceData,
+                                                       NULL,
+                                                       NULL,
+                                                       &errorCode
+                                                       );
+    
     NSAssert (status == YES && propertyResourceData != 0, @"Unable to create data and properties from a preset. Error code: %d '%.4s'", (int) errorCode, (const char *)&errorCode);
    	
 	// Convert the data object into a property list
@@ -469,107 +637,20 @@ static OSStatus renderCallback(	void *							inRefCon,
 	CFPropertyListFormat dataFormat = 0;
 	CFErrorRef errorRef = 0;
 	presetPropertyList = CFPropertyListCreateWithData (
-                            kCFAllocatorDefault,
-                            propertyResourceData,
-                            kCFPropertyListImmutable,
-                            &dataFormat,
-                            &errorRef
-                        );
-
-    // Set the class info property for the Sampler unit using the property list as the value.
+                                                       kCFAllocatorDefault,
+                                                       propertyResourceData,
+                                                       kCFPropertyListImmutable,
+                                                       &dataFormat,
+                                                       &errorRef
+                                                       );
+    
 	if (presetPropertyList != 0) {
-
-        /*
-         example of using core foundation...
-         
-        CFMutableDictionaryRef dict;
-        dict = CFDictionaryCreateMutable( kCFAllocatorDefault,
-                                         0,
-                                         &kCFTypeDictionaryKeyCallBacks,
-                                         &kCFTypeDictionaryValueCallBacks );        // convert to objc land
-
-        
-        
-        dict = (CFMutableDictionaryRef)CFDictionaryGetValue(presetPropertyList, CFSTR("Instrument"));;
-        */
-        
         
         NSDictionary *plData = (__bridge NSDictionary*)presetPropertyList;
-		
-        NSDictionary *instrument = [plData objectForKey:@"Instrument"];
-        NSArray *layers = [instrument objectForKey:@"Layers"];
-        NSDictionary *layer = [layers objectAtIndex:0];
-        
-        
-        
-        NSArray *envelopes = [layer objectForKey:@"Envelopes"];
-        NSDictionary *envelope = [envelopes objectAtIndex:0];
-        NSArray *stages = [envelope objectForKey:@"Stages"];
-        NSDictionary *params = [stages objectAtIndex:6];
-        [params setValue:@0.1 forKey:@"time"];
 
-        params = [stages objectAtIndex:5];
-        [params setValue:@0.01 forKey:@"time"];
+        blockWithInstrumentData(plData);
         
-
-//        NSLog(@"%ld",result);
-//        NSAssert(result == noErr, @"Couldn't set sampler's kAudioUnitProperty_ClassInfo");
-
-        /*
-         
-         grep -r '-10851' /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS6.1.sdk/System/Library/Frameworks/AudioUnit.framework
-
-         
-         grep -r '-10851' /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS6.1.sdk/System/Library/Frameworks/AudioToolbox.framework
-
-         
-         grep  '-10851' /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS6.1.sdk/System/Library/Frameworks/AVFoundation.framework
-
-         
-*/
-        
-        // layer pitch control
-        [layer setValue:@0 forKey:@"coarse tune"];
-        NSNumber *tune = [layer objectForKey:@"coarse tune"];
-        NSLog(@"%@",tune);
-        
-        // change sample
-        if(YES){
-            NSArray *zones = [layer objectForKey:@"Zones"];
-            NSDictionary *zone = [zones objectAtIndex:0];
-            NSNumber *waveform = [zone objectForKey:@"waveform"];
-            
-            NSLog(@"%@",waveform);
-            
-            [zone setValue:@2 forKey:@"waveform"];
-            
-            NSLog(@"%@",zone);
-            
-            ////
-            NSMutableDictionary *files = [plData objectForKey:@"file-references"];
-            
-            
-//            NSString *path = [[NSBundle mainBundle] pathForResource:@"sine440" ofType:@"wav"];
-            NSString *path = [[NSBundle mainBundle] pathForResource:@"zeb" ofType:@"wav"];
-//            NSString *path = [[NSBundle mainBundle] pathForResource:@"robotic1234" ofType:@"wav"];
-//            NSString *path = [[NSBundle mainBundle] pathForResource:@"synthicoDrums" ofType:@"wav"];
-//            NSString *path = [[NSBundle mainBundle] pathForResource:@"084 hardhop" ofType:@"wav"];
-            
-            NSLog(@"%@",path);
-            
-            [files setValue:path forKey:@"Sample:2"];
-            
-            NSLog(@"%@",files);
-        }
-        
-        
-        // copy data to CFPropertyListRef
-//        _samplerPropertyList = CFPropertyListCreateDeepCopy(CFAllocatorGetDefault(), presetPropertyList, kCFPropertyListMutableContainersAndLeaves);
-
-        
-        // lets convert back the CFPropertyListRef
         presetPropertyList = (__bridge CFPropertyListRef)plData;
-        
         
 		result = AudioUnitSetProperty(
                                       self.samplerUnit,
@@ -579,60 +660,24 @@ static OSStatus renderCallback(	void *							inRefCon,
                                       &presetPropertyList,
                                       sizeof(CFPropertyListRef)
                                       );
-       
+        
 
-		CFRelease(presetPropertyList);
-	}
+        CFRelease(presetPropertyList);
+
+    }
     
     
     if (errorRef) CFRelease(errorRef);
 	CFRelease (propertyResourceData);
 
-	return result;
+    return result;
 }
-
-
-// Set up the audio session for this app.
-- (BOOL) setupAudioSession {
-    
-    AVAudioSession *mySession = [AVAudioSession sharedInstance];
-    
-    // Specify that this object is the delegate of the audio session, so that
-    //    this object's endInterruption method will be invoked when needed.
-    [mySession setDelegate: self];
-    
-    // Assign the Playback category to the audio session. This category supports
-    //    audio output with the Ring/Silent switch in the Silent position.
-    NSError *audioSessionError = nil;
-    [mySession setCategory: AVAudioSessionCategoryPlayback error: &audioSessionError];
-    if (audioSessionError != nil) {NSLog (@"Error setting audio session category."); return NO;}    
-
-    // Request a desired hardware sample rate.
-    self.graphSampleRate = 44100.0;    // Hertz
-    
-    [mySession setPreferredHardwareSampleRate: self.graphSampleRate error: &audioSessionError];
-    if (audioSessionError != nil) {NSLog (@"Error setting preferred hardware sample rate."); return NO;}
-        
-    // Activate the audio session
-    [mySession setActive: YES error: &audioSessionError];
-    if (audioSessionError != nil) {NSLog (@"Error activating the audio session."); return NO;}
-    
-    // Obtain the actual hardware sample rate and store it for later use in the audio processing graph.
-    self.graphSampleRate = [mySession currentHardwareSampleRate];
-
-    return YES;
-}
-
 
 #pragma mark -
 #pragma mark Audio control
 // Play the low note
 - (IBAction) startPlayLowNote:(id)sender {
 
-//    float val = 48.0 - 24.0 +  (rand()%48);
-//    [self changePitchTo:(int)val];
-
-    
 	UInt32 noteNum = kLowNote;
 	UInt32 onVelocity = 127;
 	UInt32 noteCommand = 	kMIDIMessage_NoteOn << 4 | 0;
