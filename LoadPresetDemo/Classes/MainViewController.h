@@ -54,12 +54,19 @@
 typedef struct RenderDeataStruct RenderData;
 
 struct RenderDeataStruct {
+    
+    float       tempo;
 	UInt32      frameAccum;
     AudioUnit   samplerUnit;
-    UInt32 modCntl;
-    UInt32 prevNote;
-    UInt32 pitch;
+    UInt32      modCntl;
+    UInt32      prevNote;
+    UInt32      pitch;
+    UInt8       layer;
+
 };
+
+
+
 
 @interface MainViewController : UIViewController <AVAudioSessionDelegate>{
     RenderData *renderData;
@@ -71,6 +78,7 @@ struct RenderDeataStruct {
 @property (nonatomic, strong) IBOutlet UIButton *midNoteButton;
 @property (nonatomic, strong) IBOutlet UIButton *highNoteButton;
 @property (nonatomic, strong) IBOutlet UILabel  *currentPresetLabel;
+@property (weak, nonatomic) IBOutlet UISegmentedControl *layerSelection;
 
 - (IBAction) loadPresetOne:(id)sender;
 - (IBAction) loadPresetTwo:(id)sender;
@@ -80,9 +88,9 @@ struct RenderDeataStruct {
 - (IBAction) stopPlayMidNote:(id)sender;
 - (IBAction) startPlayHighNote:(id)sender;
 - (IBAction) stopPlayHighNote:(id)sender;
-- (IBAction)onReleaseChanged:(UISlider *)sender;
-- (IBAction)onPlaySequence:(id)sender;
-
+- (IBAction) onReleaseChanged:(UISlider *)sender;
+- (IBAction) onPlaySequence:(id)sender;
+- (IBAction)onLayerSelection:(UISegmentedControl *)sender;
 
 
 //-(void)changePitchTo:(int)val;
@@ -112,12 +120,21 @@ struct RenderDeataStruct {
  
  
  
- clean up code
- start to structure out
  test for layers / swapping layers
-    each layer can have it's own set of connections
-    can we share connections? test this
-    
+    can we share connections? test this : yes this works
+    how and what to test with ui
+ 
+ need to reload data : ie propslist from sampler to populate
+    store as a NSDictionary
+ 
+    loadFromPropListFile:(URL)...
+ 
+    when we want to chamge anything
+ 
+    get propList from sampler to re-populate the dict (sync)
+ 
+ 
+ 
  
  
  test for : attack / decay

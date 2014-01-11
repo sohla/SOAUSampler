@@ -43,6 +43,10 @@
 		F0911686186CCD7D0041A209 /* SweepPad.aupreset in Resources */ = {isa = PBXBuildFile; fileRef = F0911685186CCD7D0041A209 /* SweepPad.aupreset */; };
 		F09DE5F818810A6200971B1A /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F09DE5F718810A6200971B1A /* Default-568h@2x.png */; };
 		F09DE5FA18810F8A00971B1A /* KeyRange.aupreset in Resources */ = {isa = PBXBuildFile; fileRef = F09DE5F918810F8A00971B1A /* KeyRange.aupreset */; };
+		F09DE5FF18815AB600971B1A /* SweepPad6.aupreset in Resources */ = {isa = PBXBuildFile; fileRef = F09DE5FE18815AB600971B1A /* SweepPad6.aupreset */; };
+		F09DE601188168B200971B1A /* SweepPad7.aupreset in Resources */ = {isa = PBXBuildFile; fileRef = F09DE600188168B200971B1A /* SweepPad7.aupreset */; };
+		F09DE6031881721F00971B1A /* QuasiA 048.wav in Resources */ = {isa = PBXBuildFile; fileRef = F09DE6021881721F00971B1A /* QuasiA 048.wav */; };
+		F09DE6051881730E00971B1A /* D.B. Bass One Shot 11 (G).wav in Resources */ = {isa = PBXBuildFile; fileRef = F09DE6041881730E00971B1A /* D.B. Bass One Shot 11 (G).wav */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -88,6 +92,10 @@
 		F0911685186CCD7D0041A209 /* SweepPad.aupreset */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = SweepPad.aupreset; sourceTree = "<group>"; };
 		F09DE5F718810A6200971B1A /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		F09DE5F918810F8A00971B1A /* KeyRange.aupreset */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = KeyRange.aupreset; path = ../../../../../Library/Audio/Presets/Apple/AUSampler/KeyRange.aupreset; sourceTree = "<group>"; };
+		F09DE5FE18815AB600971B1A /* SweepPad6.aupreset */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = SweepPad6.aupreset; sourceTree = "<group>"; };
+		F09DE600188168B200971B1A /* SweepPad7.aupreset */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = SweepPad7.aupreset; sourceTree = "<group>"; };
+		F09DE6021881721F00971B1A /* QuasiA 048.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "QuasiA 048.wav"; sourceTree = "<group>"; };
+		F09DE6041881730E00971B1A /* D.B. Bass One Shot 11 (G).wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "D.B. Bass One Shot 11 (G).wav"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -147,6 +155,8 @@
 		5993ABEF138DFAF500AF7AD8 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				F09DE6041881730E00971B1A /* D.B. Bass One Shot 11 (G).wav */,
+				F09DE6021881721F00971B1A /* QuasiA 048.wav */,
 				F0441D5D18801D5A00E19AFD /* zeb.wav */,
 				F0441D5B18801BE100E19AFD /* sine440.wav */,
 				F0441D51188008B400E19AFD /* 084 hardhop.wav */,
@@ -164,6 +174,8 @@
 				F0441D48187F9CCA00E19AFD /* SweepPad2.aupreset */,
 				F0441D5318800DF800E19AFD /* SweepPad4.aupreset */,
 				F0441D59188019D000E19AFD /* SweepPad5.aupreset */,
+				F09DE5FE18815AB600971B1A /* SweepPad6.aupreset */,
+				F09DE600188168B200971B1A /* SweepPad7.aupreset */,
 				F09DE5F918810F8A00971B1A /* KeyRange.aupreset */,
 				F0305D91186CD981002BECEF /* SweepTest.aupreset */,
 			);
@@ -266,6 +278,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F09DE6031881721F00971B1A /* QuasiA 048.wav in Resources */,
 				F0441D52188008B400E19AFD /* 084 hardhop.wav in Resources */,
 				F0441D4E187FB87700E19AFD /* synthicoDrums.wav in Resources */,
 				F0441D5E18801D5A00E19AFD /* zeb.wav in Resources */,
@@ -274,10 +287,12 @@
 				5993ABF2138DFC9A00AF7AD8 /* Trombone.aupreset in Resources */,
 				5993ABF3138DFC9A00AF7AD8 /* Vibraphone.aupreset in Resources */,
 				F0305D96186CDDA7002BECEF /* Sounds in Resources */,
+				F09DE5FF18815AB600971B1A /* SweepPad6.aupreset in Resources */,
 				0A355A0D13CCB3E200AB9137 /* InfoPlist.strings in Resources */,
 				F0441D49187F9CCA00E19AFD /* SweepPad2.aupreset in Resources */,
 				F09DE5FA18810F8A00971B1A /* KeyRange.aupreset in Resources */,
 				0A355A0E13CCB3E200AB9137 /* MainViewController.xib in Resources */,
+				F09DE601188168B200971B1A /* SweepPad7.aupreset in Resources */,
 				F09DE5F818810A6200971B1A /* Default-568h@2x.png in Resources */,
 				F0441D4C187FB50600E19AFD /* robotic1234.wav in Resources */,
 				0A355A0F13CCB3E200AB9137 /* MainWindow_iPhone.xib in Resources */,
@@ -293,6 +308,7 @@
 				0A355A1F13CCB74600AB9137 /* Icon.png in Resources */,
 				0A355A2013CCB74600AB9137 /* Icon@2x.png in Resources */,
 				0A23778F13D3A20B004C7E14 /* Default.png in Resources */,
+				F09DE6051881730E00971B1A /* D.B. Bass One Shot 11 (G).wav in Resources */,
 				F0441D5A188019D000E19AFD /* SweepPad5.aupreset in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

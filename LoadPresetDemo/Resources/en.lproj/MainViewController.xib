@@ -8,6 +8,7 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="MainViewController">
             <connections>
                 <outlet property="currentPresetLabel" destination="58" id="63"/>
+                <outlet property="layerSelection" destination="gAJ-S5-OVn" id="mqq-Cu-FID"/>
                 <outlet property="presetOneButton" destination="5" id="23"/>
                 <outlet property="presetTwoButton" destination="20" id="24"/>
                 <outlet property="view" destination="1" id="3"/>
@@ -62,7 +63,7 @@
                     <nil key="highlightedColor"/>
                 </label>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="77">
-                    <rect key="frame" x="20" y="205" width="90" height="116"/>
+                    <rect key="frame" x="20" y="306" width="90" height="116"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
                     <state key="normal" title="Low Note">
@@ -76,7 +77,7 @@
                     </connections>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="81">
-                    <rect key="frame" x="115" y="205" width="90" height="116"/>
+                    <rect key="frame" x="115" y="306" width="90" height="116"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
                     <state key="normal" title="Mid Note">
@@ -90,7 +91,7 @@
                     </connections>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="85">
-                    <rect key="frame" x="210" y="205" width="90" height="116"/>
+                    <rect key="frame" x="210" y="306" width="90" height="116"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
                     <state key="normal" title="High Note">
@@ -120,6 +121,17 @@
                         <action selector="onPlaySequence:" destination="-1" eventType="touchUpInside" id="jqC-hz-ZXn"/>
                     </connections>
                 </button>
+                <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" id="gAJ-S5-OVn">
+                    <rect key="frame" x="20" y="226" width="280" height="29"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <segments>
+                        <segment title="First"/>
+                        <segment title="Second"/>
+                    </segments>
+                    <connections>
+                        <action selector="onLayerSelection:" destination="-1" eventType="valueChanged" id="nyM-Ve-1WG"/>
+                    </connections>
+                </segmentedControl>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <simulatedStatusBarMetrics key="simulatedStatusBarMetrics"/>
