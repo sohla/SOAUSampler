@@ -76,20 +76,27 @@ static OSStatus renderCallback(	void *							inRefCon,
     
     if (*ioActionFlags & kAudioUnitRenderAction_PostRender) {
         
+        OSStatus result = noErr;
         UInt16 length = 44100 * (60.0f / renderData->tempo);
+        UInt32 noteCommand = 	kMIDIMessage_NoteOn << 4 | 0;
+        UInt32 onVelocity = 127;
         
-        
+//        if(renderData->frameAccum > (length - 30050)){
+//            //          // note off (length)
+//            noteCommand = 	kMIDIMessage_NoteOff << 4 | 0;
+//            result = MusicDeviceMIDIEvent (samplerUnit, noteCommand, renderData->prevNote, 0, 0);
+//
+//            
+//        }
+
         if(renderData->frameAccum > length){
             
             renderData->frameAccum -= length;
 
             float val = 60.0 + (renderData->layer * 12);
             UInt32 noteNum = val;
-            UInt32 onVelocity = 127;
-            UInt32 noteCommand = 	kMIDIMessage_NoteOn << 4 | 0;
             
 //            UInt32 randVal = 60 + (rand()%6);
-            OSStatus result = noErr;
             
             renderData->modCntl += 32;
             
@@ -98,15 +105,15 @@ static OSStatus renderCallback(	void *							inRefCon,
             }
             NSLog(@"%ld %ld",renderData->frameAccum, renderData->modCntl);
 
-//          // note off (length)
+////          // note off (length)
 //            noteCommand = 	kMIDIMessage_NoteOff << 4 | 0;
-//            result = MusicDeviceMIDIEvent (samplerUnit, noteCommand, renderData->prevNote, onVelocity, inNumberFrames - renderData->frameAccum - 50);
+//            result = MusicDeviceMIDIEvent (samplerUnit, noteCommand, renderData->prevNote, onVelocity, inNumberFrames - renderData->frameAccum);
 
             // pitch bend (for fun) use layer
 //            result = MusicDeviceMIDIEvent (samplerUnit, 0xE0, 0x00, 0x00, inNumberFrames - renderData->frameAccum);
 //
 //            // pan controller
-//            result = MusicDeviceMIDIEvent (samplerUnit, 0xB0, 10, renderData->modCntl, inNumberFrames - renderData->frameAccum);
+//           result = MusicDeviceMIDIEvent (samplerUnit, 0xB0, 10, renderData->modCntl, inNumberFrames - renderData->frameAccum);
 
             // pitch controller 2
             result = MusicDeviceMIDIEvent (samplerUnit, 0xB0, 2, renderData->pitch, inNumberFrames - renderData->frameAccum);
@@ -401,8 +408,8 @@ static OSStatus renderCallback(	void *							inRefCon,
     //NSString *path = [[NSBundle mainBundle] pathForResource:@"robotic1234" ofType:@"wav"];
     //NSString *path = [[NSBundle mainBundle] pathForResource:@"synthicoDrums" ofType:@"wav"];
     //NSString *path = [[NSBundle mainBundle] pathForResource:@"084 hardhop" ofType:@"wav"];
-//    NSString *path = [[NSBundle mainBundle] pathForResource:@"D.B. Bass One Shot 11 (G)" ofType:@"wav"];
-    NSString *path = [[NSBundle mainBundle] pathForResource:@"SWEEPERD" ofType:@"wav"];
+    NSString *path = [[NSBundle mainBundle] pathForResource:@"D.B. Bass One Shot 11 (G)" ofType:@"wav"];
+ //   NSString *path = [[NSBundle mainBundle] pathForResource:@"SWEEPERD" ofType:@"wav"];
 
 //    NSString *title = @"SweepPad7";
 //	NSURL *presetURL = [[NSURL alloc] initFileURLWithPath:[[NSBundle mainBundle] pathForResource:title ofType:@"aupreset"]];
@@ -414,7 +421,7 @@ static OSStatus renderCallback(	void *							inRefCon,
 //		NSLog(@"COULD NOT GET PRESET PATH!");
 //	}
 
-//    [self changeWavefile:path forLayer:[self.layerSelection selectedSegmentIndex]];
+//   [self changeWavefile:path forLayer:[self.layerSelection selectedSegmentIndex]];
     [self loadWavefile:path forLayer:[self.layerSelection selectedSegmentIndex]];
     
 	//[self loadSynthFromPresetURL: presetURL withSample:path];
@@ -548,7 +555,13 @@ static OSStatus renderCallback(	void *							inRefCon,
                        }];
 }
 
+
+
 -(OSStatus)loadWavefile:(NSString*)path forLayer:(UInt8)index{
+
+    // checks to see if waveFile is already in the propList as a file-reference
+    // if it is, get it's id and set for layer
+    // else insert as a file-reference and set for layer
 
     OSStatus result = noErr;
     
@@ -558,20 +571,19 @@ static OSStatus renderCallback(	void *							inRefCon,
         [titles addObject:[obj lastPathComponent]];
     }];
     
-    NSLog(@"%@",files);
-    NSLog(@"%@",titles);
-    NSLog(@"%@",path);
 
+    __block BOOL makeNew = YES;
     
     [titles enumerateObjectsUsingBlock:^(id title, NSUInteger idx, BOOL *stop){
 
         if([title isEqualToString:[path lastPathComponent]]){
 
-            // file exists
+            // file ref exists
             stop = YES;
+            makeNew = NO;
             
             // look for title in the file-ref list
-            [[files allValues] enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop){
+            [[files allValues] enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *fileStop){
 
                 if([[obj lastPathComponent] isEqualToString:title]){
                     
@@ -582,23 +594,77 @@ static OSStatus renderCallback(	void *							inRefCon,
                     NSString *key = [keys firstObject];
                     
                     // strip "Sample:"
-                    NSString *value = [[key componentsSeparatedByString:@":"] lastObject];
+                    NSString *value = [[key componentsSeparatedByString:@":"] lastObject] ;
+                    NSNumber *num = [NSNumber numberWithInt:[value intValue]];
                     
-                    //• set zone wavefile reference id 
-                
+                    //set zone wavefile reference id
+                    [self setWavefileID:num forLayer:index];
                 }
             
             }];
             
             
         }else{
-            
         }
     
     }];
     
+    if(makeNew){
+        // file ref doesn't exist
+        
+        
+        // generate an ID
+        NSNumber *wavefileID = @(rand() % 100);
+        NSMutableDictionary *files = [self.samplerPropertyList objectForKey:@"file-references"];
+        
+        NSString *key = [NSString stringWithFormat:@"Sample:%@",wavefileID];
+        
+        // and finally set it
+        [files setValue:path forKey:key];
+        
+        //set zone wavefile reference id
+        [self setWavefileID:wavefileID forLayer:index];
+
+
+    }
     
+    NSLog(@"%@",files);
+//    NSLog(@"%@",titles);
+//    NSLog(@"%@",path);
+   
     return result;
+}
+
+-(void)setWavefileID:(NSNumber*)wavefileID forLayer:(UInt8)index{
+    
+    OSStatus result = noErr;
+
+    NSDictionary *instrument = [self.samplerPropertyList objectForKey:@"Instrument"];
+    
+    // get the layer at index
+    NSArray *layers = [instrument objectForKey:@"Layers"];
+    NSDictionary *layer = [layers objectAtIndex:index];
+    
+    
+    // each zone has an index to a waveform in the file-references dictinaory
+    NSArray *zones = [layer objectForKey:@"Zones"];
+    NSDictionary *zone = [zones objectAtIndex:0];
+    [zone setValue:wavefileID forKey:@"waveform"];
+    
+    NSLog(@"%@",zone);
+    
+    CFPropertyListRef presetPropertyList = (__bridge CFPropertyListRef)self.samplerPropertyList;
+    
+    result = AudioUnitSetProperty(
+                                  self.samplerUnit,
+                                  kAudioUnitProperty_ClassInfo,
+                                  kAudioUnitScope_Global,
+                                  0,
+                                  &presetPropertyList,
+                                  sizeof(CFPropertyListRef)
+                                  );
+
+
 }
 
 -(OSStatus)changeWavefile:(NSString*)path forLayer:(UInt8)index{
@@ -640,6 +706,9 @@ static OSStatus renderCallback(	void *							inRefCon,
                                   );
     
 
+    NSLog(@"%@",zone);
+    NSLog(@"%@",files);
+    
     return result;
     
 }
@@ -920,7 +989,7 @@ logTheError:
 
     [super viewDidLoad];
     
-    NSString *title = @"SweepPad7";
+    NSString *title = @"SweepPad8";
 	NSURL *presetURL = [[NSURL alloc] initFileURLWithPath:[[NSBundle mainBundle] pathForResource:title ofType:@"aupreset"]];
 
     [self loadPropertyList:presetURL];

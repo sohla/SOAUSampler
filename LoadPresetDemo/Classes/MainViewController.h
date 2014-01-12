@@ -142,8 +142,14 @@ struct RenderDeataStruct {
  
         does it exist ? get id : generate id & add to list
  
+ AudioFile list
+ 
+    simple tableview of some type
  
  
+ 
+Note Off :
+    test for logic : need to remember last note and turn it off
  
  
  

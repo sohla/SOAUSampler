@@ -28,6 +28,7 @@
 		59E6DE36134F9EE8009F373F /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 59E6DE35134F9EE8009F373F /* main.m */; };
 		59E6DE60134FA493009F373F /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 59E6DE5F134FA493009F373F /* AudioToolbox.framework */; };
 		F00C301218824EB000821540 /* SWEEPERD.wav in Resources */ = {isa = PBXBuildFile; fileRef = F00C301118824EB000821540 /* SWEEPERD.wav */; };
+		F00C301818834D2100821540 /* SweepPad8.aupreset in Resources */ = {isa = PBXBuildFile; fileRef = F00C301718834D2100821540 /* SweepPad8.aupreset */; };
 		F0305D92186CD981002BECEF /* SweepTest.aupreset in Resources */ = {isa = PBXBuildFile; fileRef = F0305D91186CD981002BECEF /* SweepTest.aupreset */; };
 		F0305D94186CDA24002BECEF /* TromboneEdit.aupreset in Resources */ = {isa = PBXBuildFile; fileRef = F0305D93186CDA24002BECEF /* TromboneEdit.aupreset */; };
 		F0305D96186CDDA7002BECEF /* Sounds in Resources */ = {isa = PBXBuildFile; fileRef = F0305D95186CDDA7002BECEF /* Sounds */; };
@@ -78,6 +79,7 @@
 		59E6DE35134F9EE8009F373F /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		59E6DE5F134FA493009F373F /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		F00C301118824EB000821540 /* SWEEPERD.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = SWEEPERD.wav; sourceTree = "<group>"; };
+		F00C301718834D2100821540 /* SweepPad8.aupreset */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = SweepPad8.aupreset; sourceTree = "<group>"; };
 		F0305D91186CD981002BECEF /* SweepTest.aupreset */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = SweepTest.aupreset; sourceTree = "<group>"; };
 		F0305D93186CDA24002BECEF /* TromboneEdit.aupreset */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = TromboneEdit.aupreset; sourceTree = "<group>"; };
 		F0305D95186CDDA7002BECEF /* Sounds */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Sounds; sourceTree = "<group>"; };
@@ -179,6 +181,7 @@
 				F0441D59188019D000E19AFD /* SweepPad5.aupreset */,
 				F09DE5FE18815AB600971B1A /* SweepPad6.aupreset */,
 				F09DE600188168B200971B1A /* SweepPad7.aupreset */,
+				F00C301718834D2100821540 /* SweepPad8.aupreset */,
 				F09DE5F918810F8A00971B1A /* KeyRange.aupreset */,
 				F0305D91186CD981002BECEF /* SweepTest.aupreset */,
 			);
@@ -297,6 +300,7 @@
 				0A355A0E13CCB3E200AB9137 /* MainViewController.xib in Resources */,
 				F09DE601188168B200971B1A /* SweepPad7.aupreset in Resources */,
 				F09DE5F818810A6200971B1A /* Default-568h@2x.png in Resources */,
+				F00C301818834D2100821540 /* SweepPad8.aupreset in Resources */,
 				F0441D4C187FB50600E19AFD /* robotic1234.wav in Resources */,
 				0A355A0F13CCB3E200AB9137 /* MainWindow_iPhone.xib in Resources */,
 				F0305D92186CD981002BECEF /* SweepTest.aupreset in Resources */,
