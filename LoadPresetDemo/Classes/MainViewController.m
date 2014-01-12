@@ -159,6 +159,7 @@ static OSStatus renderCallback(	void *							inRefCon,
 //- (OSStatus)    loadSynthFromPresetURL:(NSURL *) presetURL withSample:(NSString*)samplePath;
 - (OSStatus)    injectDataIntoPropertyList:(NSURL*)presetURL withDataBlock:(void (^)(NSDictionary*))blockWithInstrumentData;
 
+-(OSStatus)loadWavefile:(NSString*)path forLayer:(UInt8)index;
 
 
 - (void)        registerForUIApplicationNotifications;
@@ -400,7 +401,8 @@ static OSStatus renderCallback(	void *							inRefCon,
     //NSString *path = [[NSBundle mainBundle] pathForResource:@"robotic1234" ofType:@"wav"];
     //NSString *path = [[NSBundle mainBundle] pathForResource:@"synthicoDrums" ofType:@"wav"];
     //NSString *path = [[NSBundle mainBundle] pathForResource:@"084 hardhop" ofType:@"wav"];
-    NSString *path = [[NSBundle mainBundle] pathForResource:@"D.B. Bass One Shot 11 (G)" ofType:@"wav"];
+//    NSString *path = [[NSBundle mainBundle] pathForResource:@"D.B. Bass One Shot 11 (G)" ofType:@"wav"];
+    NSString *path = [[NSBundle mainBundle] pathForResource:@"SWEEPERD" ofType:@"wav"];
 
 //    NSString *title = @"SweepPad7";
 //	NSURL *presetURL = [[NSURL alloc] initFileURLWithPath:[[NSBundle mainBundle] pathForResource:title ofType:@"aupreset"]];
@@ -412,7 +414,8 @@ static OSStatus renderCallback(	void *							inRefCon,
 //		NSLog(@"COULD NOT GET PRESET PATH!");
 //	}
 
-    [self changeWavefile:path forLayer:[self.layerSelection selectedSegmentIndex]];
+//    [self changeWavefile:path forLayer:[self.layerSelection selectedSegmentIndex]];
+    [self loadWavefile:path forLayer:[self.layerSelection selectedSegmentIndex]];
     
 	//[self loadSynthFromPresetURL: presetURL withSample:path];
 }
@@ -421,12 +424,12 @@ static OSStatus renderCallback(	void *							inRefCon,
 - (IBAction)loadPresetTwo:(id)sender {
 
     //NSString *path = [[NSBundle mainBundle] pathForResource:@"sine440" ofType:@"wav"];
-    //NSString *path = [[NSBundle mainBundle] pathForResource:@"zeb" ofType:@"wav"];
+    NSString *path = [[NSBundle mainBundle] pathForResource:@"zeb" ofType:@"wav"];
     //NSString *path = [[NSBundle mainBundle] pathForResource:@"robotic1234" ofType:@"wav"];
     //NSString *path = [[NSBundle mainBundle] pathForResource:@"synthicoDrums" ofType:@"wav"];
     //NSString *path = [[NSBundle mainBundle] pathForResource:@"084 hardhop" ofType:@"wav"];
 //    NSString *path = [[NSBundle mainBundle] pathForResource:@"QuasiA 048" ofType:@"wav"];
-    NSString *path = [[NSBundle mainBundle] pathForResource:@"D.B. Bass One Shot 11 (G)" ofType:@"wav"];
+    //NSString *path = [[NSBundle mainBundle] pathForResource:@"D.B. Bass One Shot 11 (G)" ofType:@"wav"];
   
 //    NSString *title = @"SweepPad7";
 //	NSURL *presetURL = [[NSURL alloc] initFileURLWithPath:[[NSBundle mainBundle] pathForResource:title ofType:@"aupreset"]];
@@ -436,7 +439,8 @@ static OSStatus renderCallback(	void *							inRefCon,
 //	else {
 //		NSLog(@"COULD NOT GET PRESET PATH!");
 //	}
-    [self changeWavefile:path forLayer:[self.layerSelection selectedSegmentIndex]];
+//    [self changeWavefile:path forLayer:[self.layerSelection selectedSegmentIndex]];
+    [self loadWavefile:path forLayer:[self.layerSelection selectedSegmentIndex]];
 
 	//[self loadSynthFromPresetURL: presetURL withSample:path];
 
@@ -544,6 +548,59 @@ static OSStatus renderCallback(	void *							inRefCon,
                        }];
 }
 
+-(OSStatus)loadWavefile:(NSString*)path forLayer:(UInt8)index{
+
+    OSStatus result = noErr;
+    
+    NSMutableDictionary *files = [self.samplerPropertyList objectForKey:@"file-references"];
+    NSMutableArray *titles = [[NSMutableArray alloc] init];
+    [[files allValues] enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop){
+        [titles addObject:[obj lastPathComponent]];
+    }];
+    
+    NSLog(@"%@",files);
+    NSLog(@"%@",titles);
+    NSLog(@"%@",path);
+
+    
+    [titles enumerateObjectsUsingBlock:^(id title, NSUInteger idx, BOOL *stop){
+
+        if([title isEqualToString:[path lastPathComponent]]){
+
+            // file exists
+            stop = YES;
+            
+            // look for title in the file-ref list
+            [[files allValues] enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop){
+
+                if([[obj lastPathComponent] isEqualToString:title]){
+                    
+                    // found possible keys
+                    NSArray *keys = [files allKeysForObject:obj];
+
+                    // assume first key is the one
+                    NSString *key = [keys firstObject];
+                    
+                    // strip "Sample:"
+                    NSString *value = [[key componentsSeparatedByString:@":"] lastObject];
+                    
+                    //• set zone wavefile reference id 
+                
+                }
+            
+            }];
+            
+            
+        }else{
+            
+        }
+    
+    }];
+    
+    
+    return result;
+}
+
 -(OSStatus)changeWavefile:(NSString*)path forLayer:(UInt8)index{
 
     OSStatus result = noErr;
@@ -569,7 +626,7 @@ static OSStatus renderCallback(	void *							inRefCon,
     // and finally set it
     [files setValue:path forKey:key];
     
-    NSLog(@"%@",self.samplerPropertyList);
+//    NSLog(@"%@",self.samplerPropertyList);
     
     CFPropertyListRef presetPropertyList = (__bridge CFPropertyListRef)self.samplerPropertyList;
 

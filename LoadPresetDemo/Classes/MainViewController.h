@@ -90,7 +90,7 @@ struct RenderDeataStruct {
 - (IBAction) stopPlayHighNote:(id)sender;
 - (IBAction) onReleaseChanged:(UISlider *)sender;
 - (IBAction) onPlaySequence:(id)sender;
-- (IBAction)onLayerSelection:(UISegmentedControl *)sender;
+- (IBAction) onLayerSelection:(UISegmentedControl *)sender;
 
 
 //-(void)changePitchTo:(int)val;
@@ -132,6 +132,30 @@ struct RenderDeataStruct {
     when we want to chamge anything
  
     get propList from sampler to re-populate the dict (sync)
+    
+ 
+ Separate file-reference from linking to zone
+ 
+    loadWaveFile forLayer
+ 
+        get wavefile-reference list
+ 
+        does it exist ? get id : generate id & add to list
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ Model : Track
+    Sampler
+        wavefile list
+ 
+ 
+ 
+ 
  
  
  
