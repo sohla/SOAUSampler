@@ -74,22 +74,11 @@ struct RenderDeataStruct {
 
 @property (nonatomic, strong) IBOutlet UIButton *presetOneButton;
 @property (nonatomic, strong) IBOutlet UIButton *presetTwoButton;
-@property (nonatomic, strong) IBOutlet UIButton *lowNoteButton;
-@property (nonatomic, strong) IBOutlet UIButton *midNoteButton;
-@property (nonatomic, strong) IBOutlet UIButton *highNoteButton;
-@property (nonatomic, strong) IBOutlet UILabel  *currentPresetLabel;
 @property (weak, nonatomic) IBOutlet UISegmentedControl *layerSelection;
 
 - (IBAction) loadPresetOne:(id)sender;
 - (IBAction) loadPresetTwo:(id)sender;
-- (IBAction) startPlayLowNote:(id)sender;
-- (IBAction) stopPlayLowNote:(id)sender;
-- (IBAction) startPlayMidNote:(id)sender;
-- (IBAction) stopPlayMidNote:(id)sender;
-- (IBAction) startPlayHighNote:(id)sender;
-- (IBAction) stopPlayHighNote:(id)sender;
 - (IBAction) onReleaseChanged:(UISlider *)sender;
-- (IBAction) onPlaySequence:(id)sender;
 - (IBAction) onLayerSelection:(UISegmentedControl *)sender;
 
 

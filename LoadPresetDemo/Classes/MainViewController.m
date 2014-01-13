@@ -176,12 +176,8 @@ static OSStatus renderCallback(	void *							inRefCon,
 @implementation MainViewController
 
 @synthesize graphSampleRate     = _graphSampleRate;
-@synthesize currentPresetLabel  = _currentPresetLabel;
 @synthesize presetOneButton     = _presetOneButton;
 @synthesize presetTwoButton     = _presetTwoButton;
-@synthesize lowNoteButton       = _lowNoteButton;
-@synthesize midNoteButton       = _midNoteButton;
-@synthesize highNoteButton      = _highNoteButton;
 @synthesize samplerUnit         = _samplerUnit;
 @synthesize ioUnit              = _ioUnit;
 @synthesize processingGraph     = _processingGraph;
@@ -657,87 +653,6 @@ static OSStatus renderCallback(	void *							inRefCon,
 
 #pragma mark -
 #pragma mark Audio control
-// Play the low note
-- (IBAction) startPlayLowNote:(id)sender {
-
-	UInt32 noteNum = kLowNote;
-	UInt32 onVelocity = 127;
-	UInt32 noteCommand = 	kMIDIMessage_NoteOn << 4 | 0;
-    
-    OSStatus result = noErr;
-	require_noerr (result = MusicDeviceMIDIEvent (self.samplerUnit, noteCommand, noteNum, onVelocity, 0), logTheError);
-
-logTheError:
-    if (result != noErr) NSLog (@"Unable to start playing the low note. Error code: %d '%.4s'\n", (int) result, (const char *)&result);
-}
-
-// Stop the low note
-- (IBAction) stopPlayLowNote:(id)sender {
-
-	UInt32 noteNum = kLowNote;
-	UInt32 noteCommand = 	kMIDIMessage_NoteOff << 4 | 0;
-	
-    OSStatus result = noErr;
-	require_noerr (result = MusicDeviceMIDIEvent (self.samplerUnit, noteCommand, noteNum, 0, 0), logTheError);
-
-logTheError:
-    if (result != noErr) NSLog (@"Unable to stop playing the low note. Error code: %d '%.4s'\n", (int) result, (const char *)&result);
-}
-
-// Play the mid note
-- (IBAction) startPlayMidNote:(id)sender {
-
-	UInt32 noteNum = kMidNote;
-	UInt32 onVelocity = 127;
-	UInt32 noteCommand = 	kMIDIMessage_NoteOn << 4 | 0;
-	
-    OSStatus result = noErr;
-	require_noerr (result = MusicDeviceMIDIEvent(self.samplerUnit, noteCommand, noteNum, onVelocity, 0), logTheError);
-    
-logTheError:
-    if (result != noErr) NSLog (@"Unable to start playing the mid note. Error code: %d '%.4s'\n", (int) result, (const char *)&result);
-}
-
-// Stop the mid note
-- (IBAction) stopPlayMidNote:(id)sender {
-
-	UInt32 noteNum = kMidNote;
-	UInt32 noteCommand = 	kMIDIMessage_NoteOff << 4 | 0;
-	
-    OSStatus result = noErr;
-	require_noerr (result = MusicDeviceMIDIEvent(self.samplerUnit, noteCommand, noteNum, 0, 0), logTheError);
-    
-logTheError:
-    if (result != noErr) NSLog (@"Unable to stop playing the mid note. Error code: %d '%.4s'\n", (int) result, (const char *)&result);
-}
-
-// Play the high note
-- (IBAction) startPlayHighNote:(id)sender {
-
-	UInt32 noteNum = kHighNote;
-	UInt32 onVelocity = 127;
-	UInt32 noteCommand = 	kMIDIMessage_NoteOn << 4 | 0;
-	
-    OSStatus result = noErr;
-	require_noerr (result = MusicDeviceMIDIEvent(self.samplerUnit, noteCommand, noteNum, onVelocity, 0), logTheError);
-    
-logTheError:
-    if (result != noErr) NSLog (@"Unable to start playing the high note. Error code: %d '%.4s'\n", (int) result, (const char *)&result);
-}
-
-// Stop the high note
-- (IBAction)stopPlayHighNote:(id)sender {
-
-	UInt32 noteNum = kHighNote;
-	UInt32 noteCommand = 	kMIDIMessage_NoteOff << 4 | 0;
-	
-    OSStatus result = noErr;
-	require_noerr (result = MusicDeviceMIDIEvent(self.samplerUnit, noteCommand, noteNum, 0, 0), logTheError);
-    
-logTheError:
-    if (result != noErr) NSLog (@"Unable to stop playing the high note. Error code: %d '%.4s'", (int) result, (const char *)&result);
-}
-
 // Stop the audio processing graph
 - (void) stopAudioProcessingGraph {
 
@@ -761,10 +676,6 @@ logTheError:
 // Respond to an audio interruption, such as a phone call or a Clock alarm.
 - (void) beginInterruption {
     
-    // Stop any notes that are currently playing.
-    [self stopPlayLowNote: self];
-    [self stopPlayMidNote: self];
-    [self stopPlayHighNote: self];
 
     // Interruptions do not put an AUGraph object into a "stopped" state, so
     //    do that here.
@@ -826,9 +737,6 @@ logTheError:
 
 - (void) handleResigningActive: (id) notification {
     
-    [self stopPlayLowNote: self];
-    [self stopPlayMidNote: self];
-    [self stopPlayHighNote: self];
     [self stopAudioProcessingGraph];
 }
 
@@ -878,12 +786,8 @@ logTheError:
 
 - (void) viewDidUnload {
 
-    self.currentPresetLabel = nil;
     self.presetOneButton    = nil;
 	self.presetTwoButton    = nil;
-	self.lowNoteButton      = nil;
-	self.midNoteButton      = nil;
-	self.highNoteButton     = nil;
 
     [super viewDidUnload];
 }

@@ -7,7 +7,6 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="MainViewController">
             <connections>
-                <outlet property="currentPresetLabel" destination="58" id="63"/>
                 <outlet property="layerSelection" destination="gAJ-S5-OVn" id="mqq-Cu-FID"/>
                 <outlet property="presetOneButton" destination="5" id="23"/>
                 <outlet property="presetTwoButton" destination="20" id="24"/>
@@ -20,7 +19,7 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="5">
-                    <rect key="frame" x="20" y="120" width="125" height="37"/>
+                    <rect key="frame" x="20" y="387" width="125" height="37"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <fontDescription key="fontDescription" name="Helvetica-Bold" family="Helvetica" pointSize="15"/>
                     <state key="normal" title="Trombone">
@@ -31,7 +30,7 @@
                     </connections>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="20">
-                    <rect key="frame" x="153" y="120" width="147" height="37"/>
+                    <rect key="frame" x="175" y="387" width="125" height="37"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <fontDescription key="fontDescription" name="Helvetica-Bold" family="Helvetica" pointSize="15"/>
                     <state key="normal" title="Vibraphone">
@@ -48,90 +47,35 @@
                         <navigationItem title="Load Presets Demo" id="56"/>
                     </items>
                 </navigationBar>
-                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="None" lineBreakMode="tailTruncation" minimumFontSize="16" id="58">
-                    <rect key="frame" x="153" y="74" width="147" height="21"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                    <nil key="highlightedColor"/>
-                </label>
-                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text=" Current Preset:" lineBreakMode="tailTruncation" minimumFontSize="16" id="59">
-                    <rect key="frame" x="20" y="74" width="125" height="21"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <fontDescription key="fontDescription" type="boldSystem" pointSize="16"/>
-                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                    <nil key="highlightedColor"/>
-                </label>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="77">
-                    <rect key="frame" x="20" y="306" width="90" height="116"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                    <state key="normal" title="Low Note">
-                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                    </state>
-                    <connections>
-                        <action selector="startPlayLowNote:" destination="-1" eventType="touchDown" id="80"/>
-                        <action selector="startPlayLowNote:" destination="-1" eventType="touchDragEnter" id="90"/>
-                        <action selector="stopPlayLowNote:" destination="-1" eventType="touchUpInside" id="78"/>
-                        <action selector="stopPlayLowNote:" destination="-1" eventType="touchDragExit" id="89"/>
-                    </connections>
-                </button>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="81">
-                    <rect key="frame" x="115" y="306" width="90" height="116"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                    <state key="normal" title="Mid Note">
-                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                    </state>
-                    <connections>
-                        <action selector="startPlayMidNote:" destination="-1" eventType="touchDown" id="83"/>
-                        <action selector="startPlayMidNote:" destination="-1" eventType="touchDragEnter" id="91"/>
-                        <action selector="stopPlayMidNote:" destination="-1" eventType="touchUpInside" id="84"/>
-                        <action selector="stopPlayMidNote:" destination="-1" eventType="touchDragExit" id="92"/>
-                    </connections>
-                </button>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="85">
-                    <rect key="frame" x="210" y="306" width="90" height="116"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                    <state key="normal" title="High Note">
-                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                    </state>
-                    <connections>
-                        <action selector="startPlayHighNote:" destination="-1" eventType="touchDown" id="86"/>
-                        <action selector="startPlayHighNote:" destination="-1" eventType="touchDragEnter" id="94"/>
-                        <action selector="stopPlayHighNote:" destination="-1" eventType="touchUpInside" id="88"/>
-                        <action selector="stopPlayHighNote:" destination="-1" eventType="touchDragExit" id="93"/>
-                    </connections>
-                </button>
                 <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" id="95">
-                    <rect key="frame" x="18" y="175" width="284" height="29"/>
+                    <rect key="frame" x="18" y="56" width="284" height="29"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <connections>
                         <action selector="onReleaseChanged:" destination="-1" eventType="valueChanged" id="96"/>
                     </connections>
                 </slider>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="HiE-fw-F8D">
-                    <rect key="frame" x="20" y="430" width="280" height="30"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <state key="normal" title="Play Sequence">
-                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                    </state>
-                    <connections>
-                        <action selector="onPlaySequence:" destination="-1" eventType="touchUpInside" id="jqC-hz-ZXn"/>
-                    </connections>
-                </button>
                 <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" id="gAJ-S5-OVn">
-                    <rect key="frame" x="20" y="226" width="280" height="29"/>
+                    <rect key="frame" x="20" y="432" width="280" height="29"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <segments>
-                        <segment title="First"/>
-                        <segment title="Second"/>
+                        <segment title="1"/>
+                        <segment title="2"/>
+                        <segment title="3"/>
+                        <segment title="4"/>
+                        <segment title="5"/>
+                        <segment title="6"/>
+                        <segment title="7"/>
+                        <segment title="8"/>
                     </segments>
                     <connections>
                         <action selector="onLayerSelection:" destination="-1" eventType="valueChanged" id="nyM-Ve-1WG"/>
                     </connections>
                 </segmentedControl>
+                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="utF-PA-a57">
+                    <rect key="frame" x="20" y="104" width="280" height="275"/>
+                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                </tableView>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <simulatedStatusBarMetrics key="simulatedStatusBarMetrics"/>
