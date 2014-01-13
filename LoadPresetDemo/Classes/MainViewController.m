@@ -103,15 +103,15 @@ static OSStatus renderCallback(	void *							inRefCon,
             if(renderData->modCntl > 127){
                 renderData->modCntl = 0;
             }
-            NSLog(@"%ld %ld",renderData->frameAccum, renderData->modCntl);
+//            NSLog(@"%ld %ld",renderData->frameAccum, renderData->modCntl);
 
 ////          // note off (length)
 //            noteCommand = 	kMIDIMessage_NoteOff << 4 | 0;
 //            result = MusicDeviceMIDIEvent (samplerUnit, noteCommand, renderData->prevNote, onVelocity, inNumberFrames - renderData->frameAccum);
 
-            // pitch bend (for fun) use layer
+//            // pitch bend (for fun) use layer
 //            result = MusicDeviceMIDIEvent (samplerUnit, 0xE0, 0x00, 0x00, inNumberFrames - renderData->frameAccum);
-//
+
 //            // pan controller
 //           result = MusicDeviceMIDIEvent (samplerUnit, 0xB0, 10, renderData->modCntl, inNumberFrames - renderData->frameAccum);
 
@@ -159,11 +159,8 @@ static OSStatus renderCallback(	void *							inRefCon,
 
 @property (retain, nonatomic) NSDictionary *samplerPropertyList;
 
-//@property 	(readwrite) CFPropertyListRef samplerPropertyList;
 
 
-//- (OSStatus)    loadSynthFromPresetURL:(NSURL *) presetURL;
-//- (OSStatus)    loadSynthFromPresetURL:(NSURL *) presetURL withSample:(NSString*)samplePath;
 - (OSStatus)    injectDataIntoPropertyList:(NSURL*)presetURL withDataBlock:(void (^)(NSDictionary*))blockWithInstrumentData;
 
 -(OSStatus)loadWavefile:(NSString*)path forLayer:(UInt8)index;
@@ -411,20 +408,8 @@ static OSStatus renderCallback(	void *							inRefCon,
     NSString *path = [[NSBundle mainBundle] pathForResource:@"D.B. Bass One Shot 11 (G)" ofType:@"wav"];
  //   NSString *path = [[NSBundle mainBundle] pathForResource:@"SWEEPERD" ofType:@"wav"];
 
-//    NSString *title = @"SweepPad7";
-//	NSURL *presetURL = [[NSURL alloc] initFileURLWithPath:[[NSBundle mainBundle] pathForResource:title ofType:@"aupreset"]];
-//	if (presetURL) {
-//		NSLog(@"Attempting to load sample '%@'\n", [[path lastPathComponent] description]);
-//        self.currentPresetLabel.text = [path lastPathComponent];
-//	}
-//	else {
-//		NSLog(@"COULD NOT GET PRESET PATH!");
-//	}
-
-//   [self changeWavefile:path forLayer:[self.layerSelection selectedSegmentIndex]];
     [self loadWavefile:path forLayer:[self.layerSelection selectedSegmentIndex]];
-    
-	//[self loadSynthFromPresetURL: presetURL withSample:path];
+
 }
 
 // Load the Vibraphone preset
@@ -437,115 +422,11 @@ static OSStatus renderCallback(	void *							inRefCon,
     //NSString *path = [[NSBundle mainBundle] pathForResource:@"084 hardhop" ofType:@"wav"];
 //    NSString *path = [[NSBundle mainBundle] pathForResource:@"QuasiA 048" ofType:@"wav"];
     //NSString *path = [[NSBundle mainBundle] pathForResource:@"D.B. Bass One Shot 11 (G)" ofType:@"wav"];
-  
-//    NSString *title = @"SweepPad7";
-//	NSURL *presetURL = [[NSURL alloc] initFileURLWithPath:[[NSBundle mainBundle] pathForResource:title ofType:@"aupreset"]];
-//	if (presetURL) {
-//		NSLog(@"Attempting to load sample '%@'\n", [[path lastPathComponent] description]);
-//        self.currentPresetLabel.text = [path lastPathComponent];	}
-//	else {
-//		NSLog(@"COULD NOT GET PRESET PATH!");
-//	}
-//    [self changeWavefile:path forLayer:[self.layerSelection selectedSegmentIndex]];
+
     [self loadWavefile:path forLayer:[self.layerSelection selectedSegmentIndex]];
 
-	//[self loadSynthFromPresetURL: presetURL withSample:path];
 
 }
-
-//- (OSStatus)    loadSynthFromPresetURL:(NSURL *) presetURL
-//                            withSample:(NSString*)samplePath{
-//    
-//    [self injectDataIntoPropertyList:presetURL
-//                       withDataBlock:^(NSDictionary* plData){
-//                           
-//                           
-//                           // NOTE : any of these changes only get passed to the sampler.
-//                           // They are not written back out to the propertylist.
-//                           
-//                           // root object
-//                           NSDictionary *instrument = [plData objectForKey:@"Instrument"];
-//                           
-//                           // get the layer at index
-//                           NSArray *layers = [instrument objectForKey:@"Layers"];
-//                           NSDictionary *layer = [layers objectAtIndex:1];
-//                           
-//                           // each zone has an index to a waveform in the file-references dictinaory
-//                           NSArray *zones = [layer objectForKey:@"Zones"];
-//                           NSDictionary *zone = [zones objectAtIndex:0];
-//                           [zone setValue:@99 forKey:@"waveform"];
-//                           
-//                           // add the file-reference path
-//                           NSMutableDictionary *files = [plData objectForKey:@"file-references"];
-//                           
-//                           // and finally set it
-//                           [files setValue:samplePath forKey:@"Sample:99"];
-//                           
-//                       }];
-//    
-//	return true;
-//    
-//}
-//
-//// Load a synthesizer preset file and apply it to the Sampler unit
-//- (OSStatus) loadSynthFromPresetURL: (NSURL *) presetURL {
-//    
-//    [self injectDataIntoPropertyList:presetURL
-//                       withDataBlock:^(NSDictionary* plData){
-//    
-//                           
-//                           // NOTE : any of these changes only get passed to the sampler.
-//                           // They are not written back out to the propertylist.
-//                           
-//                           // root object
-//                           NSDictionary *instrument = [plData objectForKey:@"Instrument"];
-//                           
-//                           // get the layer at index
-//                           NSArray *layers = [instrument objectForKey:@"Layers"];
-//                           NSDictionary *layer = [layers objectAtIndex:0];
-//                           
-////                           // envelope
-////                           NSArray *envelopes = [layer objectForKey:@"Envelopes"];
-////                           NSDictionary *envelope = [envelopes objectAtIndex:0];
-////                           NSArray *stages = [envelope objectForKey:@"Stages"];
-////                           
-////                           NSDictionary *params = [stages objectAtIndex:6];
-////                           [params setValue:@0.1 forKey:@"time"];
-////                           
-////                           params = [stages objectAtIndex:5];
-////                           [params setValue:@0.01 forKey:@"time"];
-//                           
-//                           // change sample
-//                           if(YES){
-//                               
-//                               
-//                               // each zone has an index to a waveform in the file-references dictinaory
-//                               NSArray *zones = [layer objectForKey:@"Zones"];
-//                               NSDictionary *zone = [zones objectAtIndex:0];
-//                               [zone setValue:@2 forKey:@"waveform"];
-//                               
-//                               // add the file-reference path
-//                               NSMutableDictionary *files = [plData objectForKey:@"file-references"];
-//                               
-//                               
-//                               //            NSString *path = [[NSBundle mainBundle] pathForResource:@"sine440" ofType:@"wav"];
-//                               NSString *path = [[NSBundle mainBundle] pathForResource:@"zeb" ofType:@"wav"];
-//                               //            NSString *path = [[NSBundle mainBundle] pathForResource:@"robotic1234" ofType:@"wav"];
-//                               //            NSString *path = [[NSBundle mainBundle] pathForResource:@"synthicoDrums" ofType:@"wav"];
-//                               //            NSString *path = [[NSBundle mainBundle] pathForResource:@"084 hardhop" ofType:@"wav"];
-//                               
-//                               [files setValue:path forKey:@"Sample:2"];
-//
-//                           }
-//                           
-//                           
-//                           
-//    }];
-//        
-//	return true;
-//}
-//
-
 
 -(void)loadPropertyList:(NSURL*)presetURL{
 
@@ -603,7 +484,6 @@ static OSStatus renderCallback(	void *							inRefCon,
             
             }];
             
-            
         }else{
         }
     
@@ -624,7 +504,6 @@ static OSStatus renderCallback(	void *							inRefCon,
         
         //set zone wavefile reference id
         [self setWavefileID:wavefileID forLayer:index];
-
 
     }
     

@@ -119,55 +119,17 @@ struct RenderDeataStruct {
  
  
  
+better ui for testing
  
- test for layers / swapping layers
-    can we share connections? test this : yes this works
-    how and what to test with ui
- 
- need to reload data : ie propslist from sampler to populate
-    store as a NSDictionary
- 
-    loadFromPropListFile:(URL)...
- 
-    when we want to chamge anything
- 
-    get propList from sampler to re-populate the dict (sync)
-    
- 
- Separate file-reference from linking to zone
- 
-    loadWaveFile forLayer
- 
-        get wavefile-reference list
- 
-        does it exist ? get id : generate id & add to list
  
  AudioFile list
- 
     simple tableview of some type
- 
  
  
 Note Off :
     test for logic : need to remember last note and turn it off
  
- 
- 
- 
- 
- Model : Track
-    Sampler
-        wavefile list
- 
- 
- 
- 
- 
- 
- 
- 
- 
- test for : attack / decay
+test for : attack / decay
  
  start to think
     what the relationship of the envelope
