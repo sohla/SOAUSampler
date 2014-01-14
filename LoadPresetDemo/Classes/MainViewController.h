@@ -68,16 +68,13 @@ struct RenderDeataStruct {
 
 
 
-@interface MainViewController : UIViewController <AVAudioSessionDelegate>{
+@interface MainViewController : UIViewController <AVAudioSessionDelegate, UITableViewDelegate, UITableViewDataSource>{
     RenderData *renderData;
 }
 
-@property (nonatomic, strong) IBOutlet UIButton *presetOneButton;
-@property (nonatomic, strong) IBOutlet UIButton *presetTwoButton;
 @property (weak, nonatomic) IBOutlet UISegmentedControl *layerSelection;
 
-- (IBAction) loadPresetOne:(id)sender;
-- (IBAction) loadPresetTwo:(id)sender;
+@property (weak, nonatomic) IBOutlet UITableView *filesTableView;
 - (IBAction) onReleaseChanged:(UISlider *)sender;
 - (IBAction) onLayerSelection:(UISegmentedControl *)sender;
 

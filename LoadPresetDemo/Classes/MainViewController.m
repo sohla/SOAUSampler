@@ -158,8 +158,9 @@ static OSStatus renderCallback(	void *							inRefCon,
 @property (readwrite) AudioUnit ioUnit;
 
 @property (retain, nonatomic) NSDictionary *samplerPropertyList;
+@property (retain, nonatomic) NSArray *wavefiles;
 
-
+-(NSArray*)getAllBundleFilesForTypes:(NSArray*)types;
 
 - (OSStatus)    injectDataIntoPropertyList:(NSURL*)presetURL withDataBlock:(void (^)(NSDictionary*))blockWithInstrumentData;
 
@@ -176,8 +177,6 @@ static OSStatus renderCallback(	void *							inRefCon,
 @implementation MainViewController
 
 @synthesize graphSampleRate     = _graphSampleRate;
-@synthesize presetOneButton     = _presetOneButton;
-@synthesize presetTwoButton     = _presetTwoButton;
 @synthesize samplerUnit         = _samplerUnit;
 @synthesize ioUnit              = _ioUnit;
 @synthesize processingGraph     = _processingGraph;
@@ -394,36 +393,32 @@ static OSStatus renderCallback(	void *							inRefCon,
 
 // Load the Trombone preset
 
-- (IBAction)loadPresetOne:(id)sender {
 
-    //NSString *path = [[NSBundle mainBundle] pathForResource:@"sine440" ofType:@"wav"];
-//    NSString *path = [[NSBundle mainBundle] pathForResource:@"zeb" ofType:@"wav"];
-    //NSString *path = [[NSBundle mainBundle] pathForResource:@"robotic1234" ofType:@"wav"];
-    //NSString *path = [[NSBundle mainBundle] pathForResource:@"synthicoDrums" ofType:@"wav"];
-    //NSString *path = [[NSBundle mainBundle] pathForResource:@"084 hardhop" ofType:@"wav"];
-    NSString *path = [[NSBundle mainBundle] pathForResource:@"D.B. Bass One Shot 11 (G)" ofType:@"wav"];
- //   NSString *path = [[NSBundle mainBundle] pathForResource:@"SWEEPERD" ofType:@"wav"];
 
-    [self loadWavefile:path forLayer:[self.layerSelection selectedSegmentIndex]];
 
+-(NSArray*)getAllBundleFilesForTypes:(NSArray*)types{
+
+    NSError *err = nil;
+
+    NSMutableArray *collect = [[NSMutableArray alloc] init] ;
+    NSArray *rc = [[NSFileManager defaultManager]
+                   contentsOfDirectoryAtPath:[[NSBundle mainBundle] bundlePath] error:&err];
+    
+    if(err){
+        NSLog(@"%@ : %@ : %@",
+             [err localizedFailureReason],
+             [err localizedDescription],
+             [err localizedRecoverySuggestion]);
+    }
+    
+    // get all files with correct extensions
+    for(NSString *title in [rc pathsMatchingExtensions:types]){
+        [collect addObject:[[[NSBundle mainBundle] bundlePath] stringByAppendingPathComponent:title]];
+    }
+    
+    return collect;
+    
 }
-
-// Load the Vibraphone preset
-- (IBAction)loadPresetTwo:(id)sender {
-
-    //NSString *path = [[NSBundle mainBundle] pathForResource:@"sine440" ofType:@"wav"];
-    NSString *path = [[NSBundle mainBundle] pathForResource:@"zeb" ofType:@"wav"];
-    //NSString *path = [[NSBundle mainBundle] pathForResource:@"robotic1234" ofType:@"wav"];
-    //NSString *path = [[NSBundle mainBundle] pathForResource:@"synthicoDrums" ofType:@"wav"];
-    //NSString *path = [[NSBundle mainBundle] pathForResource:@"084 hardhop" ofType:@"wav"];
-//    NSString *path = [[NSBundle mainBundle] pathForResource:@"QuasiA 048" ofType:@"wav"];
-    //NSString *path = [[NSBundle mainBundle] pathForResource:@"D.B. Bass One Shot 11 (G)" ofType:@"wav"];
-
-    [self loadWavefile:path forLayer:[self.layerSelection selectedSegmentIndex]];
-
-
-}
-
 -(void)loadPropertyList:(NSURL*)presetURL{
 
     [self injectDataIntoPropertyList:presetURL
@@ -490,7 +485,10 @@ static OSStatus renderCallback(	void *							inRefCon,
         
         
         // generate an ID
+        
+        //••• need to generate UNIQUE id
         NSNumber *wavefileID = @(rand() % 100);
+        
         NSMutableDictionary *files = [self.samplerPropertyList objectForKey:@"file-references"];
         
         NSString *key = [NSString stringWithFormat:@"Sample:%@",wavefileID];
@@ -542,51 +540,51 @@ static OSStatus renderCallback(	void *							inRefCon,
 
 }
 
--(OSStatus)changeWavefile:(NSString*)path forLayer:(UInt8)index{
-
-    OSStatus result = noErr;
-
-    NSDictionary *instrument = [self.samplerPropertyList objectForKey:@"Instrument"];
-    
-    // get the layer at index
-    NSArray *layers = [instrument objectForKey:@"Layers"];
-    NSDictionary *layer = [layers objectAtIndex:index];
-    
-    NSNumber *num = @(100 + index);
-    
-    // each zone has an index to a waveform in the file-references dictinaory
-    NSArray *zones = [layer objectForKey:@"Zones"];
-    NSDictionary *zone = [zones objectAtIndex:0];
-    [zone setValue:num forKey:@"waveform"];
-    
-    // add the file-reference path
-    NSMutableDictionary *files = [self.samplerPropertyList objectForKey:@"file-references"];
-    
-    NSString *key = [NSString stringWithFormat:@"Sample:%@",num];
-    
-    // and finally set it
-    [files setValue:path forKey:key];
-    
-//    NSLog(@"%@",self.samplerPropertyList);
-    
-    CFPropertyListRef presetPropertyList = (__bridge CFPropertyListRef)self.samplerPropertyList;
-
-    result = AudioUnitSetProperty(
-                                  self.samplerUnit,
-                                  kAudioUnitProperty_ClassInfo,
-                                  kAudioUnitScope_Global,
-                                  0,
-                                  &presetPropertyList,
-                                  sizeof(CFPropertyListRef)
-                                  );
-    
-
-    NSLog(@"%@",zone);
-    NSLog(@"%@",files);
-    
-    return result;
-    
-}
+//-(OSStatus)changeWavefile:(NSString*)path forLayer:(UInt8)index{
+//
+//    OSStatus result = noErr;
+//
+//    NSDictionary *instrument = [self.samplerPropertyList objectForKey:@"Instrument"];
+//    
+//    // get the layer at index
+//    NSArray *layers = [instrument objectForKey:@"Layers"];
+//    NSDictionary *layer = [layers objectAtIndex:index];
+//    
+//    NSNumber *num = @(100 + index);
+//    
+//    // each zone has an index to a waveform in the file-references dictinaory
+//    NSArray *zones = [layer objectForKey:@"Zones"];
+//    NSDictionary *zone = [zones objectAtIndex:0];
+//    [zone setValue:num forKey:@"waveform"];
+//    
+//    // add the file-reference path
+//    NSMutableDictionary *files = [self.samplerPropertyList objectForKey:@"file-references"];
+//    
+//    NSString *key = [NSString stringWithFormat:@"Sample:%@",num];
+//    
+//    // and finally set it
+//    [files setValue:path forKey:key];
+//    
+////    NSLog(@"%@",self.samplerPropertyList);
+//    
+//    CFPropertyListRef presetPropertyList = (__bridge CFPropertyListRef)self.samplerPropertyList;
+//
+//    result = AudioUnitSetProperty(
+//                                  self.samplerUnit,
+//                                  kAudioUnitProperty_ClassInfo,
+//                                  kAudioUnitScope_Global,
+//                                  0,
+//                                  &presetPropertyList,
+//                                  sizeof(CFPropertyListRef)
+//                                  );
+//    
+//
+//    NSLog(@"%@",zone);
+//    NSLog(@"%@",files);
+//    
+//    return result;
+//    
+//}
 
 -(OSStatus)injectDataIntoPropertyList:(NSURL*)presetURL withDataBlock:(void (^)(NSDictionary*))blockWithInstrumentData{
 
@@ -779,16 +777,25 @@ static OSStatus renderCallback(	void *							inRefCon,
     NSString *title = @"SweepPad8";
 	NSURL *presetURL = [[NSURL alloc] initFileURLWithPath:[[NSBundle mainBundle] pathForResource:title ofType:@"aupreset"]];
 
+    self.wavefiles = [self getAllBundleFilesForTypes:@[@"wav",@"aiff",@"mp3"]];
+    
     [self loadPropertyList:presetURL];
-    [self loadPresetOne: self];
     [self registerForUIApplicationNotifications];
+
+
+    // only after property list has loaded
+    // load first wavefile in tableview
+    NSString *path = [self.wavefiles objectAtIndex:0];
+    [self loadWavefile:path forLayer:[self.layerSelection selectedSegmentIndex]];
+    
+    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
+    [self.filesTableView selectRowAtIndexPath:indexPath animated:YES scrollPosition:UITableViewScrollPositionTop];
 }
 
+
+
+
 - (void) viewDidUnload {
-
-    self.presetOneButton    = nil;
-	self.presetTwoButton    = nil;
-
     [super viewDidUnload];
 }
 
@@ -805,6 +812,34 @@ static OSStatus renderCallback(	void *							inRefCon,
     
     // Release any cached data, images, etc that aren't in use.
 }
+#pragma mark - Tableview DataSource
 
 
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
+    return self.wavefiles.count;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    static NSString *CellIdentifier = @"Cell";
+    
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    if (cell == nil) {
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+//        cell.accessoryType = UITableViewCellAccessoryCheckmark;
+    }
+    
+    NSString *title = [[[self.wavefiles objectAtIndex:indexPath.row] lastPathComponent] stringByDeletingPathExtension];
+    
+    cell.textLabel.text = title;
+    cell.textLabel.font = [UIFont systemFontOfSize:12.0f];
+    return cell;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+
+    NSString *path = [self.wavefiles objectAtIndex:indexPath.row];
+    [self loadWavefile:path forLayer:[self.layerSelection selectedSegmentIndex]];
+
+}
 @end
