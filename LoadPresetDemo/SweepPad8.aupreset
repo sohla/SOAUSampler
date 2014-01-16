@@ -172,7 +172,7 @@
 						<key>inverse</key>
 						<false/>
 						<key>scale</key>
-						<real>0.99</real>
+						<real>0.9900000095367432</real>
 						<key>source</key>
 						<integer>1</integer>
 						<key>transform</key>
@@ -536,6 +536,26 @@
 					</dict>
 					<dict>
 						<key>ID</key>
+						<integer>10</integer>
+						<key>bipolar</key>
+						<false/>
+						<key>control</key>
+						<integer>0</integer>
+						<key>destination</key>
+						<integer>818938112</integer>
+						<key>enabled</key>
+						<true/>
+						<key>inverse</key>
+						<false/>
+						<key>scale</key>
+						<real>0.9900000095367432</real>
+						<key>source</key>
+						<integer>1</integer>
+						<key>transform</key>
+						<integer>1</integer>
+					</dict>
+					<dict>
+						<key>ID</key>
 						<integer>6</integer>
 						<key>bipolar</key>
 						<true/>
@@ -568,7 +588,7 @@
 						<key>inverse</key>
 						<true/>
 						<key>scale</key>
-						<real>-96</real>
+						<real>0</real>
 						<key>source</key>
 						<integer>536871168</integer>
 						<key>transform</key>
@@ -712,8 +732,6 @@
 	<data>AAAAAAAAAAAAAAAEAAADhAAAAAAAAAOFAAAAAAAAA4YAAAAAAAADhwAAAAA=</data>
 	<key>file-references</key>
 	<dict>
-		<key>Sample:268435457</key>
-		<string>/Users/soh_la/Library/Audio/Sounds/kick_boom.wav</string>
 		<key>Sample:268435458</key>
 		<string>/Users/soh_la/Library/Audio/Sounds/SWEEPERD.wav</string>
 		<key>Sample:268435459</key>

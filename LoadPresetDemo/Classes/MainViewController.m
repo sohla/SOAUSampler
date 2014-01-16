@@ -122,7 +122,7 @@ static OSStatus renderCallback(	void *							inRefCon,
             renderData->prevNote = noteNum;
             
             
-//            renderData->pitch += 3;
+//            renderData->pitch += 7;
             
             if (renderData->pitch > 84) {
                 renderData->pitch = 52;
@@ -792,8 +792,8 @@ static OSStatus renderCallback(	void *							inRefCon,
     NSString *path = [self.wavefiles objectAtIndex:0];
     [self loadWavefile:path forLayer:[self.layerSelection selectedSegmentIndex]];
     
-    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
-    [self.filesTableView selectRowAtIndexPath:indexPath animated:YES scrollPosition:UITableViewScrollPositionTop];
+//    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
+//    [self.filesTableView selectRowAtIndexPath:indexPath animated:YES scrollPosition:UITableViewScrollPositionTop];
     
     
     [self.tempoSlider setValue:0.5];
