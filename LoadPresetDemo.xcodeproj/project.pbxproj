@@ -28,7 +28,6 @@
 		59E6DE36134F9EE8009F373F /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 59E6DE35134F9EE8009F373F /* main.m */; };
 		59E6DE60134FA493009F373F /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 59E6DE5F134FA493009F373F /* AudioToolbox.framework */; };
 		F00C301218824EB000821540 /* SWEEPERD.wav in Resources */ = {isa = PBXBuildFile; fileRef = F00C301118824EB000821540 /* SWEEPERD.wav */; };
-		F00C301818834D2100821540 /* SweepPad8.aupreset in Resources */ = {isa = PBXBuildFile; fileRef = F00C301718834D2100821540 /* SweepPad8.aupreset */; };
 		F0305D92186CD981002BECEF /* SweepTest.aupreset in Resources */ = {isa = PBXBuildFile; fileRef = F0305D91186CD981002BECEF /* SweepTest.aupreset */; };
 		F0305D94186CDA24002BECEF /* TromboneEdit.aupreset in Resources */ = {isa = PBXBuildFile; fileRef = F0305D93186CDA24002BECEF /* TromboneEdit.aupreset */; };
 		F0305D96186CDDA7002BECEF /* Sounds in Resources */ = {isa = PBXBuildFile; fileRef = F0305D95186CDDA7002BECEF /* Sounds */; };
@@ -49,6 +48,8 @@
 		F09DE601188168B200971B1A /* SweepPad7.aupreset in Resources */ = {isa = PBXBuildFile; fileRef = F09DE600188168B200971B1A /* SweepPad7.aupreset */; };
 		F09DE6031881721F00971B1A /* QuasiA 048.wav in Resources */ = {isa = PBXBuildFile; fileRef = F09DE6021881721F00971B1A /* QuasiA 048.wav */; };
 		F09DE6051881730E00971B1A /* D.B. Bass One Shot 11 (G).wav in Resources */ = {isa = PBXBuildFile; fileRef = F09DE6041881730E00971B1A /* D.B. Bass One Shot 11 (G).wav */; };
+		F0C42C9118877E2A00330B66 /* SweepPad8.aupreset in Resources */ = {isa = PBXBuildFile; fileRef = F0C42C9018877E2A00330B66 /* SweepPad8.aupreset */; };
+		F0C42C931887813400330B66 /* berilium.wav in Resources */ = {isa = PBXBuildFile; fileRef = F0C42C921887813400330B66 /* berilium.wav */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -79,7 +80,6 @@
 		59E6DE35134F9EE8009F373F /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		59E6DE5F134FA493009F373F /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		F00C301118824EB000821540 /* SWEEPERD.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = SWEEPERD.wav; sourceTree = "<group>"; };
-		F00C301718834D2100821540 /* SweepPad8.aupreset */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = SweepPad8.aupreset; sourceTree = "<group>"; };
 		F0305D91186CD981002BECEF /* SweepTest.aupreset */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = SweepTest.aupreset; sourceTree = "<group>"; };
 		F0305D93186CDA24002BECEF /* TromboneEdit.aupreset */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = TromboneEdit.aupreset; sourceTree = "<group>"; };
 		F0305D95186CDDA7002BECEF /* Sounds */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Sounds; sourceTree = "<group>"; };
@@ -100,6 +100,8 @@
 		F09DE600188168B200971B1A /* SweepPad7.aupreset */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = SweepPad7.aupreset; sourceTree = "<group>"; };
 		F09DE6021881721F00971B1A /* QuasiA 048.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "QuasiA 048.wav"; sourceTree = "<group>"; };
 		F09DE6041881730E00971B1A /* D.B. Bass One Shot 11 (G).wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "D.B. Bass One Shot 11 (G).wav"; sourceTree = "<group>"; };
+		F0C42C9018877E2A00330B66 /* SweepPad8.aupreset */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = SweepPad8.aupreset; sourceTree = "<group>"; };
+		F0C42C921887813400330B66 /* berilium.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = berilium.wav; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -160,6 +162,7 @@
 			isa = PBXGroup;
 			children = (
 				F00C301118824EB000821540 /* SWEEPERD.wav */,
+				F0C42C921887813400330B66 /* berilium.wav */,
 				F09DE6041881730E00971B1A /* D.B. Bass One Shot 11 (G).wav */,
 				F09DE6021881721F00971B1A /* QuasiA 048.wav */,
 				F0441D5D18801D5A00E19AFD /* zeb.wav */,
@@ -181,7 +184,7 @@
 				F0441D59188019D000E19AFD /* SweepPad5.aupreset */,
 				F09DE5FE18815AB600971B1A /* SweepPad6.aupreset */,
 				F09DE600188168B200971B1A /* SweepPad7.aupreset */,
-				F00C301718834D2100821540 /* SweepPad8.aupreset */,
+				F0C42C9018877E2A00330B66 /* SweepPad8.aupreset */,
 				F09DE5F918810F8A00971B1A /* KeyRange.aupreset */,
 				F0305D91186CD981002BECEF /* SweepTest.aupreset */,
 			);
@@ -300,7 +303,7 @@
 				0A355A0E13CCB3E200AB9137 /* MainViewController.xib in Resources */,
 				F09DE601188168B200971B1A /* SweepPad7.aupreset in Resources */,
 				F09DE5F818810A6200971B1A /* Default-568h@2x.png in Resources */,
-				F00C301818834D2100821540 /* SweepPad8.aupreset in Resources */,
+				F0C42C9118877E2A00330B66 /* SweepPad8.aupreset in Resources */,
 				F0441D4C187FB50600E19AFD /* robotic1234.wav in Resources */,
 				0A355A0F13CCB3E200AB9137 /* MainWindow_iPhone.xib in Resources */,
 				F0305D92186CD981002BECEF /* SweepTest.aupreset in Resources */,
@@ -308,6 +311,7 @@
 				F0441D5418800DF800E19AFD /* SweepPad4.aupreset in Resources */,
 				0A355A1B13CCB74600AB9137 /* Icon-72.png in Resources */,
 				0A355A1C13CCB74600AB9137 /* Icon-Small-50.png in Resources */,
+				F0C42C931887813400330B66 /* berilium.wav in Resources */,
 				F0305D94186CDA24002BECEF /* TromboneEdit.aupreset in Resources */,
 				F0911686186CCD7D0041A209 /* SweepPad.aupreset in Resources */,
 				0A355A1D13CCB74600AB9137 /* Icon-Small.png in Resources */,

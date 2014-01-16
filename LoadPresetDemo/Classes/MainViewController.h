@@ -73,6 +73,8 @@ struct RenderDeataStruct {
 }
 
 @property (weak, nonatomic) IBOutlet UISegmentedControl *layerSelection;
+@property (weak, nonatomic) IBOutlet UILabel *tempoLabel;
+@property (weak, nonatomic) IBOutlet UISlider *tempoSlider;
 
 @property (weak, nonatomic) IBOutlet UITableView *filesTableView;
 - (IBAction) onReleaseChanged:(UISlider *)sender;

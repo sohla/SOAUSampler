@@ -98,16 +98,11 @@ static OSStatus renderCallback(	void *							inRefCon,
             
 //            UInt32 randVal = 60 + (rand()%6);
             
-            renderData->modCntl += 32;
-            
-            if(renderData->modCntl > 127){
-                renderData->modCntl = 0;
-            }
-//            NSLog(@"%ld %ld",renderData->frameAccum, renderData->modCntl);
+            NSLog(@"%ld %ld",renderData->frameAccum, renderData->modCntl);
 
 ////          // note off (length)
-//            noteCommand = 	kMIDIMessage_NoteOff << 4 | 0;
-//            result = MusicDeviceMIDIEvent (samplerUnit, noteCommand, renderData->prevNote, onVelocity, inNumberFrames - renderData->frameAccum);
+            noteCommand = 	kMIDIMessage_NoteOff << 4 | 0;
+            result = MusicDeviceMIDIEvent (samplerUnit, noteCommand, renderData->prevNote, onVelocity, inNumberFrames - renderData->frameAccum);
 
 //            // pitch bend (for fun) use layer
 //            result = MusicDeviceMIDIEvent (samplerUnit, 0xE0, 0x00, 0x00, inNumberFrames - renderData->frameAccum);
@@ -118,8 +113,8 @@ static OSStatus renderCallback(	void *							inRefCon,
             // pitch controller 2
             result = MusicDeviceMIDIEvent (samplerUnit, 0xB0, 2, renderData->pitch, inNumberFrames - renderData->frameAccum);
 
-//            // mod cotroller (sample start)
-//            result = MusicDeviceMIDIEvent (samplerUnit, 0xB0, 1, renderData->modCntl, inNumberFrames - renderData->frameAccum);
+            // mod cotroller (sample start)
+            result = MusicDeviceMIDIEvent (samplerUnit, 0xB0, 1, renderData->modCntl, inNumberFrames - renderData->frameAccum);
             
             // note on
             noteCommand = 	kMIDIMessage_NoteOn << 4 | 0;
@@ -127,11 +122,19 @@ static OSStatus renderCallback(	void *							inRefCon,
             renderData->prevNote = noteNum;
             
             
-            renderData->pitch += 3;
+//            renderData->pitch += 3;
             
             if (renderData->pitch > 84) {
                 renderData->pitch = 52;
             }
+            
+            
+            renderData->modCntl += 8;
+            
+            if(renderData->modCntl > 127){
+                renderData->modCntl = 0;
+            }
+
 
         }
         
@@ -266,7 +269,7 @@ static OSStatus renderCallback(	void *							inRefCon,
     NSCAssert (result == noErr, @"Unable to obtain a reference to the Sampler unit. Error code: %d '%.4s'", (int) result, (const char *)&result);
 
     renderData = (RenderData*)malloc(sizeof(RenderData));
-    renderData->tempo = 120.0f;
+    renderData->tempo = 160.0f;
     renderData->frameAccum = 0;
     renderData->samplerUnit = _samplerUnit;
     AudioUnitAddRenderNotify(_samplerUnit, renderCallback, renderData);
@@ -364,7 +367,8 @@ static OSStatus renderCallback(	void *							inRefCon,
     
     
     UISlider *slider = (UISlider*)sender;
-    renderData->tempo = 60.0f + ([slider value] * 1000.0);
+    renderData->tempo = 60.0f + ([slider value] * 200.0);
+    self.tempoLabel.text = [NSString stringWithFormat:@"%.0f",renderData->tempo];
 }
 
 - (IBAction)onPlaySequence:(id)sender {
@@ -790,6 +794,9 @@ static OSStatus renderCallback(	void *							inRefCon,
     
     NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
     [self.filesTableView selectRowAtIndexPath:indexPath animated:YES scrollPosition:UITableViewScrollPositionTop];
+    
+    
+    [self.tempoSlider setValue:0.5];
 }
 
 
