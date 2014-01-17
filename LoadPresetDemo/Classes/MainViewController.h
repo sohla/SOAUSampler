@@ -97,6 +97,10 @@ struct RenderDeataStruct {
 
 
 /*
+ 
+ Turn into proper class
+ 
+ 
  tested so far :
     note on
     note off
@@ -109,14 +113,26 @@ struct RenderDeataStruct {
  
 better ui for testing
  
+Multi Layers :
  
- AudioFile list
-    simple tableview of some type
+ Make one layer and then duplicate using code.
+    aupreset has one layer
+    duplicate to have 9 layers : one for each cell
+    iter thru layers resetting min/max key and key offset
+ 
+    Layers
+        min & max = 10
+        offset = 60 - min | max
+ 
+    KBaseKey = 10
+ 
  
  
 Note Off :
     test for logic : need to remember last note and turn it off
+
  
+Envelope :
 test for : attack / decay
  
  start to think
