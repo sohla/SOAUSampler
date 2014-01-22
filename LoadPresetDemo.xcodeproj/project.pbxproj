@@ -40,6 +40,7 @@
 		F0441D5A188019D000E19AFD /* SweepPad5.aupreset in Resources */ = {isa = PBXBuildFile; fileRef = F0441D59188019D000E19AFD /* SweepPad5.aupreset */; };
 		F0441D5C18801BE100E19AFD /* sine440.wav in Resources */ = {isa = PBXBuildFile; fileRef = F0441D5B18801BE100E19AFD /* sine440.wav */; };
 		F0441D5E18801D5A00E19AFD /* zeb.wav in Resources */ = {isa = PBXBuildFile; fileRef = F0441D5D18801D5A00E19AFD /* zeb.wav */; };
+		F07B5296188FED5600ECCF61 /* SweepPad9.aupreset in Resources */ = {isa = PBXBuildFile; fileRef = F07B5295188FED5600ECCF61 /* SweepPad9.aupreset */; };
 		F0911686186CCD7D0041A209 /* SweepPad.aupreset in Resources */ = {isa = PBXBuildFile; fileRef = F0911685186CCD7D0041A209 /* SweepPad.aupreset */; };
 		F09DE5F818810A6200971B1A /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F09DE5F718810A6200971B1A /* Default-568h@2x.png */; };
 		F09DE5FA18810F8A00971B1A /* KeyRange.aupreset in Resources */ = {isa = PBXBuildFile; fileRef = F09DE5F918810F8A00971B1A /* KeyRange.aupreset */; };
@@ -92,6 +93,7 @@
 		F0441D59188019D000E19AFD /* SweepPad5.aupreset */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = SweepPad5.aupreset; sourceTree = "<group>"; };
 		F0441D5B18801BE100E19AFD /* sine440.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = sine440.wav; sourceTree = "<group>"; };
 		F0441D5D18801D5A00E19AFD /* zeb.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = zeb.wav; sourceTree = "<group>"; };
+		F07B5295188FED5600ECCF61 /* SweepPad9.aupreset */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = SweepPad9.aupreset; sourceTree = "<group>"; };
 		F0911685186CCD7D0041A209 /* SweepPad.aupreset */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = SweepPad.aupreset; sourceTree = "<group>"; };
 		F09DE5F718810A6200971B1A /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		F09DE5F918810F8A00971B1A /* KeyRange.aupreset */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = KeyRange.aupreset; path = ../../../../../Library/Audio/Presets/Apple/AUSampler/KeyRange.aupreset; sourceTree = "<group>"; };
@@ -185,6 +187,7 @@
 				F09DE5FE18815AB600971B1A /* SweepPad6.aupreset */,
 				F09DE600188168B200971B1A /* SweepPad7.aupreset */,
 				F0C42C98188785A800330B66 /* SweepPad8.aupreset */,
+				F07B5295188FED5600ECCF61 /* SweepPad9.aupreset */,
 				F09DE5F918810F8A00971B1A /* KeyRange.aupreset */,
 				F0305D91186CD981002BECEF /* SweepTest.aupreset */,
 			);
@@ -290,6 +293,7 @@
 				F09DE6031881721F00971B1A /* QuasiA 048.wav in Resources */,
 				F0441D52188008B400E19AFD /* 084 hardhop.wav in Resources */,
 				F0441D4E187FB87700E19AFD /* synthicoDrums.wav in Resources */,
+				F07B5296188FED5600ECCF61 /* SweepPad9.aupreset in Resources */,
 				F0441D5E18801D5A00E19AFD /* zeb.wav in Resources */,
 				F0441D42187E10DF00E19AFD /* fmvoc.wav in Resources */,
 				F0441D5C18801BE100E19AFD /* sine440.wav in Resources */,

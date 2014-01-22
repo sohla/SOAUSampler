@@ -77,32 +77,31 @@ static OSStatus renderCallback(	void *							inRefCon,
     if (*ioActionFlags & kAudioUnitRenderAction_PostRender) {
         
         OSStatus result = noErr;
-        UInt16 length = 44100 * (60.0f / renderData->tempo);
+        UInt16 beat = 44100 * (60.0f / renderData->tempo);
+        UInt16 length = beat * renderData->length;
         UInt32 noteCommand = 	kMIDIMessage_NoteOn << 4 | 0;
         UInt32 onVelocity = 127;
         
-//        if(renderData->frameAccum > (length - 30050)){
-//            //          // note off (length)
-//            noteCommand = 	kMIDIMessage_NoteOff << 4 | 0;
-//            result = MusicDeviceMIDIEvent (samplerUnit, noteCommand, renderData->prevNote, 0, 0);
-//
-//            
-//        }
-
-        if(renderData->frameAccum > length){
+        if(renderData->frameAccumOff > length){
             
-            renderData->frameAccum -= length;
+            renderData->frameAccumOff -= length;
 
+            
+            //          // note off (length)
+            noteCommand = 	kMIDIMessage_NoteOff << 4 | 0;
+            result = MusicDeviceMIDIEvent (samplerUnit, noteCommand, renderData->prevNote, 0, 0);
+            NSLog(@"NOTE OFF %ld",renderData->frameAccum);
+        }
+
+        if(renderData->frameAccum > beat){
+            
+            renderData->frameAccum -= beat;
+            renderData->frameAccumOff = 0;
             float val = 60.0 + (renderData->layer * 12);
             UInt32 noteNum = val;
             
-//            UInt32 randVal = 60 + (rand()%6);
             
-            NSLog(@"%ld %ld",renderData->frameAccum, renderData->modCntl);
-
-////          // note off (length)
-            noteCommand = 	kMIDIMessage_NoteOff << 4 | 0;
-            result = MusicDeviceMIDIEvent (samplerUnit, noteCommand, renderData->prevNote, onVelocity, inNumberFrames - renderData->frameAccum);
+            NSLog(@"NOTE ON %ld %ld",renderData->frameAccum, renderData->modCntl);
 
 //            // pitch bend (for fun) use layer
 //            result = MusicDeviceMIDIEvent (samplerUnit, 0xE0, 0x00, 0x00, inNumberFrames - renderData->frameAccum);
@@ -113,8 +112,20 @@ static OSStatus renderCallback(	void *							inRefCon,
             // pitch controller 2
             result = MusicDeviceMIDIEvent (samplerUnit, 0xB0, 2, renderData->pitch, inNumberFrames - renderData->frameAccum);
 
+            
+            // attack controller 3
+            result = MusicDeviceMIDIEvent (samplerUnit, 0xB0, 3, renderData->attack * 127.0, inNumberFrames - renderData->frameAccum);
+
             // mod cotroller (sample start)
-            result = MusicDeviceMIDIEvent (samplerUnit, 0xB0, 1, renderData->modCntl, inNumberFrames - renderData->frameAccum);
+            //result = MusicDeviceMIDIEvent (samplerUnit, 0xB0, 1, renderData->modCntl, inNumberFrames - renderData->frameAccum);
+            
+            // oh look, we can do it via sending message directly via kAudioUnitScope_Group
+            AudioUnitSetParameter(samplerUnit,
+                                  1,
+                                  kAudioUnitScope_Group,
+                                  0,
+                                  renderData->modCntl,
+                                  inNumberFrames - renderData->frameAccum);
             
             // note on
             noteCommand = 	kMIDIMessage_NoteOn << 4 | 0;
@@ -122,14 +133,7 @@ static OSStatus renderCallback(	void *							inRefCon,
             renderData->prevNote = noteNum;
             
             
-//            renderData->pitch += 7;
-            
-            if (renderData->pitch > 84) {
-                renderData->pitch = 52;
-            }
-            
-            
-            renderData->modCntl += 8;
+           // renderData->modCntl += 8;
             
             if(renderData->modCntl > 127){
                 renderData->modCntl = 0;
@@ -139,6 +143,7 @@ static OSStatus renderCallback(	void *							inRefCon,
         }
         
         renderData->frameAccum += inNumberFrames;
+        renderData->frameAccumOff += inNumberFrames;
 
         
         
@@ -271,12 +276,15 @@ static OSStatus renderCallback(	void *							inRefCon,
     renderData = (RenderData*)malloc(sizeof(RenderData));
     renderData->tempo = 160.0f;
     renderData->frameAccum = 0;
+    renderData->frameAccumOff = 0;
     renderData->samplerUnit = _samplerUnit;
     AudioUnitAddRenderNotify(_samplerUnit, renderCallback, renderData);
     renderData->modCntl = 0;
     renderData->prevNote = 0;
     renderData->pitch = 64;
     renderData->layer = 0;
+    renderData->length = 1.0f;
+    renderData->attack = 0.0f;
     
 	// Obtain a reference to the I/O unit from its node
 	result = AUGraphNodeInfo (self.processingGraph, ioNode, 0, &_ioUnit);
@@ -371,6 +379,20 @@ static OSStatus renderCallback(	void *							inRefCon,
     self.tempoLabel.text = [NSString stringWithFormat:@"%.0f",renderData->tempo];
 }
 
+- (IBAction)onLengthChanged:(UISlider *)sender {
+    
+    renderData->length = [sender value];
+}
+
+- (IBAction)onPitchChanged:(UISlider *)sender {
+    
+    
+    UInt8 pitch = (64 - 12) + (24 * [sender value]);
+    
+    renderData->pitch = pitch;
+    
+}
+
 - (IBAction)onPlaySequence:(id)sender {
     
     UIButton *btn = (UIButton*)sender;
@@ -392,6 +414,11 @@ static OSStatus renderCallback(	void *							inRefCon,
 
     renderData->layer = [sender selectedSegmentIndex];
 
+}
+
+- (IBAction)onAttackChanged:(UISlider *)sender {
+    
+    renderData->attack = [sender value];
 }
 
 
@@ -778,7 +805,7 @@ static OSStatus renderCallback(	void *							inRefCon,
 
     [super viewDidLoad];
     
-    NSString *title = @"SweepPad8";
+    NSString *title = @"SweepPad9";
 	NSURL *presetURL = [[NSURL alloc] initFileURLWithPath:[[NSBundle mainBundle] pathForResource:title ofType:@"aupreset"]];
 
     self.wavefiles = [self getAllBundleFilesForTypes:@[@"wav",@"aiff",@"mp3"]];
