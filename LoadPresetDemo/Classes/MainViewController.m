@@ -75,32 +75,48 @@ static OSStatus renderCallback(	void *							inRefCon,
     AudioUnit samplerUnit = renderData->samplerUnit;
     
     if (*ioActionFlags & kAudioUnitRenderAction_PostRender) {
+ 
         
+
         OSStatus result = noErr;
         UInt16 beat = 44100 * (60.0f / renderData->tempo);
         UInt16 length = beat * renderData->length;
         UInt32 noteCommand = 	kMIDIMessage_NoteOn << 4 | 0;
         UInt32 onVelocity = 127;
         
-        if(renderData->frameAccumOff > length){
-            
-            renderData->frameAccumOff -= length;
+        
+        renderData->frameAccum += inNumberFrames;
 
+        
+        if(renderData->isNoteOn){
             
-            //          // note off (length)
-            noteCommand = 	kMIDIMessage_NoteOff << 4 | 0;
-            result = MusicDeviceMIDIEvent (samplerUnit, noteCommand, renderData->prevNote, 0, 0);
-            NSLog(@"NOTE OFF %ld",renderData->frameAccum);
+
+            if(renderData->frameAccumOff > length){
+                
+                renderData->isNoteOn = false;
+                
+                // note off (length)
+                noteCommand = 	kMIDIMessage_NoteOff << 4 | 0;
+                result = MusicDeviceMIDIEvent (samplerUnit, noteCommand, renderData->prevNote, onVelocity,0);
+                
+                NSLog(@"NOTE OFF %ld",renderData->frameAccum);
+            }
+            renderData->frameAccumOff += inNumberFrames;
+          
         }
+        
 
         if(renderData->frameAccum > beat){
             
+            renderData->isNoteOn = true;
             renderData->frameAccum -= beat;
             renderData->frameAccumOff = 0;
+            
             float val = 60.0 + (renderData->layer * 12);
             UInt32 noteNum = val;
             
             
+
             NSLog(@"NOTE ON %ld %ld",renderData->frameAccum, renderData->modCntl);
 
 //            // pitch bend (for fun) use layer
@@ -115,6 +131,9 @@ static OSStatus renderCallback(	void *							inRefCon,
             
             // attack controller 3
             result = MusicDeviceMIDIEvent (samplerUnit, 0xB0, 3, renderData->attack * 127.0, inNumberFrames - renderData->frameAccum);
+
+            
+//            result = MusicDeviceMIDIEvent (samplerUnit, 0xB0, 5, 127.0, inNumberFrames - renderData->frameAccum);
 
             // mod cotroller (sample start)
             //result = MusicDeviceMIDIEvent (samplerUnit, 0xB0, 1, renderData->modCntl, inNumberFrames - renderData->frameAccum);
@@ -142,8 +161,6 @@ static OSStatus renderCallback(	void *							inRefCon,
 
         }
         
-        renderData->frameAccum += inNumberFrames;
-        renderData->frameAccumOff += inNumberFrames;
 
         
         
@@ -285,6 +302,7 @@ static OSStatus renderCallback(	void *							inRefCon,
     renderData->layer = 0;
     renderData->length = 1.0f;
     renderData->attack = 0.0f;
+    renderData->isNoteOn = false;
     
 	// Obtain a reference to the I/O unit from its node
 	result = AUGraphNodeInfo (self.processingGraph, ioNode, 0, &_ioUnit);

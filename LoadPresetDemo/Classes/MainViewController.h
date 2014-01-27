@@ -63,7 +63,7 @@ struct RenderDeataStruct {
     UInt32      prevNote;
     UInt32      pitch;
     UInt8       layer;
-    
+    Boolean     isNoteOn;
     
     float length;
     float attack;
