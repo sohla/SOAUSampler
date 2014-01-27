@@ -93,7 +93,7 @@ static OSStatus renderCallback(	void *							inRefCon,
             noteCommand = 	kMIDIMessage_NoteOff << 4 | 0;
             result = MusicDeviceMIDIEvent (samplerUnit, noteCommand, renderData->prevNote, onVelocity,0);
             
-            NSLog(@"NOTE OFF %ld",renderData->frameAccumOff);
+//            NSLog(@"NOTE OFF %ld",renderData->frameAccumOff);
             
         }
         
@@ -108,7 +108,6 @@ static OSStatus renderCallback(	void *							inRefCon,
             
             
 
-            NSLog(@"NOTE ON %ld %ld",renderData->frameAccum, renderData->modCntl);
 
 //            // pitch bend (for fun) use layer
 //            result = MusicDeviceMIDIEvent (samplerUnit, 0xE0, 0x00, 0x00, inNumberFrames - renderData->frameAccum);
@@ -117,25 +116,38 @@ static OSStatus renderCallback(	void *							inRefCon,
 //           result = MusicDeviceMIDIEvent (samplerUnit, 0xB0, 10, renderData->modCntl, inNumberFrames - renderData->frameAccum);
 
             // pitch controller 2
-            result = MusicDeviceMIDIEvent (samplerUnit, 0xB0, 2, renderData->pitch, inNumberFrames - renderData->frameAccum);
+//            UInt8 pitch = (64 - 12) + (24 * renderData->pitch);
+            UInt8 pitch = 64 + (2 * (rand()%(int)(1+6*renderData->pitch)));
+
+            result = MusicDeviceMIDIEvent (samplerUnit, 0xB0, 2, pitch, inNumberFrames - renderData->frameAccum);
 
             
             // attack controller 3
             result = MusicDeviceMIDIEvent (samplerUnit, 0xB0, 3, renderData->attack * 127.0, inNumberFrames - renderData->frameAccum);
 
             
-//            result = MusicDeviceMIDIEvent (samplerUnit, 0xB0, 5, 127.0, inNumberFrames - renderData->frameAccum);
+            // release controller 8
+            result = MusicDeviceMIDIEvent (samplerUnit, 0xB0, 8, renderData->release * 127.0, inNumberFrames - renderData->frameAccum);
 
-            // mod cotroller (sample start)
-            //result = MusicDeviceMIDIEvent (samplerUnit, 0xB0, 1, renderData->modCntl, inNumberFrames - renderData->frameAccum);
+            
+//            result = MusicDeviceMIDIEvent (samplerUnit, 0xB0, 5, 0.0, inNumberFrames - renderData->frameAccum);
+
+            
+            UInt32 pos = renderData->position * 127.0f;
+            // sample start)
+            result = MusicDeviceMIDIEvent (samplerUnit, 0xB0, 1, pos, inNumberFrames - renderData->frameAccum - 1000);
             
             // oh look, we can do it via sending message directly via kAudioUnitScope_Group
-            AudioUnitSetParameter(samplerUnit,
-                                  1,
-                                  kAudioUnitScope_Group,
-                                  0,
-                                  renderData->modCntl,
-                                  inNumberFrames - renderData->frameAccum);
+//            AudioUnitSetParameter(samplerUnit,
+//                                  1,
+//                                  kAudioUnitScope_Group,
+//                                  0,
+//                                  pos,
+//                                  inNumberFrames - renderData->frameAccum);
+            
+            
+           
+            
             
             // note on
             noteCommand = 	kMIDIMessage_NoteOn << 4 | 0;
@@ -143,11 +155,14 @@ static OSStatus renderCallback(	void *							inRefCon,
             renderData->prevNote = noteNum;
             
             
-           // renderData->modCntl += 8;
-            
+            // test for moving thru a sample
+          renderData->modCntl += 8;
+
             if(renderData->modCntl > 127){
                 renderData->modCntl = 0;
             }
+
+//            NSLog(@"NOTE ON %ld %ld",renderData->frameAccum, pos);
 
 
         }
@@ -288,11 +303,13 @@ static OSStatus renderCallback(	void *							inRefCon,
     AudioUnitAddRenderNotify(_samplerUnit, renderCallback, renderData);
     renderData->modCntl = 0;
     renderData->prevNote = 0;
-    renderData->pitch = 64;
     renderData->layer = 0;
+    
+    renderData->pitch = 0.5f;
     renderData->length = 1.0f;
-    renderData->attack = 0.0f;
-    renderData->isNoteOn = false;
+    renderData->attack = 0.1f;
+    renderData->release = 0.3f;
+    renderData->position = 0.0f;
     
 	// Obtain a reference to the I/O unit from its node
 	result = AUGraphNodeInfo (self.processingGraph, ioNode, 0, &_ioUnit);
@@ -379,7 +396,7 @@ static OSStatus renderCallback(	void *							inRefCon,
 }
 
 
-- (IBAction)onReleaseChanged:(UISlider *)sender {
+- (IBAction)onTempoChanged:(UISlider *)sender {
     
     
     UISlider *slider = (UISlider*)sender;
@@ -399,9 +416,8 @@ static OSStatus renderCallback(	void *							inRefCon,
 - (IBAction)onPitchChanged:(UISlider *)sender {
     
     
-    UInt8 pitch = (64 - 12) + (24 * [sender value]);
     
-    renderData->pitch = pitch;
+    renderData->pitch = [sender value];
     
 }
 
@@ -429,8 +445,15 @@ static OSStatus renderCallback(	void *							inRefCon,
 }
 
 - (IBAction)onAttackChanged:(UISlider *)sender {
-    
     renderData->attack = [sender value];
+}
+
+- (IBAction)onReleaseChanged:(UISlider *)sender {
+    renderData->release = [sender value];
+}
+
+- (IBAction)onPositionChanged:(UISlider *)sender {
+    renderData->position = [sender value];
 }
 
 

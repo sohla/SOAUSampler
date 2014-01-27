@@ -61,12 +61,16 @@ struct RenderDeataStruct {
     AudioUnit   samplerUnit;
     UInt32      modCntl;
     UInt32      prevNote;
-    UInt32      pitch;
     UInt8       layer;
-    Boolean     isNoteOn;
-    
+
+    float pitch;
     float length;
     float attack;
+    float release;
+    float position;
+    
+    
+    UInt32 op;
 };
 
 
@@ -81,12 +85,14 @@ struct RenderDeataStruct {
 @property (weak, nonatomic) IBOutlet UISlider *tempoSlider;
 
 @property (weak, nonatomic) IBOutlet UITableView *filesTableView;
-- (IBAction) onReleaseChanged:(UISlider *)sender;
+- (IBAction) onTempoChanged:(UISlider *)sender;
 - (IBAction)onLengthChanged:(UISlider *)sender;
 - (IBAction)onPitchChanged:(UISlider *)sender;
 - (IBAction) onLayerSelection:(UISegmentedControl *)sender;
 
 - (IBAction)onAttackChanged:(UISlider *)sender;
+- (IBAction)onReleaseChanged:(UISlider *)sender;
+- (IBAction)onPositionChanged:(UISlider *)sender;
 
 //-(void)changePitchTo:(int)val;
 /*
