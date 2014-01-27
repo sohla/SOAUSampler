@@ -79,38 +79,29 @@ static OSStatus renderCallback(	void *							inRefCon,
         
 
         OSStatus result = noErr;
-        UInt16 beat = 44100 * (60.0f / renderData->tempo);
+        UInt16 beat = 44100 * (30.0f / renderData->tempo);
         UInt16 length = beat * renderData->length;
         UInt32 noteCommand = 	kMIDIMessage_NoteOn << 4 | 0;
         UInt32 onVelocity = 127;
         
         
-        renderData->frameAccum += inNumberFrames;
-
-        
-        if(renderData->isNoteOn){
+        if(renderData->frameAccumOff > length){
             
-
-            if(renderData->frameAccumOff > length){
-                
-                renderData->isNoteOn = false;
-                
-                // note off (length)
-                noteCommand = 	kMIDIMessage_NoteOff << 4 | 0;
-                result = MusicDeviceMIDIEvent (samplerUnit, noteCommand, renderData->prevNote, onVelocity,0);
-                
-                NSLog(@"NOTE OFF %ld",renderData->frameAccum);
-            }
-            renderData->frameAccumOff += inNumberFrames;
-          
+            renderData->frameAccumOff -= beat;
+        
+            // note off (length)
+            noteCommand = 	kMIDIMessage_NoteOff << 4 | 0;
+            result = MusicDeviceMIDIEvent (samplerUnit, noteCommand, renderData->prevNote, onVelocity,0);
+            
+            NSLog(@"NOTE OFF %ld",renderData->frameAccumOff);
+            
         }
         
 
         if(renderData->frameAccum > beat){
             
-            renderData->isNoteOn = true;
             renderData->frameAccum -= beat;
-            renderData->frameAccumOff = 0;
+
             
             float val = 60.0 + (renderData->layer * 12);
             UInt32 noteNum = val;
@@ -162,9 +153,8 @@ static OSStatus renderCallback(	void *							inRefCon,
         }
         
 
-        
-        
-        
+        renderData->frameAccum += inNumberFrames;
+        renderData->frameAccumOff += inNumberFrames;
     }
 	return noErr;
 	
@@ -395,6 +385,10 @@ static OSStatus renderCallback(	void *							inRefCon,
     UISlider *slider = (UISlider*)sender;
     renderData->tempo = 60.0f + ([slider value] * 200.0);
     self.tempoLabel.text = [NSString stringWithFormat:@"%.0f",renderData->tempo];
+    
+    // need to reset these since large jumps in tempo will set the accum's out of sync
+    renderData->frameAccumOff = 0;
+    renderData->frameAccum = 0;
 }
 
 - (IBAction)onLengthChanged:(UISlider *)sender {

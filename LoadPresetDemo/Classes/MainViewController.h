@@ -56,8 +56,8 @@ typedef struct RenderDeataStruct RenderData;
 struct RenderDeataStruct {
     
     float       tempo;
-	UInt32      frameAccum;
-	UInt32      frameAccumOff;
+	SInt32      frameAccum;
+	SInt32      frameAccumOff;
     AudioUnit   samplerUnit;
     UInt32      modCntl;
     UInt32      prevNote;
