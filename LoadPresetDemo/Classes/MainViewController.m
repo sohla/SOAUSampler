@@ -130,9 +130,6 @@ static OSStatus renderCallback(	void *							inRefCon,
             result = MusicDeviceMIDIEvent (samplerUnit, 0xB0, 8, renderData->release * 127.0, inNumberFrames - renderData->frameAccum);
 
             
-//            result = MusicDeviceMIDIEvent (samplerUnit, 0xB0, 5, 0.0, inNumberFrames - renderData->frameAccum);
-
-            
             UInt32 pos = renderData->position * 127.0f;
             // sample start)
             result = MusicDeviceMIDIEvent (samplerUnit, 0xB0, 1, pos, inNumberFrames - renderData->frameAccum - 1000);

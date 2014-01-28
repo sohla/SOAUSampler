@@ -120,8 +120,9 @@ struct RenderDeataStruct {
     pitch bend (do we need it?)
     pan control (midi cntl #10)
     pitch control (midi cntl #2) 
-    sampler start (midi cntl #1) mapped to sample start factor
- 
+    sampler start or position (midi cntl #1) mapped to sample start factor
+    attack (midi cntl #3)
+    decay (midi cntl #8)
  
  
 better ui for testing
@@ -140,19 +141,15 @@ Multi Layers :
     KBaseKey = 10
  
  
- 
-Note Off :
-    test for logic : need to remember last note and turn it off
 
  
 Envelope :
-test for : attack / decay
  
- start to think
-    what the relationship of the envelope
-    previous model of what the attack/decay is
-    envelope <-> length/time
+    bips current decay translates to shorting the length with a release rate equal to the rest
  
+    can replecate also with envelope settings :
+        hold time + decay time = total time
+        with no sustain
  
  
  
