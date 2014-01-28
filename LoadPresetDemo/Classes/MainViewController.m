@@ -103,7 +103,7 @@ static OSStatus renderCallback(	void *							inRefCon,
             renderData->frameAccum -= beat;
 
             
-            float val = 60.0 + (renderData->layer * 12);
+            float val = 12.0 + (renderData->layer * 12);
             UInt32 noteNum = val;
             
             
@@ -437,6 +437,7 @@ static OSStatus renderCallback(	void *							inRefCon,
 
 - (IBAction)onLayerSelection:(UISegmentedControl *)sender {
 
+
     renderData->layer = [sender selectedSegmentIndex];
 
 }
@@ -484,10 +485,70 @@ static OSStatus renderCallback(	void *							inRefCon,
 }
 -(void)loadPropertyList:(NSURL*)presetURL{
 
+    
     [self injectDataIntoPropertyList:presetURL
                        withDataBlock:^(NSDictionary* plData){
                            self.samplerPropertyList = plData;
                        }];
+    
+    //• need to duplicate layer 0 to another 8 layers
+    
+    OSStatus result = noErr;
+
+    NSDictionary *instrument = [self.samplerPropertyList objectForKey:@"Instrument"];
+    
+    // get the layer at index
+    NSMutableArray *layers = [instrument objectForKey:@"Layers"];
+    NSDictionary *layer = [layers objectAtIndex:0];
+
+    
+    for(int i=1;i<8;i++){
+
+        NSMutableDictionary *newLayer = (__bridge NSMutableDictionary *)CFPropertyListCreateDeepCopy(kCFAllocatorDefault, (CFDictionaryRef)layer, kCFPropertyListMutableContainers);
+
+        NSString *key = @"key offset";
+        
+        NSNumber *val = @([[newLayer objectForKey:key] intValue] - (12 * i));
+        [newLayer setValue:val forKey:key];
+
+        val = [newLayer objectForKey:key];
+        NSLog(@"%@",val);
+        
+        key = @"max key";
+        val = @([[newLayer objectForKey:key] intValue] + (12 * i));
+        [newLayer setValue:val forKey:key];
+
+        val = [newLayer objectForKey:key];
+        NSLog(@"%@",val);
+        
+        key = @"min key";
+        val = @([[newLayer objectForKey:key] intValue] + (12 * i));
+        [newLayer setValue:val forKey:key];
+
+        
+        val = [newLayer objectForKey:key];
+        NSLog(@"%@",val);
+
+        
+        [layers insertObject:newLayer atIndex:i];
+    }
+
+    
+//    NSLog(@"Layers %@",layers);
+
+    // send data to sampler
+    CFPropertyListRef presetPropertyList = (__bridge CFPropertyListRef)self.samplerPropertyList;
+    
+    result = AudioUnitSetProperty(
+                                  self.samplerUnit,
+                                  kAudioUnitProperty_ClassInfo,
+                                  kAudioUnitScope_Global,
+                                  0,
+                                  &presetPropertyList,
+                                  sizeof(CFPropertyListRef)
+                                  );
+    
+    
 }
 
 
@@ -587,7 +648,14 @@ static OSStatus renderCallback(	void *							inRefCon,
     NSDictionary *zone = [zones objectAtIndex:0];
     [zone setValue:wavefileID forKey:@"waveform"];
     
-    NSLog(@"%@",zone);
+    NSLog(@"Setting wavefile %@ for Layer %d",wavefileID,index);
+    
+//    for(int i=0;i<8;i++){
+//        layer = [layers objectAtIndex:i];
+//        zones = [layer objectForKey:@"Zones"];
+//        zone = [zones objectAtIndex:0];
+//        NSLog(@"%@",[zone valueForKey:@"waveform"]);
+//    }
     
     CFPropertyListRef presetPropertyList = (__bridge CFPropertyListRef)self.samplerPropertyList;
     
@@ -837,7 +905,7 @@ static OSStatus renderCallback(	void *							inRefCon,
 
     [super viewDidLoad];
     
-    NSString *title = @"SweepPad9";
+    NSString *title = @"SweepPad10";
 	NSURL *presetURL = [[NSURL alloc] initFileURLWithPath:[[NSBundle mainBundle] pathForResource:title ofType:@"aupreset"]];
 
     self.wavefiles = [self getAllBundleFilesForTypes:@[@"wav",@"aiff",@"mp3"]];

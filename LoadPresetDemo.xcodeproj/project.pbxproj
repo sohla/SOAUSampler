@@ -29,6 +29,7 @@
 		59E6DE60134FA493009F373F /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 59E6DE5F134FA493009F373F /* AudioToolbox.framework */; };
 		F00C301218824EB000821540 /* SWEEPERD.wav in Resources */ = {isa = PBXBuildFile; fileRef = F00C301118824EB000821540 /* SWEEPERD.wav */; };
 		F02E149F189681D700D556EB /* SweepPad9.aupreset in Resources */ = {isa = PBXBuildFile; fileRef = F02E149E189681D700D556EB /* SweepPad9.aupreset */; };
+		F02E14A31897C05B00D556EB /* SweepPad10.aupreset in Resources */ = {isa = PBXBuildFile; fileRef = F02E14A21897C05B00D556EB /* SweepPad10.aupreset */; };
 		F0305D92186CD981002BECEF /* SweepTest.aupreset in Resources */ = {isa = PBXBuildFile; fileRef = F0305D91186CD981002BECEF /* SweepTest.aupreset */; };
 		F0305D94186CDA24002BECEF /* TromboneEdit.aupreset in Resources */ = {isa = PBXBuildFile; fileRef = F0305D93186CDA24002BECEF /* TromboneEdit.aupreset */; };
 		F0441D42187E10DF00E19AFD /* fmvoc.wav in Resources */ = {isa = PBXBuildFile; fileRef = F0441D41187E10DF00E19AFD /* fmvoc.wav */; };
@@ -82,6 +83,7 @@
 		59E6DE5F134FA493009F373F /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		F00C301118824EB000821540 /* SWEEPERD.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = SWEEPERD.wav; sourceTree = "<group>"; };
 		F02E149E189681D700D556EB /* SweepPad9.aupreset */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = SweepPad9.aupreset; sourceTree = "<group>"; };
+		F02E14A21897C05B00D556EB /* SweepPad10.aupreset */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = SweepPad10.aupreset; sourceTree = "<group>"; };
 		F0305D91186CD981002BECEF /* SweepTest.aupreset */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = SweepTest.aupreset; sourceTree = "<group>"; };
 		F0305D93186CDA24002BECEF /* TromboneEdit.aupreset */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = TromboneEdit.aupreset; sourceTree = "<group>"; };
 		F0441D41187E10DF00E19AFD /* fmvoc.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = fmvoc.wav; sourceTree = "<group>"; };
@@ -188,6 +190,7 @@
 				F09DE600188168B200971B1A /* SweepPad7.aupreset */,
 				F0C42C98188785A800330B66 /* SweepPad8.aupreset */,
 				F02E149E189681D700D556EB /* SweepPad9.aupreset */,
+				F02E14A21897C05B00D556EB /* SweepPad10.aupreset */,
 				F09DE5F918810F8A00971B1A /* KeyRange.aupreset */,
 				F0305D91186CD981002BECEF /* SweepTest.aupreset */,
 			);
@@ -326,6 +329,7 @@
 				0A23778F13D3A20B004C7E14 /* Default.png in Resources */,
 				F09DE6051881730E00971B1A /* D.B. Bass One Shot 11 (G).wav in Resources */,
 				F0441D5A188019D000E19AFD /* SweepPad5.aupreset in Resources */,
+				F02E14A31897C05B00D556EB /* SweepPad10.aupreset in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
