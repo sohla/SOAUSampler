@@ -62,7 +62,11 @@ enum {
 //-------------------------------------------------------------
 //
 //-------------------------------------------------------------
+static void noteOn(RenderData     *renderData,
+                     UInt32			inNumberFrames);
 
+static void noteOFF(RenderData     *renderData,
+                   UInt32			inNumberFrames);
 
 static OSStatus renderCallback(	void *							inRefCon,
 							   AudioUnitRenderActionFlags *	ioActionFlags,
@@ -72,105 +76,109 @@ static OSStatus renderCallback(	void *							inRefCon,
 							   AudioBufferList *				ioData){
 	
     RenderData *renderData = (RenderData*)inRefCon;
-    AudioUnit samplerUnit = renderData->samplerUnit;
     
     if (*ioActionFlags & kAudioUnitRenderAction_PostRender) {
- 
-        
 
-        OSStatus result = noErr;
         UInt16 beat = 44100 * (30.0f / renderData->tempo);
         UInt16 length = beat * renderData->length;
-        UInt32 noteCommand = 	kMIDIMessage_NoteOn << 4 | 0;
-        UInt32 onVelocity = 127;
-        
         
         if(renderData->frameAccumOff > length){
-            
             renderData->frameAccumOff -= beat;
-        
-            // note off (length)
-            noteCommand = 	kMIDIMessage_NoteOff << 4 | 0;
-            result = MusicDeviceMIDIEvent (samplerUnit, noteCommand, renderData->prevNote, onVelocity,0);
-            
-//            NSLog(@"NOTE OFF %ld",renderData->frameAccumOff);
-            
+            noteOFF(renderData, inNumberFrames);
         }
         
-
         if(renderData->frameAccum > beat){
-            
             renderData->frameAccum -= beat;
-
-            
-            float val = 12.0 + (renderData->layer * 12);
-            UInt32 noteNum = val;
-            
-            
-
-
-//            // pitch bend (for fun) use layer
-//            result = MusicDeviceMIDIEvent (samplerUnit, 0xE0, 0x00, 0x00, inNumberFrames - renderData->frameAccum);
-
-//            // pan controller
-//           result = MusicDeviceMIDIEvent (samplerUnit, 0xB0, 10, renderData->modCntl, inNumberFrames - renderData->frameAccum);
-
-            // pitch controller 2
-//            UInt8 pitch = (64 - 12) + (24 * renderData->pitch);
-            UInt8 pitch = 64 + (2 * (rand()%(int)(1+6*renderData->pitch)));
-
-            result = MusicDeviceMIDIEvent (samplerUnit, 0xB0, 2, pitch, inNumberFrames - renderData->frameAccum);
-
-            
-            // attack controller 3
-            result = MusicDeviceMIDIEvent (samplerUnit, 0xB0, 3, renderData->attack * 127.0, inNumberFrames - renderData->frameAccum);
-
-            
-            // release controller 8
-            result = MusicDeviceMIDIEvent (samplerUnit, 0xB0, 8, renderData->release * 127.0, inNumberFrames - renderData->frameAccum);
-
-            
-            UInt32 pos = renderData->position * 127.0f;
-            // sample start)
-            result = MusicDeviceMIDIEvent (samplerUnit, 0xB0, 1, pos, inNumberFrames - renderData->frameAccum - 1000);
-            
-            // oh look, we can do it via sending message directly via kAudioUnitScope_Group
-//            AudioUnitSetParameter(samplerUnit,
-//                                  1,
-//                                  kAudioUnitScope_Group,
-//                                  0,
-//                                  pos,
-//                                  inNumberFrames - renderData->frameAccum);
-            
-            
-           
-            
-            
-            // note on
-            noteCommand = 	kMIDIMessage_NoteOn << 4 | 0;
-            result = MusicDeviceMIDIEvent (samplerUnit, noteCommand, noteNum, onVelocity, inNumberFrames - renderData->frameAccum);
-            renderData->prevNote = noteNum;
-            
-            
-            // test for moving thru a sample
-          renderData->modCntl += 8;
-
-            if(renderData->modCntl > 127){
-                renderData->modCntl = 0;
-            }
-
-//            NSLog(@"NOTE ON %ld %ld",renderData->frameAccum, pos);
-
-
+            noteOn(renderData,inNumberFrames);
         }
         
-
         renderData->frameAccum += inNumberFrames;
         renderData->frameAccumOff += inNumberFrames;
     }
 	return noErr;
 	
 }
+
+
+static void noteOn(RenderData     *renderData,
+                     UInt32			inNumberFrames){
+    
+    OSStatus result = noErr;
+
+    AudioUnit samplerUnit = renderData->samplerUnit;
+    UInt32 noteCommand = 	kMIDIMessage_NoteOn << 4 | 0;
+    UInt32 onVelocity = 127;
+    float val = 12.0 + (renderData->layer * 12);
+    UInt32 noteNum = val;
+    
+    //            // pitch bend (for fun) use layer
+    //            result = MusicDeviceMIDIEvent (samplerUnit, 0xE0, 0x00, 0x00, inNumberFrames - renderData->frameAccum);
+    
+    //            // pan controller
+    //           result = MusicDeviceMIDIEvent (samplerUnit, 0xB0, 10, renderData->modCntl, inNumberFrames - renderData->frameAccum);
+    
+    // pitch controller 2
+    //            UInt8 pitch = (64 - 12) + (24 * renderData->pitch);
+    UInt8 pitch = 64 + (2 * (rand()%(int)(1+6*renderData->pitch)));
+    
+    result = MusicDeviceMIDIEvent (samplerUnit, 0xB0, 2, pitch, inNumberFrames - renderData->frameAccum);
+    
+    
+    // attack controller 3
+    result = MusicDeviceMIDIEvent (samplerUnit, 0xB0, 3, renderData->attack * 127.0, inNumberFrames - renderData->frameAccum);
+    
+    
+    // release controller 8
+    result = MusicDeviceMIDIEvent (samplerUnit, 0xB0, 8, renderData->release * 127.0, inNumberFrames - renderData->frameAccum);
+    
+    
+    UInt32 pos = renderData->position * 127.0f;
+    // sample start)
+    result = MusicDeviceMIDIEvent (samplerUnit, 0xB0, 1, pos, inNumberFrames - renderData->frameAccum - 1000);
+    
+    // oh look, we can do it via sending message directly via kAudioUnitScope_Group
+    //            AudioUnitSetParameter(samplerUnit,
+    //                                  1,
+    //                                  kAudioUnitScope_Group,
+    //                                  0,
+    //                                  pos,
+    //                                  inNumberFrames - renderData->frameAccum);
+    
+    
+    // note on
+    noteCommand = 	kMIDIMessage_NoteOn << 4 | 0;
+    result = MusicDeviceMIDIEvent (samplerUnit, noteCommand, noteNum, onVelocity, inNumberFrames - renderData->frameAccum);
+    renderData->prevNote = noteNum;
+    
+    
+    // test for moving thru a sample
+    renderData->modCntl += 8;
+    
+    if(renderData->modCntl > 127){
+        renderData->modCntl = 0;
+    }
+    
+    //NSLog(@"NOTE ON %ld %ld",renderData->frameAccum, pos);
+
+}
+
+static void noteOFF(RenderData     *renderData,
+                    UInt32			inNumberFrames){
+
+    OSStatus result = noErr;
+    
+    AudioUnit samplerUnit = renderData->samplerUnit;
+    UInt32 noteCommand = 	kMIDIMessage_NoteOn << 4 | 0;
+    UInt32 onVelocity = 0;
+
+    // note off (length)
+    noteCommand = 	kMIDIMessage_NoteOff << 4 | 0;
+    result = MusicDeviceMIDIEvent (samplerUnit, noteCommand, renderData->prevNote, onVelocity,0);
+    
+    //NSLog(@"NOTE OFF %ld",renderData->frameAccumOff);
+
+}
+
 //-------------------------------------------------------------
 //
 //-------------------------------------------------------------
