@@ -28,6 +28,8 @@
 		59E6DE36134F9EE8009F373F /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 59E6DE35134F9EE8009F373F /* main.m */; };
 		59E6DE60134FA493009F373F /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 59E6DE5F134FA493009F373F /* AudioToolbox.framework */; };
 		F00C301218824EB000821540 /* SWEEPERD.wav in Resources */ = {isa = PBXBuildFile; fileRef = F00C301118824EB000821540 /* SWEEPERD.wav */; };
+		F025850A18A8DEFD0068C0F1 /* 67361__bidone__affen-schreit.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = F025850918A8DEFD0068C0F1 /* 67361__bidone__affen-schreit.mp3 */; };
+		F025850E18A8E80B0068C0F1 /* bip_201335_123127.m4a in Resources */ = {isa = PBXBuildFile; fileRef = F025850D18A8E80B0068C0F1 /* bip_201335_123127.m4a */; };
 		F02E149F189681D700D556EB /* SweepPad9.aupreset in Resources */ = {isa = PBXBuildFile; fileRef = F02E149E189681D700D556EB /* SweepPad9.aupreset */; };
 		F02E14A31897C05B00D556EB /* SweepPad10.aupreset in Resources */ = {isa = PBXBuildFile; fileRef = F02E14A21897C05B00D556EB /* SweepPad10.aupreset */; };
 		F0305D92186CD981002BECEF /* SweepTest.aupreset in Resources */ = {isa = PBXBuildFile; fileRef = F0305D91186CD981002BECEF /* SweepTest.aupreset */; };
@@ -82,6 +84,8 @@
 		59E6DE35134F9EE8009F373F /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		59E6DE5F134FA493009F373F /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		F00C301118824EB000821540 /* SWEEPERD.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = SWEEPERD.wav; sourceTree = "<group>"; };
+		F025850918A8DEFD0068C0F1 /* 67361__bidone__affen-schreit.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "67361__bidone__affen-schreit.mp3"; sourceTree = "<group>"; };
+		F025850D18A8E80B0068C0F1 /* bip_201335_123127.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = bip_201335_123127.m4a; sourceTree = "<group>"; };
 		F02E149E189681D700D556EB /* SweepPad9.aupreset */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = SweepPad9.aupreset; sourceTree = "<group>"; };
 		F02E14A21897C05B00D556EB /* SweepPad10.aupreset */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = SweepPad10.aupreset; sourceTree = "<group>"; };
 		F0305D91186CD981002BECEF /* SweepTest.aupreset */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = SweepTest.aupreset; sourceTree = "<group>"; };
@@ -167,7 +171,9 @@
 			children = (
 				F0C42C9F1888A17700330B66 /* Sounds */,
 				F00C301118824EB000821540 /* SWEEPERD.wav */,
+				F025850D18A8E80B0068C0F1 /* bip_201335_123127.m4a */,
 				F0C42C921887813400330B66 /* berilium.wav */,
+				F025850918A8DEFD0068C0F1 /* 67361__bidone__affen-schreit.mp3 */,
 				F09DE6041881730E00971B1A /* D.B. Bass One Shot 11 (G).wav */,
 				F09DE6021881721F00971B1A /* QuasiA 048.wav */,
 				F0441D5D18801D5A00E19AFD /* zeb.wav */,
@@ -307,12 +313,14 @@
 				F0441D49187F9CCA00E19AFD /* SweepPad2.aupreset in Resources */,
 				F09DE5FA18810F8A00971B1A /* KeyRange.aupreset in Resources */,
 				0A355A0E13CCB3E200AB9137 /* MainViewController.xib in Resources */,
+				F025850A18A8DEFD0068C0F1 /* 67361__bidone__affen-schreit.mp3 in Resources */,
 				F09DE601188168B200971B1A /* SweepPad7.aupreset in Resources */,
 				F09DE5F818810A6200971B1A /* Default-568h@2x.png in Resources */,
 				F0441D4C187FB50600E19AFD /* robotic1234.wav in Resources */,
 				0A355A0F13CCB3E200AB9137 /* MainWindow_iPhone.xib in Resources */,
 				F0305D92186CD981002BECEF /* SweepTest.aupreset in Resources */,
 				F0441D44187F318600E19AFD /* hihat_OpenAndCloseHat.wav in Resources */,
+				F025850E18A8E80B0068C0F1 /* bip_201335_123127.m4a in Resources */,
 				F0441D5418800DF800E19AFD /* SweepPad4.aupreset in Resources */,
 				F0C42CA01888A17700330B66 /* Sounds in Resources */,
 				0A355A1B13CCB74600AB9137 /* Icon-72.png in Resources */,

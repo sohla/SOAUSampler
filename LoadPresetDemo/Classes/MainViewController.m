@@ -200,6 +200,7 @@ static void noteOFF(RenderData     *renderData,
 - (OSStatus)    injectDataIntoPropertyList:(NSURL*)presetURL withDataBlock:(void (^)(NSDictionary*))blockWithInstrumentData;
 
 -(OSStatus)loadWavefile:(NSString*)path forLayer:(UInt8)index;
+-(void)duplicateLayer;
 
 
 - (void)        registerForUIApplicationNotifications;
@@ -207,6 +208,8 @@ static void noteOFF(RenderData     *renderData,
 - (void)        configureAndStartAudioProcessingGraph: (AUGraph) graph;
 - (void)        stopAudioProcessingGraph;
 - (void)        restartAudioProcessingGraph;
+
+
 @end
 
 @implementation MainViewController
@@ -499,52 +502,15 @@ static void noteOFF(RenderData     *renderData,
                            self.samplerPropertyList = plData;
                        }];
     
-    //• need to duplicate layer 0 to another 8 layers
     
-    OSStatus result = noErr;
-
-    NSDictionary *instrument = [self.samplerPropertyList objectForKey:@"Instrument"];
-    
-    // get the layer at index
-    NSMutableArray *layers = [instrument objectForKey:@"Layers"];
-    NSDictionary *layer = [layers objectAtIndex:0];
-
-    
-    for(int i=1;i<8;i++){
-
-        NSMutableDictionary *newLayer = (__bridge NSMutableDictionary *)CFPropertyListCreateDeepCopy(kCFAllocatorDefault, (CFDictionaryRef)layer, kCFPropertyListMutableContainers);
-
-        NSString *key = @"key offset";
-        
-        NSNumber *val = @([[newLayer objectForKey:key] intValue] - (12 * i));
-        [newLayer setValue:val forKey:key];
-
-        val = [newLayer objectForKey:key];
-        NSLog(@"%@",val);
-        
-        key = @"max key";
-        val = @([[newLayer objectForKey:key] intValue] + (12 * i));
-        [newLayer setValue:val forKey:key];
-
-        val = [newLayer objectForKey:key];
-        NSLog(@"%@",val);
-        
-        key = @"min key";
-        val = @([[newLayer objectForKey:key] intValue] + (12 * i));
-        [newLayer setValue:val forKey:key];
-
-        
-        val = [newLayer objectForKey:key];
-        NSLog(@"%@",val);
-
-        
-        [layers insertObject:newLayer atIndex:i];
+    if(NO){
+        [self duplicateLayer];
     }
-
     
-//    NSLog(@"Layers %@",layers);
 
     // send data to sampler
+    OSStatus result = noErr;
+
     CFPropertyListRef presetPropertyList = (__bridge CFPropertyListRef)self.samplerPropertyList;
     
     result = AudioUnitSetProperty(
@@ -556,6 +522,38 @@ static void noteOFF(RenderData     *renderData,
                                   sizeof(CFPropertyListRef)
                                   );
     
+    
+}
+
+
+-(void)duplicateLayer{
+
+    // example of duplicating layer 0 to another 8 layers
+    NSDictionary *instrument = [self.samplerPropertyList objectForKey:@"Instrument"];
+    
+    // get the layer at index
+    NSMutableArray *layers = [instrument objectForKey:@"Layers"];
+    NSDictionary *layer = [layers objectAtIndex:0];
+    
+    for(int i=1;i<8;i++){
+        
+        // make a deep copy of entire layer dict.
+        NSMutableDictionary *newLayer = (__bridge NSMutableDictionary *)CFPropertyListCreateDeepCopy(kCFAllocatorDefault, (CFDictionaryRef)layer, kCFPropertyListMutableContainers);
+        
+        NSString *key = @"key offset";
+        NSNumber *val = @([[newLayer objectForKey:key] intValue] - (12 * i));
+        [newLayer setValue:val forKey:key];
+        
+        key = @"max key";
+        val = @([[newLayer objectForKey:key] intValue] + (12 * i));
+        [newLayer setValue:val forKey:key];
+        
+        key = @"min key";
+        val = @([[newLayer objectForKey:key] intValue] + (12 * i));
+        [newLayer setValue:val forKey:key];
+        
+        [layers insertObject:newLayer atIndex:i];
+    }
     
 }
 
@@ -574,7 +572,6 @@ static void noteOFF(RenderData     *renderData,
     [[files allValues] enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop){
         [titles addObject:[obj lastPathComponent]];
     }];
-    
 
     __block BOOL makeNew = YES;
     
@@ -582,8 +579,10 @@ static void noteOFF(RenderData     *renderData,
 
         if([title isEqualToString:[path lastPathComponent]]){
 
-            // file ref exists
+            // file ref exists, so let's stop enumerating
             stop = YES;
+            
+            // don't need to make a new reference
             makeNew = NO;
             
             // look for title in the file-ref list
@@ -615,17 +614,26 @@ static void noteOFF(RenderData     *renderData,
     if(makeNew){
         // file ref doesn't exist
         
-        
-        // generate an ID
-        
-        //••• need to generate UNIQUE id
-        NSNumber *wavefileID = @(rand() % 100);
-        
-        NSMutableDictionary *files = [self.samplerPropertyList objectForKey:@"file-references"];
-        
-        NSString *key = [NSString stringWithFormat:@"Sample:%@",wavefileID];
+        // need to generate UNIQUE id
+        NSNumber *wavefileID = @(rand() % (int)(INT16_MAX - 1));
+
+        // collect all id's
+        NSMutableArray *allIDS = [[NSMutableArray alloc] init];
+        [[files allKeys] enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *fileStop){
+            NSString *value = [[obj componentsSeparatedByString:@":"] lastObject] ;
+            [allIDS addObject:[NSNumber numberWithInt:[value integerValue]]];
+        }];
+
+        // hang here till we wave a unique new id
+        while([allIDS containsObject:wavefileID]){
+            wavefileID = @(rand() % (int)(INT16_MAX - 1));
+        }
         
         // and finally set it
+        NSMutableDictionary *files = [self.samplerPropertyList objectForKey:@"file-references"];
+        NSString *key = [NSString stringWithFormat:@"Sample:%@",wavefileID];
+
+        // add to files reference dict.
         [files setValue:path forKey:key];
         
         //set zone wavefile reference id
@@ -634,8 +642,6 @@ static void noteOFF(RenderData     *renderData,
     }
     
     NSLog(@"%@",files);
-//    NSLog(@"%@",titles);
-//    NSLog(@"%@",path);
    
     return result;
 }
@@ -679,51 +685,6 @@ static void noteOFF(RenderData     *renderData,
 
 }
 
-//-(OSStatus)changeWavefile:(NSString*)path forLayer:(UInt8)index{
-//
-//    OSStatus result = noErr;
-//
-//    NSDictionary *instrument = [self.samplerPropertyList objectForKey:@"Instrument"];
-//    
-//    // get the layer at index
-//    NSArray *layers = [instrument objectForKey:@"Layers"];
-//    NSDictionary *layer = [layers objectAtIndex:index];
-//    
-//    NSNumber *num = @(100 + index);
-//    
-//    // each zone has an index to a waveform in the file-references dictinaory
-//    NSArray *zones = [layer objectForKey:@"Zones"];
-//    NSDictionary *zone = [zones objectAtIndex:0];
-//    [zone setValue:num forKey:@"waveform"];
-//    
-//    // add the file-reference path
-//    NSMutableDictionary *files = [self.samplerPropertyList objectForKey:@"file-references"];
-//    
-//    NSString *key = [NSString stringWithFormat:@"Sample:%@",num];
-//    
-//    // and finally set it
-//    [files setValue:path forKey:key];
-//    
-////    NSLog(@"%@",self.samplerPropertyList);
-//    
-//    CFPropertyListRef presetPropertyList = (__bridge CFPropertyListRef)self.samplerPropertyList;
-//
-//    result = AudioUnitSetProperty(
-//                                  self.samplerUnit,
-//                                  kAudioUnitProperty_ClassInfo,
-//                                  kAudioUnitScope_Global,
-//                                  0,
-//                                  &presetPropertyList,
-//                                  sizeof(CFPropertyListRef)
-//                                  );
-//    
-//
-//    NSLog(@"%@",zone);
-//    NSLog(@"%@",files);
-//    
-//    return result;
-//    
-//}
 
 -(OSStatus)injectDataIntoPropertyList:(NSURL*)presetURL withDataBlock:(void (^)(NSDictionary*))blockWithInstrumentData{
 
@@ -916,22 +877,18 @@ static void noteOFF(RenderData     *renderData,
     NSString *title = @"SweepPad10";
 	NSURL *presetURL = [[NSURL alloc] initFileURLWithPath:[[NSBundle mainBundle] pathForResource:title ofType:@"aupreset"]];
 
-    self.wavefiles = [self getAllBundleFilesForTypes:@[@"wav",@"aiff",@"mp3"]];
+    self.wavefiles = [self getAllBundleFilesForTypes:@[@"wav",@"aiff",@"mp3",@"m4a",@"aac"]];
     
     [self loadPropertyList:presetURL];
     [self registerForUIApplicationNotifications];
-
 
     // only after property list has loaded
     // load first wavefile in tableview
     NSString *path = [self.wavefiles objectAtIndex:0];
     [self loadWavefile:path forLayer:[self.layerSelection selectedSegmentIndex]];
-    
-//    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
-//    [self.filesTableView selectRowAtIndexPath:indexPath animated:YES scrollPosition:UITableViewScrollPositionTop];
-    
-    
+
     [self.tempoSlider setValue:0.5];
+
 }
 
 
