@@ -418,8 +418,8 @@
 	<dict>
 		<key>Sample:268435458</key>
 		<string>/Users/soh_la/Library/Audio/Sounds/SWEEPERD.wav</string>
-		<key>Sample:268435459</key>
-		<string>/Users/soh_la/Library/Audio/Sounds/fmvoc.wav</string>
+		<key>New item</key>
+		<string></string>
 	</dict>
 	<key>fine tune</key>
 	<real>0</real>

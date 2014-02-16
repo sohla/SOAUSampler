@@ -118,8 +118,9 @@ static void noteOn(RenderData     *renderData,
     //           result = MusicDeviceMIDIEvent (samplerUnit, 0xB0, 10, renderData->modCntl, inNumberFrames - renderData->frameAccum);
     
     // pitch controller 2
-    //            UInt8 pitch = (64 - 12) + (24 * renderData->pitch);
-    UInt8 pitch = 64 + (2 * (rand()%(int)(1+6*renderData->pitch)));
+    //UInt8 pitch = (64 - 12) + (24 * renderData->pitch);
+    UInt8 pitch = (64 - 24) + (2 * (rand()%(int)(1+24*renderData->pitch)));
+    //UInt8 pitch = 64 + (2 * (rand()%(int)(1+6*renderData->pitch)));
     
     result = MusicDeviceMIDIEvent (samplerUnit, 0xB0, 2, pitch, inNumberFrames - renderData->frameAccum);
     
@@ -363,17 +364,17 @@ static void noteOFF(RenderData     *renderData,
 
     NSCAssert (result == noErr, @"Unable to retrieve the maximum frames per slice property from the I/O unit. Error code: %d '%.4s'", (int) result, (const char *)&result);
 
-    // Set the Sampler unit's output sample rate.
-    result =    AudioUnitSetProperty (
-                  self.samplerUnit,
-                  kAudioUnitProperty_SampleRate,
-                  kAudioUnitScope_Output,
-                  0,
-                  &_graphSampleRate,
-                  sampleRatePropertySize
-                );
-    
-    NSAssert (result == noErr, @"AudioUnitSetProperty (set Sampler unit output stream sample rate). Error code: %d '%.4s'", (int) result, (const char *)&result);
+//    // Set the Sampler unit's output sample rate.
+//    result =    AudioUnitSetProperty (
+//                  self.samplerUnit,
+//                  kAudioUnitProperty_SampleRate,
+//                  kAudioUnitScope_Output,
+//                  0,
+//                  &_graphSampleRate,
+//                  sampleRatePropertySize
+//                );
+//    
+//    NSAssert (result == noErr, @"AudioUnitSetProperty (set Sampler unit output stream sample rate). Error code: %d '%.4s'", (int) result, (const char *)&result);
 
     // Set the Sampler unit's maximum frames-per-slice.
     result =    AudioUnitSetProperty (
@@ -688,33 +689,23 @@ static void noteOFF(RenderData     *renderData,
 
 -(OSStatus)injectDataIntoPropertyList:(NSURL*)presetURL withDataBlock:(void (^)(NSDictionary*))blockWithInstrumentData{
 
-    CFDataRef propertyResourceData = 0;
-	Boolean status;
-	SInt32 errorCode = 0;
     OSStatus result = noErr;
 
 	// Read from the URL and convert into a CFData chunk
-	status = CFURLCreateDataAndPropertiesFromResource (
-                                                       kCFAllocatorDefault,
-                                                       (__bridge CFURLRef) presetURL,
-                                                       &propertyResourceData,
-                                                       NULL,
-                                                       NULL,
-                                                       &errorCode
-                                                       );
-    
-    NSAssert (status == YES && propertyResourceData != 0,
-              @"Unable to create data and properties from a preset. Error code: %d '%.4s'",
-              (int) errorCode,
-              (const char *)&errorCode);
-   	
+    NSError * outError = nil;
+    const NSDataReadingOptions DataReadingOptions = 0;
+
+    NSData * data = [NSData dataWithContentsOfURL:presetURL
+                                          options:DataReadingOptions
+                                            error:&outError];
+
 	// Convert the data object into a property list
 	CFPropertyListRef presetPropertyList = 0;
 	CFPropertyListFormat dataFormat = 0;
 	CFErrorRef errorRef = 0;
 	presetPropertyList = CFPropertyListCreateWithData (
                                                        kCFAllocatorDefault,
-                                                       propertyResourceData,
+                                                        (__bridge CFDataRef)data,
                                                        kCFPropertyListImmutable,
                                                        &dataFormat,
                                                        &errorRef
@@ -744,7 +735,6 @@ static void noteOFF(RenderData     *renderData,
     
     
     if (errorRef) CFRelease(errorRef);
-	CFRelease (propertyResourceData);
 
     return result;
 }
