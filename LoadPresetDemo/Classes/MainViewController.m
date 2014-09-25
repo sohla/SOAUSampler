@@ -80,16 +80,17 @@ static OSStatus renderCallback(	void *							inRefCon,
     if (*ioActionFlags & kAudioUnitRenderAction_PostRender) {
 
         UInt16 beat = 44100 * (30.0f / renderData->tempo);
-        UInt16 length = beat * renderData->length;
+        UInt16 length = beat;// * renderData->length;
         
-        if(renderData->frameAccumOff > length){
-            renderData->frameAccumOff -= beat;
-            noteOFF(renderData, inNumberFrames);
-        }
+//        if(renderData->frameAccumOff > length){
+//            renderData->frameAccumOff = 0;
+//            noteOFF(renderData, -beat);
+//        }
         
         if(renderData->frameAccum > beat){
-            renderData->frameAccum -= beat;
-            noteOn(renderData,inNumberFrames);
+            noteOFF(renderData, -beat);
+            renderData->frameAccum = 0;
+            noteOn(renderData,-beat);
         }
         
         renderData->frameAccum += inNumberFrames;
@@ -118,24 +119,37 @@ static void noteOn(RenderData     *renderData,
     //           result = MusicDeviceMIDIEvent (samplerUnit, 0xB0, 10, renderData->modCntl, inNumberFrames - renderData->frameAccum);
     
     // pitch controller 2
+    UInt8 pitch = 52 + renderData->modCntl;
     //UInt8 pitch = (64 - 12) + (24 * renderData->pitch);
-    UInt8 pitch = (64 - 24) + (2 * (rand()%(int)(1+24*renderData->pitch)));
+    //UInt8 pitch = (64 - 12) + (2 * (rand()%(int)(1+24*renderData->pitch)));
     //UInt8 pitch = 64 + (2 * (rand()%(int)(1+6*renderData->pitch)));
     
     result = MusicDeviceMIDIEvent (samplerUnit, 0xB0, 2, pitch, inNumberFrames - renderData->frameAccum);
+    
+    
+    
+//    hold = length - decay
     
     
     // attack controller 3
     result = MusicDeviceMIDIEvent (samplerUnit, 0xB0, 3, renderData->attack * 127.0, inNumberFrames - renderData->frameAccum);
     
     
-    // release controller 8
-    result = MusicDeviceMIDIEvent (samplerUnit, 0xB0, 8, renderData->release * 127.0, inNumberFrames - renderData->frameAccum);
+
+    // hold controller 9
+    result = MusicDeviceMIDIEvent (samplerUnit, 0xB0, 9, renderData->length * (1-renderData->release) * 127.0, inNumberFrames - renderData->frameAccum);
+
+
+    // decay controller 8
+    result = MusicDeviceMIDIEvent (samplerUnit, 0xB0, 8, renderData->length * renderData->release * 127.0, inNumberFrames - renderData->frameAccum);
+
     
     
-    UInt32 pos = renderData->position * 127.0f;
+    UInt32 pos = renderData->position * 130.0f; // what the hey ? it seems we need to over scale
+    
+    
     // sample start)
-    result = MusicDeviceMIDIEvent (samplerUnit, 0xB0, 1, pos, inNumberFrames - renderData->frameAccum - 1000);
+    result = MusicDeviceMIDIEvent (samplerUnit, 0xB0, 1, pos, inNumberFrames - renderData->frameAccum);
     
     // oh look, we can do it via sending message directly via kAudioUnitScope_Group
     //            AudioUnitSetParameter(samplerUnit,
@@ -153,9 +167,9 @@ static void noteOn(RenderData     *renderData,
     
     
     // test for moving thru a sample
-    renderData->modCntl += 8;
+    renderData->modCntl += 2;
     
-    if(renderData->modCntl > 127){
+    if(renderData->modCntl > 24){
         renderData->modCntl = 0;
     }
     
@@ -463,6 +477,11 @@ static void noteOFF(RenderData     *renderData,
 }
 
 - (IBAction)onPositionChanged:(UISlider *)sender {
+    
+    float val = roundf([sender value]*4.0f) / 4.0;
+    [sender setValue:val];
+    NSLog(@"%f",[sender value]);
+    
     renderData->position = [sender value];
 }
 
@@ -504,7 +523,7 @@ static void noteOFF(RenderData     *renderData,
                        }];
     
     
-    if(NO){
+    if(YES){
         [self duplicateLayer];
     }
     
@@ -639,6 +658,8 @@ static void noteOFF(RenderData     *renderData,
         
         //set zone wavefile reference id
         [self setWavefileID:wavefileID forLayer:index];
+        
+        //• maybe need to set the hold paramter of the envelope to the length of this sample : z
 
     }
     
@@ -864,7 +885,7 @@ static void noteOFF(RenderData     *renderData,
 
     [super viewDidLoad];
     
-    NSString *title = @"SweepPad10";
+    NSString *title = @"SweepPad13";
 	NSURL *presetURL = [[NSURL alloc] initFileURLWithPath:[[NSBundle mainBundle] pathForResource:title ofType:@"aupreset"]];
 
     self.wavefiles = [self getAllBundleFilesForTypes:@[@"wav",@"aiff",@"mp3",@"m4a",@"aac"]];
@@ -874,8 +895,8 @@ static void noteOFF(RenderData     *renderData,
 
     // only after property list has loaded
     // load first wavefile in tableview
-    NSString *path = [self.wavefiles objectAtIndex:0];
-    [self loadWavefile:path forLayer:[self.layerSelection selectedSegmentIndex]];
+//    NSString *path = [self.wavefiles objectAtIndex:0];
+//    [self loadWavefile:path forLayer:[self.layerSelection selectedSegmentIndex]];
 
     [self.tempoSlider setValue:0.5];
 
