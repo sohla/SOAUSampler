@@ -390,8 +390,6 @@
 	<data>AAAAAAAAAAAAAAAEAAADhAAAAAAAAAOFAAAAAAAAA4YAAAAAAAADhwAAAAA=</data>
 	<key>file-references</key>
 	<dict>
-		<key>Sample:268435457</key>
-		<string>/Users/soh_la/Library/Audio/Sounds/kick_boom.wav</string>
 		<key>Sample:268435458</key>
 		<string>/Users/soh_la/Library/Audio/Sounds/SWEEPERD.wav</string>
 	</dict>

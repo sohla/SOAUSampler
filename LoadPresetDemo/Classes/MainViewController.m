@@ -119,8 +119,8 @@ static void noteOn(RenderData     *renderData,
     //           result = MusicDeviceMIDIEvent (samplerUnit, 0xB0, 10, renderData->modCntl, inNumberFrames - renderData->frameAccum);
     
     // pitch controller 2
-    UInt8 pitch = 52 + renderData->modCntl;
-    //UInt8 pitch = (64 - 12) + (24 * renderData->pitch);
+    //UInt8 pitch = 52 + renderData->modCntl;
+    UInt8 pitch = (64 - 12) + (24 * renderData->pitch);
     //UInt8 pitch = (64 - 12) + (2 * (rand()%(int)(1+24*renderData->pitch)));
     //UInt8 pitch = 64 + (2 * (rand()%(int)(1+6*renderData->pitch)));
     
@@ -478,7 +478,7 @@ static void noteOFF(RenderData     *renderData,
 
 - (IBAction)onPositionChanged:(UISlider *)sender {
     
-    float val = roundf([sender value]*4.0f) / 4.0;
+    float val = roundf([sender value] * 16.0f) / 16.0;
     [sender setValue:val];
     NSLog(@"%f",[sender value]);
     
@@ -499,6 +499,10 @@ static void noteOFF(RenderData     *renderData,
     NSArray *rc = [[NSFileManager defaultManager]
                    contentsOfDirectoryAtPath:[[NSBundle mainBundle] bundlePath] error:&err];
     
+    //subpathsOfDirectoryAtPath
+    
+    
+    
     if(err){
         NSLog(@"%@ : %@ : %@",
              [err localizedFailureReason],
@@ -510,6 +514,8 @@ static void noteOFF(RenderData     *renderData,
     for(NSString *title in [rc pathsMatchingExtensions:types]){
         [collect addObject:[[[NSBundle mainBundle] bundlePath] stringByAppendingPathComponent:title]];
     }
+    
+    
     
     return collect;
     
@@ -523,30 +529,32 @@ static void noteOFF(RenderData     *renderData,
                        }];
     
     
-    if(YES){
+    if(NO){
         [self duplicateLayer];
     }
     
 
-    // send data to sampler
-    OSStatus result = noErr;
-
-    CFPropertyListRef presetPropertyList = (__bridge CFPropertyListRef)self.samplerPropertyList;
-    
-    result = AudioUnitSetProperty(
-                                  self.samplerUnit,
-                                  kAudioUnitProperty_ClassInfo,
-                                  kAudioUnitScope_Global,
-                                  0,
-                                  &presetPropertyList,
-                                  sizeof(CFPropertyListRef)
-                                  );
+//    // send data to sampler
+//    OSStatus result = noErr;
+//
+//    CFPropertyListRef presetPropertyList = (__bridge CFPropertyListRef)self.samplerPropertyList;
+//    
+//    result = AudioUnitSetProperty(
+//                                  self.samplerUnit,
+//                                  kAudioUnitProperty_ClassInfo,
+//                                  kAudioUnitScope_Global,
+//                                  0,
+//                                  &presetPropertyList,
+//                                  sizeof(CFPropertyListRef)
+//                                  );
     
     
 }
 
 
 -(void)duplicateLayer{
+
+    OSStatus result = noErr;
 
     // example of duplicating layer 0 to another 8 layers
     NSDictionary *instrument = [self.samplerPropertyList objectForKey:@"Instrument"];
@@ -574,6 +582,17 @@ static void noteOFF(RenderData     *renderData,
         
         [layers insertObject:newLayer atIndex:i];
     }
+    
+    CFPropertyListRef presetPropertyList = (__bridge CFPropertyListRef)self.samplerPropertyList;
+    
+    result = AudioUnitSetProperty(
+                                  self.samplerUnit,
+                                  kAudioUnitProperty_ClassInfo,
+                                  kAudioUnitScope_Global,
+                                  0,
+                                  &presetPropertyList,
+                                  sizeof(CFPropertyListRef)
+                                  );
     
 }
 
@@ -635,18 +654,18 @@ static void noteOFF(RenderData     *renderData,
         // file ref doesn't exist
         
         // need to generate UNIQUE id
-        NSNumber *wavefileID = @(rand() % (int)(INT16_MAX - 1));
+        NSNumber *wavefileID = [NSNumber numberWithLong:(arc4random() % (UInt32)(INT32_MAX - 1))];
 
         // collect all id's
         NSMutableArray *allIDS = [[NSMutableArray alloc] init];
         [[files allKeys] enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *fileStop){
             NSString *value = [[obj componentsSeparatedByString:@":"] lastObject] ;
-            [allIDS addObject:[NSNumber numberWithInt:[value integerValue]]];
+            [allIDS addObject:[NSNumber numberWithInteger:[value integerValue]]];
         }];
 
         // hang here till we wave a unique new id
         while([allIDS containsObject:wavefileID]){
-            wavefileID = @(rand() % (int)(INT16_MAX - 1));
+            wavefileID = [NSNumber numberWithLong:(arc4random() % (UInt32)(INT32_MAX - 1))];
         }
         
         // and finally set it
@@ -683,8 +702,11 @@ static void noteOFF(RenderData     *renderData,
     NSArray *zones = [layer objectForKey:@"Zones"];
     NSDictionary *zone = [zones objectAtIndex:0];
     [zone setValue:wavefileID forKey:@"waveform"];
-    
+
     NSLog(@"Setting wavefile %@ for Layer %d",wavefileID,index);
+    
+    
+    NSDictionary *zone2 = [zones objectAtIndex:1];
     
 //    for(int i=0;i<8;i++){
 //        layer = [layers objectAtIndex:i];
@@ -694,6 +716,20 @@ static void noteOFF(RenderData     *renderData,
 //    }
     
     CFPropertyListRef presetPropertyList = (__bridge CFPropertyListRef)self.samplerPropertyList;
+
+    //UInt32 psize =sizeof(CFPropertyListRef);
+    
+//    result = AudioUnitGetProperty(
+//                                  self.samplerUnit,
+//                                  kAudioUnitProperty_ClassInfo,
+//                                  kAudioUnitScope_Global,
+//                                  0,
+//                                  &presetPropertyList,
+//                                  `
+//                                  );
+//
+//    if (result != noErr) {NSLog (@"Error AudioUnitSetProperty : kAudioUnitProperty_ClassInfo"); }
+
     
     result = AudioUnitSetProperty(
                                   self.samplerUnit,
@@ -703,6 +739,7 @@ static void noteOFF(RenderData     *renderData,
                                   &presetPropertyList,
                                   sizeof(CFPropertyListRef)
                                   );
+    if (result != noErr) {NSLog (@"*Error AudioUnitSetProperty : kAudioUnitProperty_ClassInfo %d",result); }
 
 
 }
@@ -720,6 +757,8 @@ static void noteOFF(RenderData     *renderData,
                                           options:DataReadingOptions
                                             error:&outError];
 
+    if (outError != nil) {NSLog (@"Error dataWithContentsOfURL."); return NO;}
+
 	// Convert the data object into a property list
 	CFPropertyListRef presetPropertyList = 0;
 	CFPropertyListFormat dataFormat = 0;
@@ -732,14 +771,18 @@ static void noteOFF(RenderData     *renderData,
                                                        &errorRef
                                                        );
     
+    if (errorRef != nil) {NSLog (@"Error CFPropertyListCreateWithData."); return NO;}
+
+    
 	if (presetPropertyList != 0) {
         
+        NSLog(@"injecting data into sampler");
         NSDictionary *plData = (__bridge NSDictionary*)presetPropertyList;
 
         blockWithInstrumentData(plData);
         
         presetPropertyList = (__bridge CFPropertyListRef)plData;
-        
+  
 		result = AudioUnitSetProperty(
                                       self.samplerUnit,
                                       kAudioUnitProperty_ClassInfo,
@@ -749,9 +792,12 @@ static void noteOFF(RenderData     *renderData,
                                       sizeof(CFPropertyListRef)
                                       );
         
+        if (result != noErr) {NSLog (@"Error AudioUnitSetProperty : kAudioUnitProperty_ClassInfo %d",result); return NO;}
 
         CFRelease(presetPropertyList);
 
+    }else{
+        NSLog(@"Error No presetPropertyList");
     }
     
     
@@ -885,7 +931,7 @@ static void noteOFF(RenderData     *renderData,
 
     [super viewDidLoad];
     
-    NSString *title = @"SweepPad13";
+    NSString *title = @"SweepPad14-64";
 	NSURL *presetURL = [[NSURL alloc] initFileURLWithPath:[[NSBundle mainBundle] pathForResource:title ofType:@"aupreset"]];
 
     self.wavefiles = [self getAllBundleFilesForTypes:@[@"wav",@"aiff",@"mp3",@"m4a",@"aac"]];
@@ -893,6 +939,8 @@ static void noteOFF(RenderData     *renderData,
     [self loadPropertyList:presetURL];
     [self registerForUIApplicationNotifications];
 
+    
+    [self.layerSelection setSelectedSegmentIndex:0];
     // only after property list has loaded
     // load first wavefile in tableview
 //    NSString *path = [self.wavefiles objectAtIndex:0];
@@ -905,8 +953,9 @@ static void noteOFF(RenderData     *renderData,
 
 
 
-- (void) viewDidUnload {
-    [super viewDidUnload];
+-(void)viewDidAppear:(BOOL)animated{
+    
+    
 }
 
 - (BOOL) shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {

@@ -343,7 +343,7 @@
 	<key>file-references</key>
 	<dict>
 		<key>Sample:1</key>
-		<string>file://localhost//Library/Audio/Sounds/Tbone/SWEEPERD.wav</string>
+		<string>file://localhost//Library/Audio/Sounds/Tbone/1a#.caf</string>
 	</dict>
 	<key>fine tune</key>
 	<real>0</real>

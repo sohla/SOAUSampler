@@ -21,8 +21,6 @@
 					<dict>
 						<key>ID</key>
 						<integer>13</integer>
-						<key>bipolar</key>
-						<false/>
 						<key>control</key>
 						<integer>0</integer>
 						<key>destination</key>
@@ -41,12 +39,10 @@
 					<dict>
 						<key>ID</key>
 						<integer>14</integer>
-						<key>bipolar</key>
-						<false/>
 						<key>control</key>
 						<integer>0</integer>
 						<key>destination</key>
-						<integer>573571072</integer>
+						<integer>572522496</integer>
 						<key>enabled</key>
 						<true/>
 						<key>inverse</key>
@@ -60,9 +56,27 @@
 					</dict>
 					<dict>
 						<key>ID</key>
+						<integer>15</integer>
+						<key>control</key>
 						<integer>0</integer>
-						<key>bipolar</key>
+						<key>destination</key>
+						<integer>571473920</integer>
+						<key>enabled</key>
+						<true/>
+						<key>inverse</key>
 						<false/>
+						<key>max value</key>
+						<real>0</real>
+						<key>min value</key>
+						<real>-10</real>
+						<key>source</key>
+						<integer>9</integer>
+						<key>transform</key>
+						<integer>1</integer>
+					</dict>
+					<dict>
+						<key>ID</key>
+						<integer>0</integer>
 						<key>control</key>
 						<integer>0</integer>
 						<key>destination</key>
@@ -81,8 +95,6 @@
 					<dict>
 						<key>ID</key>
 						<integer>1</integer>
-						<key>bipolar</key>
-						<false/>
 						<key>control</key>
 						<integer>0</integer>
 						<key>destination</key>
@@ -101,8 +113,6 @@
 					<dict>
 						<key>ID</key>
 						<integer>2</integer>
-						<key>bipolar</key>
-						<false/>
 						<key>control</key>
 						<integer>0</integer>
 						<key>destination</key>
@@ -121,8 +131,6 @@
 					<dict>
 						<key>ID</key>
 						<integer>3</integer>
-						<key>bipolar</key>
-						<false/>
 						<key>control</key>
 						<integer>0</integer>
 						<key>destination</key>
@@ -141,8 +149,6 @@
 					<dict>
 						<key>ID</key>
 						<integer>4</integer>
-						<key>bipolar</key>
-						<true/>
 						<key>control</key>
 						<integer>0</integer>
 						<key>destination</key>
@@ -151,8 +157,10 @@
 						<true/>
 						<key>inverse</key>
 						<false/>
-						<key>scale</key>
+						<key>max value</key>
 						<real>0.5080000162124634</real>
+						<key>min value</key>
+						<real>-0.5080000162124634</real>
 						<key>source</key>
 						<integer>10</integer>
 						<key>transform</key>
@@ -160,59 +168,17 @@
 					</dict>
 					<dict>
 						<key>ID</key>
-						<integer>7</integer>
-						<key>bipolar</key>
-						<true/>
-						<key>control</key>
-						<integer>241</integer>
-						<key>destination</key>
-						<integer>816840704</integer>
-						<key>enabled</key>
-						<true/>
-						<key>inverse</key>
-						<false/>
-						<key>scale</key>
-						<real>12800</real>
-						<key>source</key>
-						<integer>224</integer>
-						<key>transform</key>
-						<integer>1</integer>
-					</dict>
-					<dict>
-						<key>ID</key>
-						<integer>8</integer>
-						<key>bipolar</key>
-						<true/>
-						<key>control</key>
-						<integer>0</integer>
-						<key>destination</key>
-						<integer>816840704</integer>
-						<key>enabled</key>
-						<true/>
-						<key>inverse</key>
-						<false/>
-						<key>scale</key>
-						<real>100</real>
-						<key>source</key>
-						<integer>242</integer>
-						<key>transform</key>
-						<integer>1</integer>
-					</dict>
-					<dict>
-						<key>ID</key>
 						<integer>11</integer>
-						<key>bipolar</key>
-						<false/>
 						<key>control</key>
 						<integer>0</integer>
 						<key>destination</key>
-						<integer>818937856</integer>
+						<real>818937856</real>
 						<key>enabled</key>
 						<true/>
 						<key>inverse</key>
 						<false/>
 						<key>scale</key>
-						<real>0.9900000095367432</real>
+						<real>0.9900000095367431</real>
 						<key>source</key>
 						<integer>1</integer>
 						<key>transform</key>
@@ -220,9 +186,7 @@
 					</dict>
 					<dict>
 						<key>ID</key>
-						<integer>12</integer>
-						<key>bipolar</key>
-						<true/>
+						<integer>16</integer>
 						<key>control</key>
 						<integer>0</integer>
 						<key>destination</key>
@@ -231,8 +195,10 @@
 						<true/>
 						<key>inverse</key>
 						<false/>
-						<key>scale</key>
+						<key>max value</key>
 						<real>6400</real>
+						<key>min value</key>
+						<real>-6400</real>
 						<key>source</key>
 						<integer>2</integer>
 						<key>transform</key>
@@ -240,29 +206,7 @@
 					</dict>
 					<dict>
 						<key>ID</key>
-						<integer>6</integer>
-						<key>bipolar</key>
-						<true/>
-						<key>control</key>
-						<integer>1</integer>
-						<key>destination</key>
-						<integer>816840704</integer>
-						<key>enabled</key>
-						<true/>
-						<key>inverse</key>
-						<false/>
-						<key>scale</key>
-						<real>50</real>
-						<key>source</key>
-						<integer>268435456</integer>
-						<key>transform</key>
-						<integer>1</integer>
-					</dict>
-					<dict>
-						<key>ID</key>
 						<integer>5</integer>
-						<key>bipolar</key>
-						<false/>
 						<key>control</key>
 						<integer>0</integer>
 						<key>destination</key>
@@ -355,6 +299,8 @@
 					<false/>
 					<key>resonance</key>
 					<real>0</real>
+					<key>type</key>
+					<integer>40</integer>
 				</dict>
 				<key>ID</key>
 				<integer>0</integer>
@@ -383,6 +329,8 @@
 						<true/>
 						<key>loop enabled</key>
 						<false/>
+						<key>root key</key>
+						<integer>60</integer>
 						<key>waveform</key>
 						<integer>268435458</integer>
 					</dict>
@@ -426,7 +374,7 @@
 	<key>manufacturer</key>
 	<integer>1634758764</integer>
 	<key>name</key>
-	<string>SweepPad10</string>
+	<string>SweepPad13-64</string>
 	<key>output</key>
 	<integer>0</integer>
 	<key>pan</key>
