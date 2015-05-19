@@ -66,7 +66,7 @@
 						<key>inverse</key>
 						<false/>
 						<key>max value</key>
-						<real>0</real>
+						<real>0.0</real>
 						<key>min value</key>
 						<real>-10</real>
 						<key>source</key>
@@ -158,9 +158,9 @@
 						<key>inverse</key>
 						<false/>
 						<key>max value</key>
-						<real>0.5080000162124634</real>
+						<real>0.50800001621246338</real>
 						<key>min value</key>
-						<real>-0.5080000162124634</real>
+						<real>-0.50800001621246338</real>
 						<key>source</key>
 						<integer>10</integer>
 						<key>transform</key>
@@ -178,7 +178,7 @@
 						<key>inverse</key>
 						<false/>
 						<key>scale</key>
-						<real>0.9900000095367432</real>
+						<real>0.99000000953674316</real>
 						<key>source</key>
 						<integer>1</integer>
 						<key>transform</key>
@@ -236,7 +236,7 @@
 								<key>stage</key>
 								<integer>0</integer>
 								<key>time</key>
-								<real>0</real>
+								<real>0.0</real>
 							</dict>
 							<dict>
 								<key>curve</key>
@@ -244,7 +244,7 @@
 								<key>stage</key>
 								<integer>1</integer>
 								<key>time</key>
-								<real>0.008721317164599895</real>
+								<real>0.0087213171645998955</real>
 							</dict>
 							<dict>
 								<key>curve</key>
@@ -252,7 +252,7 @@
 								<key>stage</key>
 								<integer>2</integer>
 								<key>time</key>
-								<integer>1</integer>
+								<real>0.0</real>
 							</dict>
 							<dict>
 								<key>curve</key>
@@ -260,11 +260,11 @@
 								<key>stage</key>
 								<integer>3</integer>
 								<key>time</key>
-								<integer>0</integer>
+								<real>0.0</real>
 							</dict>
 							<dict>
 								<key>level</key>
-								<integer>0</integer>
+								<real>1</real>
 								<key>stage</key>
 								<integer>4</integer>
 							</dict>
@@ -274,7 +274,7 @@
 								<key>stage</key>
 								<integer>5</integer>
 								<key>time</key>
-								<real>0.008721317164599895</real>
+								<real>0.0087213171645998955</real>
 							</dict>
 							<dict>
 								<key>curve</key>
@@ -298,7 +298,7 @@
 					<key>enabled</key>
 					<false/>
 					<key>resonance</key>
-					<real>0</real>
+					<real>0.0</real>
 					<key>type</key>
 					<integer>40</integer>
 				</dict>
@@ -338,7 +338,7 @@
 						<key>ID</key>
 						<integer>0</integer>
 						<key>enabled</key>
-						<false/>
+						<true/>
 						<key>loop enabled</key>
 						<true/>
 						<key>root key</key>
@@ -361,7 +361,9 @@
 	<key>coarse tune</key>
 	<integer>0</integer>
 	<key>data</key>
-	<data>AAAAAAAAAAAAAAAEAAADhAAAAAAAAAOFAAAAAAAAA4YAAAAAAAADhwAAAAA=</data>
+	<data>
+	AAAAAAAAAAAAAAAEAAADhAAAAAAAAAOFAAAAAAAAA4YAAAAAAAADhwAAAAA=
+	</data>
 	<key>file-references</key>
 	<dict>
 		<key>Sample:268435457</key>
@@ -372,17 +374,17 @@
 		<string>/Users/soh_la/Library/Audio/Sounds/fmvoc.wav</string>
 	</dict>
 	<key>fine tune</key>
-	<real>0</real>
+	<real>0.0</real>
 	<key>gain</key>
-	<real>0</real>
+	<real>0.0</real>
 	<key>manufacturer</key>
 	<integer>1634758764</integer>
 	<key>name</key>
-	<string>SweepPad14-64</string>
+	<string>SweepPad16-64</string>
 	<key>output</key>
 	<integer>0</integer>
 	<key>pan</key>
-	<real>0</real>
+	<real>0.0</real>
 	<key>subtype</key>
 	<integer>1935764848</integer>
 	<key>type</key>

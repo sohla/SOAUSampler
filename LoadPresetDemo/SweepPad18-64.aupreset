@@ -252,7 +252,7 @@
 								<key>stage</key>
 								<integer>2</integer>
 								<key>time</key>
-								<integer>1</integer>
+								<real>1</real>
 							</dict>
 							<dict>
 								<key>curve</key>
@@ -260,11 +260,11 @@
 								<key>stage</key>
 								<integer>3</integer>
 								<key>time</key>
-								<integer>0</integer>
+								<real>0</real>
 							</dict>
 							<dict>
 								<key>level</key>
-								<integer>0</integer>
+								<real>0</real>
 								<key>stage</key>
 								<integer>4</integer>
 							</dict>
@@ -334,18 +334,6 @@
 						<key>waveform</key>
 						<integer>268435458</integer>
 					</dict>
-					<dict>
-						<key>ID</key>
-						<integer>0</integer>
-						<key>enabled</key>
-						<false/>
-						<key>loop enabled</key>
-						<true/>
-						<key>root key</key>
-						<integer>69</integer>
-						<key>waveform</key>
-						<integer>-2</integer>
-					</dict>
 				</array>
 				<key>key offset</key>
 				<integer>48</integer>
@@ -378,7 +366,7 @@
 	<key>manufacturer</key>
 	<integer>1634758764</integer>
 	<key>name</key>
-	<string>SweepPad14-64</string>
+	<string>SweepPad18-64</string>
 	<key>output</key>
 	<integer>0</integer>
 	<key>pan</key>

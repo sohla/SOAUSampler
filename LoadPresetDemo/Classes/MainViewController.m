@@ -124,7 +124,7 @@ static void noteOn(RenderData     *renderData,
     //UInt8 pitch = (64 - 12) + (2 * (rand()%(int)(1+24*renderData->pitch)));
     //UInt8 pitch = 64 + (2 * (rand()%(int)(1+6*renderData->pitch)));
     
-    result = MusicDeviceMIDIEvent (samplerUnit, 0xB0, 2, pitch, inNumberFrames - renderData->frameAccum);
+//    result = MusicDeviceMIDIEvent (samplerUnit, 0xB0, 2, pitch, inNumberFrames - renderData->frameAccum);
     
     
     
@@ -132,24 +132,24 @@ static void noteOn(RenderData     *renderData,
     
     
     // attack controller 3
-    result = MusicDeviceMIDIEvent (samplerUnit, 0xB0, 3, renderData->attack * 127.0, inNumberFrames - renderData->frameAccum);
+//-    result = MusicDeviceMIDIEvent (samplerUnit, 0xB0, 3, renderData->attack * 127.0, inNumberFrames - renderData->frameAccum);
     
     
 
     // hold controller 9
-    result = MusicDeviceMIDIEvent (samplerUnit, 0xB0, 9, renderData->length * (1-renderData->release) * 127.0, inNumberFrames - renderData->frameAccum);
+//    result = MusicDeviceMIDIEvent (samplerUnit, 0xB0, 9, renderData->release * 127.0, inNumberFrames - renderData->frameAccum);
 
 
     // decay controller 8
-    result = MusicDeviceMIDIEvent (samplerUnit, 0xB0, 8, renderData->length * renderData->release * 127.0, inNumberFrames - renderData->frameAccum);
+//    result = MusicDeviceMIDIEvent (samplerUnit, 0xB0, 8, renderData->release * 127.0, inNumberFrames - renderData->frameAccum);
 
     
     
-    UInt32 pos = renderData->position * 130.0f; // what the hey ? it seems we need to over scale
+//-    UInt32 pos = renderData->position * 130.0f; // what the hey ? it seems we need to over scale
     
     
     // sample start)
-    result = MusicDeviceMIDIEvent (samplerUnit, 0xB0, 1, pos, inNumberFrames - renderData->frameAccum);
+//-    result = MusicDeviceMIDIEvent (samplerUnit, 0xB0, 1, pos, inNumberFrames - renderData->frameAccum);
     
     // oh look, we can do it via sending message directly via kAudioUnitScope_Group
     //            AudioUnitSetParameter(samplerUnit,
@@ -331,7 +331,7 @@ static void noteOFF(RenderData     *renderData,
     renderData->pitch = 0.5f;
     renderData->length = 1.0f;
     renderData->attack = 0.1f;
-    renderData->release = 0.3f;
+    renderData->release = 1.0f;
     renderData->position = 0.0f;
     
 	// Obtain a reference to the I/O unit from its node
@@ -529,7 +529,7 @@ static void noteOFF(RenderData     *renderData,
                        }];
     
     
-    if(NO){
+    if(YES){
         [self duplicateLayer];
     }
     
@@ -561,28 +561,72 @@ static void noteOFF(RenderData     *renderData,
     
     // get the layer at index
     NSMutableArray *layers = [instrument objectForKey:@"Layers"];
-    NSDictionary *layer = [layers objectAtIndex:0];
+    NSUInteger numberOfLayers = 2;
     
-    for(int i=1;i<8;i++){
+    
+    for(int i=1;i<numberOfLayers;i++){
         
+        NSDictionary *layer = [layers objectAtIndex:0];
+
         // make a deep copy of entire layer dict.
         NSMutableDictionary *newLayer = (__bridge NSMutableDictionary *)CFPropertyListCreateDeepCopy(kCFAllocatorDefault, (CFDictionaryRef)layer, kCFPropertyListMutableContainers);
-        
-        NSString *key = @"key offset";
-        NSNumber *val = @([[newLayer objectForKey:key] intValue] - (12 * i));
+
+        NSString *key = @"ID";
+        NSNumber *val = @([[layer objectForKey:key] intValue] + i);
         [newLayer setValue:val forKey:key];
+
+        key = @"key offset";
+        val = @([[layer objectForKey:key] intValue] - (12 * i));
+        [newLayer setValue:val forKey:key];
+        //NSLog(@"offset:%@",val);
         
         key = @"max key";
-        val = @([[newLayer objectForKey:key] intValue] + (12 * i));
+        val = @([[layer objectForKey:key] intValue] + (12 * i));
         [newLayer setValue:val forKey:key];
+        //NSLog(@"max:%@",val);
         
         key = @"min key";
-        val = @([[newLayer objectForKey:key] intValue] + (12 * i));
+        val = @([[layer objectForKey:key] intValue] + (12 * i));
         [newLayer setValue:val forKey:key];
+        //NSLog(@"min:%@",val);
         
+//        NSArray *connections = [layer objectForKey:@"Connections"];
+//  
+//        [connections enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+//
+//            NSNumber *origDestination = [obj objectForKey:@"destination"];
+//            NSNumber *newDestination = @([[obj objectForKey:@"destination"] intValue] + (256*i));
+//            
+//            [[[newLayer objectForKey:@"Connections"] objectAtIndex:idx] setValue:newDestination forKey:@"destination"];
+//            newDestination = [[[newLayer objectForKey:@"Connections"] objectAtIndex:idx] objectForKey:@"destination"];
+//            
+//            NSLog(@"Layer %@ %@ : %@",[newLayer objectForKey:@"ID"],origDestination,newDestination);
+//
+//        }];
+//        
         [layers insertObject:newLayer atIndex:i];
+    
+    }
+
+    
+    // debug out
+    for(int i=0;i<numberOfLayers;i++){
+ 
+        NSDictionary *layer = [layers objectAtIndex:i];
+        
+        //NSLog(@"%@",[[[layer objectForKey:@"Zones"] objectAtIndex:0] objectForKey:@"waveform"]);
+        
+        NSLog(@"Layer:%@ Offset:%@ Min:%@ Max:%@",
+              [layer valueForKey:@"ID"],
+              [layer valueForKey:@"key offset"],
+              [layer valueForKey:@"min key"],
+              [layer valueForKey:@"max key"]
+              );
+        
     }
     
+    
+    // commit to sampler
     CFPropertyListRef presetPropertyList = (__bridge CFPropertyListRef)self.samplerPropertyList;
     
     result = AudioUnitSetProperty(
@@ -593,7 +637,9 @@ static void noteOFF(RenderData     *renderData,
                                   &presetPropertyList,
                                   sizeof(CFPropertyListRef)
                                   );
-    
+
+    if (result != noErr) {NSLog (@"Duplicating Layers : Error AudioUnitSetProperty : kAudioUnitProperty_ClassInfo %d",result); }
+
 }
 
 
@@ -699,14 +745,11 @@ static void noteOFF(RenderData     *renderData,
     
     
     // each zone has an index to a waveform in the file-references dictinaory
-    NSArray *zones = [layer objectForKey:@"Zones"];
+    NSMutableArray *zones = [layer objectForKey:@"Zones"];
     NSDictionary *zone = [zones objectAtIndex:0];
     [zone setValue:wavefileID forKey:@"waveform"];
 
     NSLog(@"Setting wavefile %@ for Layer %d",wavefileID,index);
-    
-    
-    NSDictionary *zone2 = [zones objectAtIndex:1];
     
 //    for(int i=0;i<8;i++){
 //        layer = [layers objectAtIndex:i];
@@ -717,6 +760,7 @@ static void noteOFF(RenderData     *renderData,
     
     CFPropertyListRef presetPropertyList = (__bridge CFPropertyListRef)self.samplerPropertyList;
 
+    
     //UInt32 psize =sizeof(CFPropertyListRef);
     
 //    result = AudioUnitGetProperty(
@@ -778,6 +822,14 @@ static void noteOFF(RenderData     *renderData,
         
         NSLog(@"injecting data into sampler");
         NSDictionary *plData = (__bridge NSDictionary*)presetPropertyList;
+
+        
+        // remove 2nd zone : sin tone
+//        NSDictionary *instrument = [plData objectForKey:@"Instrument"];
+//        NSArray *layers = [instrument objectForKey:@"Layers"];
+//        NSDictionary *layer = [layers objectAtIndex:0];
+//        NSMutableArray *zones = [layer objectForKey:@"Zones"];
+//        [zones removeObjectAtIndex:1];
 
         blockWithInstrumentData(plData);
         
@@ -930,8 +982,9 @@ static void noteOFF(RenderData     *renderData,
 - (void) viewDidLoad {
 
     [super viewDidLoad];
-    
-    NSString *title = @"SweepPad14-64";
+
+    NSString *title = @"SamplerPreset21";
+//    NSString *title = @"SweepPad18-64";
 	NSURL *presetURL = [[NSURL alloc] initFileURLWithPath:[[NSBundle mainBundle] pathForResource:title ofType:@"aupreset"]];
 
     self.wavefiles = [self getAllBundleFilesForTypes:@[@"wav",@"aiff",@"mp3",@"m4a",@"aac"]];
