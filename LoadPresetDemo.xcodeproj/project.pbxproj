@@ -43,6 +43,10 @@
 		F09E57681B0ABF39009C2DF3 /* 2layers.aupreset in Resources */ = {isa = PBXBuildFile; fileRef = F09E57671B0ABF39009C2DF3 /* 2layers.aupreset */; };
 		F09E576A1B0AC616009C2DF3 /* SamplerPreset20.aupreset in Resources */ = {isa = PBXBuildFile; fileRef = F09E57691B0AC616009C2DF3 /* SamplerPreset20.aupreset */; };
 		F09E576C1B0AC68D009C2DF3 /* SamplerPreset21.aupreset in Resources */ = {isa = PBXBuildFile; fileRef = F09E576B1B0AC68D009C2DF3 /* SamplerPreset21.aupreset */; };
+		F09E576E1B0AC879009C2DF3 /* SamplerPreset22.aupreset in Resources */ = {isa = PBXBuildFile; fileRef = F09E576D1B0AC879009C2DF3 /* SamplerPreset22.aupreset */; };
+		F09E57701B0AC9FF009C2DF3 /* SamplerPreset23.aupreset in Resources */ = {isa = PBXBuildFile; fileRef = F09E576F1B0AC9FF009C2DF3 /* SamplerPreset23.aupreset */; };
+		F09E57721B0ACC4B009C2DF3 /* SamplerPreset24.aupreset in Resources */ = {isa = PBXBuildFile; fileRef = F09E57711B0ACC4B009C2DF3 /* SamplerPreset24.aupreset */; };
+		F09E57741B0C579A009C2DF3 /* SamplerPreset25.aupreset in Resources */ = {isa = PBXBuildFile; fileRef = F09E57731B0C579A009C2DF3 /* SamplerPreset25.aupreset */; };
 		F0A5BD3C18F191D800A3B6D0 /* 4SecSig.wav in Resources */ = {isa = PBXBuildFile; fileRef = F0A5BD3B18F191D800A3B6D0 /* 4SecSig.wav */; };
 		F0C42C931887813400330B66 /* berilium.wav in Resources */ = {isa = PBXBuildFile; fileRef = F0C42C921887813400330B66 /* berilium.wav */; };
 /* End PBXBuildFile section */
@@ -90,6 +94,10 @@
 		F09E57671B0ABF39009C2DF3 /* 2layers.aupreset */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = 2layers.aupreset; sourceTree = "<group>"; };
 		F09E57691B0AC616009C2DF3 /* SamplerPreset20.aupreset */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = SamplerPreset20.aupreset; sourceTree = "<group>"; };
 		F09E576B1B0AC68D009C2DF3 /* SamplerPreset21.aupreset */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = SamplerPreset21.aupreset; sourceTree = "<group>"; };
+		F09E576D1B0AC879009C2DF3 /* SamplerPreset22.aupreset */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = SamplerPreset22.aupreset; sourceTree = "<group>"; };
+		F09E576F1B0AC9FF009C2DF3 /* SamplerPreset23.aupreset */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = SamplerPreset23.aupreset; sourceTree = "<group>"; };
+		F09E57711B0ACC4B009C2DF3 /* SamplerPreset24.aupreset */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = SamplerPreset24.aupreset; sourceTree = "<group>"; };
+		F09E57731B0C579A009C2DF3 /* SamplerPreset25.aupreset */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = SamplerPreset25.aupreset; sourceTree = "<group>"; };
 		F0A5BD3B18F191D800A3B6D0 /* 4SecSig.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = 4SecSig.wav; sourceTree = "<group>"; };
 		F0C42C921887813400330B66 /* berilium.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = berilium.wav; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -171,6 +179,10 @@
 				F09E57651B0AB008009C2DF3 /* SweepPad18-64.aupreset */,
 				F09E57691B0AC616009C2DF3 /* SamplerPreset20.aupreset */,
 				F09E576B1B0AC68D009C2DF3 /* SamplerPreset21.aupreset */,
+				F09E576D1B0AC879009C2DF3 /* SamplerPreset22.aupreset */,
+				F09E576F1B0AC9FF009C2DF3 /* SamplerPreset23.aupreset */,
+				F09E57711B0ACC4B009C2DF3 /* SamplerPreset24.aupreset */,
+				F09E57731B0C579A009C2DF3 /* SamplerPreset25.aupreset */,
 				F09E57671B0ABF39009C2DF3 /* 2layers.aupreset */,
 			);
 			name = Resources;
@@ -275,10 +287,13 @@
 				F09DE6031881721F00971B1A /* QuasiA 048.wav in Resources */,
 				F0441D52188008B400E19AFD /* 084 hardhop.wav in Resources */,
 				F0441D4E187FB87700E19AFD /* synthicoDrums.wav in Resources */,
+				F09E57721B0ACC4B009C2DF3 /* SamplerPreset24.aupreset in Resources */,
+				F09E576E1B0AC879009C2DF3 /* SamplerPreset22.aupreset in Resources */,
 				F0441D5E18801D5A00E19AFD /* zeb.wav in Resources */,
 				F0441D42187E10DF00E19AFD /* fmvoc.wav in Resources */,
 				F09E57681B0ABF39009C2DF3 /* 2layers.aupreset in Resources */,
 				F09E576A1B0AC616009C2DF3 /* SamplerPreset20.aupreset in Resources */,
+				F09E57741B0C579A009C2DF3 /* SamplerPreset25.aupreset in Resources */,
 				F0441D5C18801BE100E19AFD /* sine440.wav in Resources */,
 				F09E57661B0AB008009C2DF3 /* SweepPad18-64.aupreset in Resources */,
 				0A355A0D13CCB3E200AB9137 /* InfoPlist.strings in Resources */,
@@ -298,6 +313,7 @@
 				0A355A1D13CCB74600AB9137 /* Icon-Small.png in Resources */,
 				F00C301218824EB000821540 /* SWEEPERD.wav in Resources */,
 				0A355A1E13CCB74600AB9137 /* Icon-Small@2x.png in Resources */,
+				F09E57701B0AC9FF009C2DF3 /* SamplerPreset23.aupreset in Resources */,
 				0A355A1F13CCB74600AB9137 /* Icon.png in Resources */,
 				0A355A2013CCB74600AB9137 /* Icon@2x.png in Resources */,
 				0A23778F13D3A20B004C7E14 /* Default.png in Resources */,

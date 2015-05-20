@@ -119,12 +119,12 @@ static void noteOn(RenderData     *renderData,
     //           result = MusicDeviceMIDIEvent (samplerUnit, 0xB0, 10, renderData->modCntl, inNumberFrames - renderData->frameAccum);
     
     // pitch controller 2
+    // bipolar -6400 to 6400
     //UInt8 pitch = 52 + renderData->modCntl;
     UInt8 pitch = (64 - 12) + (24 * renderData->pitch);
     //UInt8 pitch = (64 - 12) + (2 * (rand()%(int)(1+24*renderData->pitch)));
     //UInt8 pitch = 64 + (2 * (rand()%(int)(1+6*renderData->pitch)));
-    
-//    result = MusicDeviceMIDIEvent (samplerUnit, 0xB0, 2, pitch, inNumberFrames - renderData->frameAccum);
+    result = MusicDeviceMIDIEvent (samplerUnit, 0xB0, 2, pitch, inNumberFrames - renderData->frameAccum);
     
     
     
@@ -145,11 +145,12 @@ static void noteOn(RenderData     *renderData,
 
     
     
-//-    UInt32 pos = renderData->position * 130.0f; // what the hey ? it seems we need to over scale
     
     
-    // sample start)
-//-    result = MusicDeviceMIDIEvent (samplerUnit, 0xB0, 1, pos, inNumberFrames - renderData->frameAccum);
+    // sample start
+    // Sampler Start factor 0 to 0.99
+    UInt32 pos = renderData->position * 130.0f; // what the hey ? it seems we need to over scale
+    result = MusicDeviceMIDIEvent (samplerUnit, 0xB0, 1, pos, inNumberFrames - renderData->frameAccum);
     
     // oh look, we can do it via sending message directly via kAudioUnitScope_Group
     //            AudioUnitSetParameter(samplerUnit,
@@ -561,7 +562,7 @@ static void noteOFF(RenderData     *renderData,
     
     // get the layer at index
     NSMutableArray *layers = [instrument objectForKey:@"Layers"];
-    NSUInteger numberOfLayers = 2;
+    NSUInteger numberOfLayers = 8;
     
     
     for(int i=1;i<numberOfLayers;i++){
@@ -590,20 +591,33 @@ static void noteOFF(RenderData     *renderData,
         [newLayer setValue:val forKey:key];
         //NSLog(@"min:%@",val);
         
-//        NSArray *connections = [layer objectForKey:@"Connections"];
-//  
-//        [connections enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-//
-//            NSNumber *origDestination = [obj objectForKey:@"destination"];
-//            NSNumber *newDestination = @([[obj objectForKey:@"destination"] intValue] + (256*i));
-//            
-//            [[[newLayer objectForKey:@"Connections"] objectAtIndex:idx] setValue:newDestination forKey:@"destination"];
-//            newDestination = [[[newLayer objectForKey:@"Connections"] objectAtIndex:idx] objectForKey:@"destination"];
-//            
-//            NSLog(@"Layer %@ %@ : %@",[newLayer objectForKey:@"ID"],origDestination,newDestination);
-//
-//        }];
-//        
+        NSArray *connections = [layer objectForKey:@"Connections"];
+  
+        [connections enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+
+            NSNumber *origDestination = [obj objectForKey:@"destination"];
+            NSNumber *newDestination = @([origDestination intValue] + (256*i));
+            NSNumber *origSource = [obj objectForKey:@"source"];
+            NSNumber *newSource = @([origSource intValue] + (256*i));
+            
+            
+            if([origDestination isEqualToNumber:@(1343225856)]){
+                [[[newLayer objectForKey:@"Connections"] objectAtIndex:idx] setValue:newDestination forKey:@"destination"];
+                [[[newLayer objectForKey:@"Connections"] objectAtIndex:idx] setValue:newSource forKey:@"source"];
+
+                newDestination = [[[newLayer objectForKey:@"Connections"] objectAtIndex:idx] objectForKey:@"destination"];
+                newSource = [[[newLayer objectForKey:@"Connections"] objectAtIndex:idx] objectForKey:@"source"];
+                NSLog(@"Layer %@ %@ : %@ | %@ : %@",[newLayer objectForKey:@"ID"],origDestination,newDestination,origSource,newSource);
+
+            }else{
+                [[[newLayer objectForKey:@"Connections"] objectAtIndex:idx] setValue:newDestination forKey:@"destination"];
+                newDestination = [[[newLayer objectForKey:@"Connections"] objectAtIndex:idx] objectForKey:@"destination"];
+                NSLog(@"Layer %@ %@ : %@",[newLayer objectForKey:@"ID"],origDestination,newDestination);
+            }
+
+
+        }];
+        
         [layers insertObject:newLayer atIndex:i];
     
     }
@@ -983,7 +997,7 @@ static void noteOFF(RenderData     *renderData,
 
     [super viewDidLoad];
 
-    NSString *title = @"SamplerPreset21";
+    NSString *title = @"SamplerPreset25";
 //    NSString *title = @"SweepPad18-64";
 	NSURL *presetURL = [[NSURL alloc] initFileURLWithPath:[[NSBundle mainBundle] pathForResource:title ofType:@"aupreset"]];
 
