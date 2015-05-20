@@ -121,8 +121,10 @@ static void noteOn(RenderData     *renderData,
     // pitch controller 2
     // bipolar -6400 to 6400
     //UInt8 pitch = 52 + renderData->modCntl;
-    UInt8 pitch = (64 - 12) + (24 * renderData->pitch);
-    //UInt8 pitch = (64 - 12) + (2 * (rand()%(int)(1+24*renderData->pitch)));
+    //UInt8 pitch = (64 - 12) + (24 * renderData->pitch);
+    
+    
+    UInt8 pitch = (64 - 12) + (2 * (rand()%(int)(1+48*renderData->pitch)));
     //UInt8 pitch = 64 + (2 * (rand()%(int)(1+6*renderData->pitch)));
     result = MusicDeviceMIDIEvent (samplerUnit, 0xB0, 2, pitch, inNumberFrames - renderData->frameAccum);
     
@@ -424,7 +426,7 @@ static void noteOFF(RenderData     *renderData,
     
     
     UISlider *slider = (UISlider*)sender;
-    renderData->tempo = 60.0f + ([slider value] * 200.0);
+    renderData->tempo = 60.0f + ([slider value] * 400.0);
     self.tempoLabel.text = [NSString stringWithFormat:@"%.0f",renderData->tempo];
     
     // need to reset these since large jumps in tempo will set the accum's out of sync
@@ -565,6 +567,8 @@ static void noteOFF(RenderData     *renderData,
     NSUInteger numberOfLayers = 8;
     
     
+    //• abstract out from duplicating and setting : we need to reset all the layers when loading a new sample
+    
     for(int i=1;i<numberOfLayers;i++){
         
         NSDictionary *layer = [layers objectAtIndex:0];
@@ -591,6 +595,9 @@ static void noteOFF(RenderData     *renderData,
         [newLayer setValue:val forKey:key];
         //NSLog(@"min:%@",val);
         
+        
+        // Connections are completely undocumented therefore this code will need to be continually maintained.
+        // Apple may change how any of this behaves.
         NSArray *connections = [layer objectForKey:@"Connections"];
   
         [connections enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
@@ -602,6 +609,7 @@ static void noteOFF(RenderData     *renderData,
             
             
             if([origDestination isEqualToNumber:@(1343225856)]){
+                
                 [[[newLayer objectForKey:@"Connections"] objectAtIndex:idx] setValue:newDestination forKey:@"destination"];
                 [[[newLayer objectForKey:@"Connections"] objectAtIndex:idx] setValue:newSource forKey:@"source"];
 
@@ -610,6 +618,7 @@ static void noteOFF(RenderData     *renderData,
                 NSLog(@"Layer %@ %@ : %@ | %@ : %@",[newLayer objectForKey:@"ID"],origDestination,newDestination,origSource,newSource);
 
             }else{
+                
                 [[[newLayer objectForKey:@"Connections"] objectAtIndex:idx] setValue:newDestination forKey:@"destination"];
                 newDestination = [[[newLayer objectForKey:@"Connections"] objectAtIndex:idx] objectForKey:@"destination"];
                 NSLog(@"Layer %@ %@ : %@",[newLayer objectForKey:@"ID"],origDestination,newDestination);
@@ -618,6 +627,8 @@ static void noteOFF(RenderData     *renderData,
 
         }];
         
+        
+        // add the layer copy to structure
         [layers insertObject:newLayer atIndex:i];
     
     }
@@ -997,7 +1008,7 @@ static void noteOFF(RenderData     *renderData,
 
     [super viewDidLoad];
 
-    NSString *title = @"SamplerPreset25";
+    NSString *title = @"SamplerPreset26";
 //    NSString *title = @"SweepPad18-64";
 	NSURL *presetURL = [[NSURL alloc] initFileURLWithPath:[[NSBundle mainBundle] pathForResource:title ofType:@"aupreset"]];
 
