@@ -557,8 +557,6 @@ static void noteOFF(RenderData     *renderData,
 
 -(void)duplicateLayer{
 
-    OSStatus result = noErr;
-
     // example of duplicating layer 0 to another 8 layers
     NSDictionary *instrument = [self.samplerPropertyList objectForKey:@"Instrument"];
     
@@ -566,90 +564,104 @@ static void noteOFF(RenderData     *renderData,
     NSMutableArray *layers = [instrument objectForKey:@"Layers"];
     NSUInteger numberOfLayers = 8;
     
-    
-    //• abstract out from duplicating and setting : we need to reset all the layers when loading a new sample
-    
     for(int i=1;i<numberOfLayers;i++){
         
-        NSDictionary *layer = [layers objectAtIndex:0];
+        NSDictionary *oldLayer = [layers objectAtIndex:0];
 
         // make a deep copy of entire layer dict.
-        NSMutableDictionary *newLayer = (__bridge NSMutableDictionary *)CFPropertyListCreateDeepCopy(kCFAllocatorDefault, (CFDictionaryRef)layer, kCFPropertyListMutableContainers);
+        NSMutableDictionary *newLayer = (__bridge NSMutableDictionary *)CFPropertyListCreateDeepCopy(kCFAllocatorDefault, (CFDictionaryRef)oldLayer, kCFPropertyListMutableContainers);
 
         NSString *key = @"ID";
-        NSNumber *val = @([[layer objectForKey:key] intValue] + i);
+        NSNumber *val = @([[oldLayer objectForKey:key] intValue] + i);
         [newLayer setValue:val forKey:key];
 
-        key = @"key offset";
-        val = @([[layer objectForKey:key] intValue] - (12 * i));
+        // insert the layer copy to structure
+        [layers insertObject:newLayer atIndex:i];
+    
+    }
+    
+    // need to add valid data
+    [self populateLayers];
+
+    [self commitPropertyListToSampler];
+    
+}
+
+
+
+
+-(void)populateLayers{
+
+    
+    NSMutableArray *layers = self.samplerPropertyList[@"Instrument"][@"Layers"];
+    NSUInteger numberOfLayers = [layers count];
+    NSDictionary *oldLayer = [layers objectAtIndex:0];
+    
+    for(int i=1;i<numberOfLayers;i++){
+
+        NSDictionary *newLayer = [layers objectAtIndex:i];
+        
+        NSString *key = @"key offset";
+        NSNumber *val = @([oldLayer[key] intValue] - (12 * i));
         [newLayer setValue:val forKey:key];
-        //NSLog(@"offset:%@",val);
         
         key = @"max key";
-        val = @([[layer objectForKey:key] intValue] + (12 * i));
+        val = @([oldLayer[key] intValue] + (12 * i));
         [newLayer setValue:val forKey:key];
-        //NSLog(@"max:%@",val);
         
         key = @"min key";
-        val = @([[layer objectForKey:key] intValue] + (12 * i));
+        val = @([oldLayer[key] intValue] + (12 * i));
         [newLayer setValue:val forKey:key];
-        //NSLog(@"min:%@",val);
         
         
         // Connections are completely undocumented therefore this code will need to be continually maintained.
         // Apple may change how any of this behaves.
-        NSArray *connections = [layer objectForKey:@"Connections"];
-  
+        NSArray *connections = [oldLayer objectForKey:@"Connections"];
+        
         [connections enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-
-            NSNumber *origDestination = [obj objectForKey:@"destination"];
+            
+            NSNumber *origDestination = obj[@"destination"];
             NSNumber *newDestination = @([origDestination intValue] + (256*i));
-            NSNumber *origSource = [obj objectForKey:@"source"];
+            NSNumber *origSource = obj[@"source"];
             NSNumber *newSource = @([origSource intValue] + (256*i));
             
-            
+            // for envelope (1343225856) we need to
             if([origDestination isEqualToNumber:@(1343225856)]){
                 
-                [[[newLayer objectForKey:@"Connections"] objectAtIndex:idx] setValue:newDestination forKey:@"destination"];
-                [[[newLayer objectForKey:@"Connections"] objectAtIndex:idx] setValue:newSource forKey:@"source"];
-
-                newDestination = [[[newLayer objectForKey:@"Connections"] objectAtIndex:idx] objectForKey:@"destination"];
-                newSource = [[[newLayer objectForKey:@"Connections"] objectAtIndex:idx] objectForKey:@"source"];
-                NSLog(@"Layer %@ %@ : %@ | %@ : %@",[newLayer objectForKey:@"ID"],origDestination,newDestination,origSource,newSource);
-
+                [[newLayer[@"Connections"] objectAtIndex:idx] setValue:newDestination forKey:@"destination"];
+                [[newLayer[@"Connections"] objectAtIndex:idx] setValue:newSource forKey:@"source"];
+                
+                newDestination = [[newLayer[@"Connections"] objectAtIndex:idx] objectForKey:@"destination"];
+                newSource = [[newLayer[@"Connections"] objectAtIndex:idx] objectForKey:@"source"];
+                NSLog(@"Layer %@ %@ : %@ | %@ : %@",newLayer[@"ID"],origDestination,newDestination,origSource,newSource);
+                
             }else{
                 
-                [[[newLayer objectForKey:@"Connections"] objectAtIndex:idx] setValue:newDestination forKey:@"destination"];
-                newDestination = [[[newLayer objectForKey:@"Connections"] objectAtIndex:idx] objectForKey:@"destination"];
-                NSLog(@"Layer %@ %@ : %@",[newLayer objectForKey:@"ID"],origDestination,newDestination);
+                [[newLayer[@"Connections"] objectAtIndex:idx] setValue:newDestination forKey:@"destination"];
+                newDestination = [[newLayer[@"Connections"] objectAtIndex:idx] objectForKey:@"destination"];
+                NSLog(@"Layer %@ %@ : %@",newLayer[@"ID"],origDestination,newDestination);
             }
-
-
+            
         }];
-        
-        
-        // add the layer copy to structure
-        [layers insertObject:newLayer atIndex:i];
-    
     }
+}
 
-    
+
+-(void)commitPropertyListToSampler{
+   
+    OSStatus result = noErr;
+    NSMutableArray *layers = self.samplerPropertyList[@"Instrument"][@"Layers"];
+
     // debug out
-    for(int i=0;i<numberOfLayers;i++){
- 
-        NSDictionary *layer = [layers objectAtIndex:i];
-        
-        //NSLog(@"%@",[[[layer objectForKey:@"Zones"] objectAtIndex:0] objectForKey:@"waveform"]);
-        
+    [layers enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
         NSLog(@"Layer:%@ Offset:%@ Min:%@ Max:%@",
-              [layer valueForKey:@"ID"],
-              [layer valueForKey:@"key offset"],
-              [layer valueForKey:@"min key"],
-              [layer valueForKey:@"max key"]
+              obj[@"ID"],
+              obj[@"key offset"],
+              obj[@"min key"],
+              obj[@"max key"]
               );
         
-    }
-    
+    }];
     
     // commit to sampler
     CFPropertyListRef presetPropertyList = (__bridge CFPropertyListRef)self.samplerPropertyList;
@@ -662,12 +674,10 @@ static void noteOFF(RenderData     *renderData,
                                   &presetPropertyList,
                                   sizeof(CFPropertyListRef)
                                   );
-
+    
     if (result != noErr) {NSLog (@"Duplicating Layers : Error AudioUnitSetProperty : kAudioUnitProperty_ClassInfo %d",result); }
 
 }
-
-
 
 -(OSStatus)loadWavefile:(NSString*)path forLayer:(UInt8)index{
 
