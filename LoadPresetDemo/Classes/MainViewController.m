@@ -87,6 +87,8 @@ static void noteOn(RenderData     *renderData,
     result = MusicDeviceMIDIEvent (samplerUnit, 0xB0, 2, pitch, inNumberFrames - renderData->frameAccum);
     
     // hold controller 3
+    
+    //• need to work tempo into this formulars
     result = MusicDeviceMIDIEvent (samplerUnit, 0xB0, 3, renderData->length * 127.0, inNumberFrames - renderData->frameAccum);
 
     // attack controller 4
