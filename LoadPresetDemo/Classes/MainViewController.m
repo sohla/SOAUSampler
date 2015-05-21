@@ -536,22 +536,6 @@ static void noteOFF(RenderData     *renderData,
         [self duplicateLayer];
     }
     
-
-//    // send data to sampler
-//    OSStatus result = noErr;
-//
-//    CFPropertyListRef presetPropertyList = (__bridge CFPropertyListRef)self.samplerPropertyList;
-//    
-//    result = AudioUnitSetProperty(
-//                                  self.samplerUnit,
-//                                  kAudioUnitProperty_ClassInfo,
-//                                  kAudioUnitScope_Global,
-//                                  0,
-//                                  &presetPropertyList,
-//                                  sizeof(CFPropertyListRef)
-//                                  );
-    
-    
 }
 
 
@@ -857,14 +841,6 @@ static void noteOFF(RenderData     *renderData,
         
         NSLog(@"injecting data into sampler");
         NSDictionary *plData = (__bridge NSDictionary*)presetPropertyList;
-
-        
-        // remove 2nd zone : sin tone
-//        NSDictionary *instrument = [plData objectForKey:@"Instrument"];
-//        NSArray *layers = [instrument objectForKey:@"Layers"];
-//        NSDictionary *layer = [layers objectAtIndex:0];
-//        NSMutableArray *zones = [layer objectForKey:@"Zones"];
-//        [zones removeObjectAtIndex:1];
 
         blockWithInstrumentData(plData);
         
