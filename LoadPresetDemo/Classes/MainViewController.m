@@ -478,6 +478,10 @@ static void noteOFF(RenderData     *renderData,
     return collect;
     
 }
+
+#pragma mark -
+#pragma mark Sampler Properties
+
 -(OSStatus)loadPropertyList:(NSURL*)presetURL{
     
     OSStatus result = noErr;
@@ -610,7 +614,68 @@ static void noteOFF(RenderData     *renderData,
     }];
 }
 
+-(OSStatus)populateSamplerWithAudioFilePaths:(NSArray*)audioFilePaths{
 
+    // checks to see if waveFile is already in the propList as a file-reference
+    // if it is, get it's id and set for layer
+    // else insert as a file-reference and set for layer
+    OSStatus result = noErr;
+    
+    [audioFilePaths enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+        
+    
+        NSString *path = (NSString*)obj;
+        
+        [self commitToSamplerWithDataBlock:^(NSDictionary *data) {
+            
+            NSDictionary *files = data[@"file-references"];
+            NSMutableArray *titles = [[NSMutableArray alloc] init];
+            [[files allValues] enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop){
+                [titles addObject:[obj lastPathComponent]];
+            }];
+            
+            [titles enumerateObjectsUsingBlock:^(id title, NSUInteger idx, BOOL *stop){
+                
+                if([title isEqualToString:[path lastPathComponent]]){
+                    
+                    // file ref exists, so let's stop enumerating
+                    stop = YES;
+                    
+                    NSLog(@"File %@ already exists",title);
+                    
+                }else{
+                    // need to generate UNIQUE id
+                    NSNumber *wavefileID = [NSNumber numberWithLong:(arc4random() % (UInt32)(INT32_MAX - 1))];
+                    
+                    // collect all id's
+                    NSMutableArray *allIDS = [[NSMutableArray alloc] init];
+                    [[files allKeys] enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *fileStop){
+                        NSString *value = [[obj componentsSeparatedByString:@":"] lastObject] ;
+                        [allIDS addObject:[NSNumber numberWithInteger:[value integerValue]]];
+                    }];
+                    
+                    // hang here till we wave a unique new id
+                    while([allIDS containsObject:wavefileID]){
+                        wavefileID = [NSNumber numberWithLong:(arc4random() % (UInt32)(INT32_MAX - 1))];
+                    }
+                    
+                    // and finally set it
+                    NSMutableDictionary *files = data[@"file-references"];
+                    NSString *key = [NSString stringWithFormat:@"Sample:%@",wavefileID];
+                    
+                    // add to files reference dict.
+                    [files setValue:path forKey:key];
+                    
+                }
+            }];
+            
+        }];
+    }];
+
+    return result;
+
+    
+}
 -(OSStatus)loadWavefile:(NSString*)path forLayer:(UInt8)index{
 
     // checks to see if waveFile is already in the propList as a file-reference
@@ -621,14 +686,11 @@ static void noteOFF(RenderData     *renderData,
     
     [self commitToSamplerWithDataBlock:^(NSDictionary *data) {
         
-        
         NSMutableDictionary *files = data[@"file-references"];
         NSMutableArray *titles = [[NSMutableArray alloc] init];
         [[files allValues] enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop){
             [titles addObject:[obj lastPathComponent]];
         }];
-        
-        __block BOOL makeNew = YES;
         
         [titles enumerateObjectsUsingBlock:^(id title, NSUInteger idx, BOOL *stop){
             
@@ -636,9 +698,6 @@ static void noteOFF(RenderData     *renderData,
                 
                 // file ref exists, so let's stop enumerating
                 stop = YES;
-                
-                // don't need to make a new reference
-                makeNew = NO;
                 
                 // look for title in the file-ref list
                 [[files allValues] enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *fileStop){
@@ -663,37 +722,6 @@ static void noteOFF(RenderData     *renderData,
                 
             }
         }];
-        
-        if(makeNew){
-            // file ref doesn't exist
-            
-            // need to generate UNIQUE id
-            NSNumber *wavefileID = [NSNumber numberWithLong:(arc4random() % (UInt32)(INT32_MAX - 1))];
-            
-            // collect all id's
-            NSMutableArray *allIDS = [[NSMutableArray alloc] init];
-            [[files allKeys] enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *fileStop){
-                NSString *value = [[obj componentsSeparatedByString:@":"] lastObject] ;
-                [allIDS addObject:[NSNumber numberWithInteger:[value integerValue]]];
-            }];
-            
-            // hang here till we wave a unique new id
-            while([allIDS containsObject:wavefileID]){
-                wavefileID = [NSNumber numberWithLong:(arc4random() % (UInt32)(INT32_MAX - 1))];
-            }
-            
-            // and finally set it
-            NSMutableDictionary *files = data[@"file-references"];
-            NSString *key = [NSString stringWithFormat:@"Sample:%@",wavefileID];
-            
-            // add to files reference dict.
-            [files setValue:path forKey:key];
-            
-            //set zone wavefile reference id
-            [self setWavefileID:wavefileID forLayer:data[@"Instrument"][@"Layers"][index]];
-            
-        }
-        
     }];
     
     return result;
@@ -711,6 +739,7 @@ static void noteOFF(RenderData     *renderData,
 
 -(OSStatus)commitToSamplerWithDataBlock:(void (^)(NSDictionary *data))blockWithInstrumentData{
 
+    // get data from sampler
     OSStatus result = noErr;
     CFPropertyListRef presetPropertyList = 0;
     UInt32 propListSize =sizeof(CFPropertyListRef);
@@ -726,11 +755,12 @@ static void noteOFF(RenderData     *renderData,
     
     if (result != noErr) {NSLog (@"Error CFPropertyListGetData %d",result); return NO;}
 
-    
+    // pass objc data to block
     NSDictionary *plData = (__bridge NSDictionary*)presetPropertyList;
 
     blockWithInstrumentData(plData);
 
+    // convert back and pass to sampler
     presetPropertyList = (__bridge CFPropertyListRef)plData;
     
     result = AudioUnitSetProperty(
@@ -882,6 +912,8 @@ static void noteOFF(RenderData     *renderData,
     [self loadPropertyList:presetURL];
     
     [self duplicateLayers:8];
+    
+    [self populateSamplerWithAudioFilePaths:self.wavefiles];
 
     
     

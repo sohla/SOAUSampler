@@ -30,7 +30,7 @@
 						<key>inverse</key>
 						<false/>
 						<key>scale</key>
-						<real>0.99000000953674316</real>
+						<real>0.9900000095367432</real>
 						<key>source</key>
 						<integer>1</integer>
 						<key>transform</key>
@@ -88,7 +88,7 @@
 								<key>stage</key>
 								<integer>0</integer>
 								<key>time</key>
-								<real>0.0</real>
+								<real>0</real>
 							</dict>
 							<dict>
 								<key>curve</key>
@@ -96,7 +96,7 @@
 								<key>stage</key>
 								<integer>1</integer>
 								<key>time</key>
-								<real>0.0087213171645998955</real>
+								<real>0.008721317164599895</real>
 							</dict>
 							<dict>
 								<key>curve</key>
@@ -104,7 +104,7 @@
 								<key>stage</key>
 								<integer>2</integer>
 								<key>time</key>
-								<real>0.0</real>
+								<real>0</real>
 							</dict>
 							<dict>
 								<key>curve</key>
@@ -112,7 +112,7 @@
 								<key>stage</key>
 								<integer>3</integer>
 								<key>time</key>
-								<real>0.0</real>
+								<real>0</real>
 							</dict>
 							<dict>
 								<key>level</key>
@@ -150,7 +150,7 @@
 					<key>enabled</key>
 					<false/>
 					<key>resonance</key>
-					<real>0.0</real>
+					<real>0</real>
 					<key>type</key>
 					<integer>40</integer>
 				</dict>
@@ -201,9 +201,7 @@
 	<key>coarse tune</key>
 	<integer>0</integer>
 	<key>data</key>
-	<data>
-	AAAAAAAAAAAAAAAEAAADhAAAAAAAAAOFAAAAAAAAA4YAAAAAAAADhwAAAAA=
-	</data>
+	<data>AAAAAAAAAAAAAAAEAAADhAAAAAAAAAOFAAAAAAAAA4YAAAAAAAADhwAAAAA=</data>
 	<key>file-references</key>
 	<dict>
 		<key>Sample:268435457</key>
@@ -214,9 +212,9 @@
 		<string>/Users/soh_la/Library/Audio/Sounds/fmvoc.wav</string>
 	</dict>
 	<key>fine tune</key>
-	<real>0.0</real>
+	<real>0</real>
 	<key>gain</key>
-	<real>0.0</real>
+	<real>0</real>
 	<key>manufacturer</key>
 	<integer>1634758764</integer>
 	<key>name</key>
@@ -224,7 +222,7 @@
 	<key>output</key>
 	<integer>0</integer>
 	<key>pan</key>
-	<real>0.0</real>
+	<real>0</real>
 	<key>subtype</key>
 	<integer>1935764848</integer>
 	<key>type</key>
