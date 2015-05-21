@@ -37,7 +37,7 @@ static OSStatus renderCallback(	void *							inRefCon,
     
     if (*ioActionFlags & kAudioUnitRenderAction_PostRender) {
 
-        UInt16 beat = 44100 * (30.0f / renderData->tempo);
+        UInt16 beat = 44100 * (60.0f / renderData->tempo);
         UInt16 length = beat;// * renderData->length;
         
 //        if(renderData->frameAccumOff > length){
@@ -86,7 +86,15 @@ static void noteOn(RenderData     *renderData,
     //UInt8 pitch = 64 + (2 * (rand()%(int)(1+6*renderData->pitch)));
     result = MusicDeviceMIDIEvent (samplerUnit, 0xB0, 2, pitch, inNumberFrames - renderData->frameAccum);
     
-    
+    // hold controller 3
+    result = MusicDeviceMIDIEvent (samplerUnit, 0xB0, 3, renderData->length * 127.0, inNumberFrames - renderData->frameAccum);
+
+    // attack controller 4
+    result = MusicDeviceMIDIEvent (samplerUnit, 0xB0, 4, renderData->attack * 127.0, inNumberFrames - renderData->frameAccum);
+
+    // decay controller 5
+    result = MusicDeviceMIDIEvent (samplerUnit, 0xB0, 5, renderData->release * 127.0, inNumberFrames - renderData->frameAccum);
+
     
 //    hold = length - decay
     
@@ -96,8 +104,6 @@ static void noteOn(RenderData     *renderData,
     
     
 
-    // hold controller 9
-//    result = MusicDeviceMIDIEvent (samplerUnit, 0xB0, 9, renderData->release * 127.0, inNumberFrames - renderData->frameAccum);
 
 
     // decay controller 8
@@ -714,6 +720,18 @@ static void noteOFF(RenderData     *renderData,
                         NSString *value = [[key componentsSeparatedByString:@":"] lastObject] ;
                         NSNumber *wavefileID = [NSNumber numberWithInt:[value intValue]];
                         
+                        // calculate length of a beat
+                        float length = (60.0/renderData->tempo);
+                        
+                        // set envelopes hold as beat length
+                        NSMutableDictionary *layer = data[@"Instrument"][@"Layers"][index];
+                        NSMutableDictionary *envelope = layer[@"Envelopes"][0];
+                        NSMutableDictionary *holdStage = envelope[@"Stages"][2];
+                        [holdStage setValue:@(length) forKey:@"time"];
+
+                        
+                        NSLog(@"Loading %@ into Sampler : Tempo %f",title,60.0/renderData->tempo);
+                        
                         [self setWavefileID:wavefileID forLayer:data[@"Instrument"][@"Layers"][index]];
 
                     }
@@ -903,7 +921,7 @@ static void noteOFF(RenderData     *renderData,
 
     [super viewDidLoad];
 
-    NSString *title = @"SamplerPreset26";
+    NSString *title = @"SamplerPreset29";
 //    NSString *title = @"SweepPad18-64";
 	NSURL *presetURL = [[NSURL alloc] initFileURLWithPath:[[NSBundle mainBundle] pathForResource:title ofType:@"aupreset"]];
 

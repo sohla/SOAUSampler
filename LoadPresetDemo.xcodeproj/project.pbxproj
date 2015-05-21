@@ -36,6 +36,10 @@
 		F0441D5C18801BE100E19AFD /* sine440.wav in Resources */ = {isa = PBXBuildFile; fileRef = F0441D5B18801BE100E19AFD /* sine440.wav */; };
 		F0441D5E18801D5A00E19AFD /* zeb.wav in Resources */ = {isa = PBXBuildFile; fileRef = F0441D5D18801D5A00E19AFD /* zeb.wav */; };
 		F055192519F7F4E800287D38 /* Sounds in Resources */ = {isa = PBXBuildFile; fileRef = F055192419F7F4E800287D38 /* Sounds */; };
+		F09B7BA31B0D758C00D7809A /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F09B7BA21B0D758C00D7809A /* CoreMedia.framework */; };
+		F09B7BA51B0D76A500D7809A /* SamplerPreset27.aupreset in Resources */ = {isa = PBXBuildFile; fileRef = F09B7BA41B0D76A500D7809A /* SamplerPreset27.aupreset */; };
+		F09B7BA71B0D7B4500D7809A /* SamplerPreset28.aupreset in Resources */ = {isa = PBXBuildFile; fileRef = F09B7BA61B0D7B4500D7809A /* SamplerPreset28.aupreset */; };
+		F09B7BB71B0D8B2700D7809A /* SamplerPreset29.aupreset in Resources */ = {isa = PBXBuildFile; fileRef = F09B7BB61B0D8B2700D7809A /* SamplerPreset29.aupreset */; };
 		F09DE5F818810A6200971B1A /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F09DE5F718810A6200971B1A /* Default-568h@2x.png */; };
 		F09DE6031881721F00971B1A /* QuasiA 048.wav in Resources */ = {isa = PBXBuildFile; fileRef = F09DE6021881721F00971B1A /* QuasiA 048.wav */; };
 		F09DE6051881730E00971B1A /* D.B. Bass One Shot 11 (G).wav in Resources */ = {isa = PBXBuildFile; fileRef = F09DE6041881730E00971B1A /* D.B. Bass One Shot 11 (G).wav */; };
@@ -88,6 +92,10 @@
 		F0441D5B18801BE100E19AFD /* sine440.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = sine440.wav; sourceTree = "<group>"; };
 		F0441D5D18801D5A00E19AFD /* zeb.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = zeb.wav; sourceTree = "<group>"; };
 		F055192419F7F4E800287D38 /* Sounds */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Sounds; sourceTree = "<group>"; };
+		F09B7BA21B0D758C00D7809A /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
+		F09B7BA41B0D76A500D7809A /* SamplerPreset27.aupreset */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = SamplerPreset27.aupreset; sourceTree = "<group>"; };
+		F09B7BA61B0D7B4500D7809A /* SamplerPreset28.aupreset */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = SamplerPreset28.aupreset; sourceTree = "<group>"; };
+		F09B7BB61B0D8B2700D7809A /* SamplerPreset29.aupreset */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = SamplerPreset29.aupreset; sourceTree = "<group>"; };
 		F09DE5F718810A6200971B1A /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		F09DE6021881721F00971B1A /* QuasiA 048.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "QuasiA 048.wav"; sourceTree = "<group>"; };
 		F09DE6041881730E00971B1A /* D.B. Bass One Shot 11 (G).wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "D.B. Bass One Shot 11 (G).wav"; sourceTree = "<group>"; };
@@ -109,6 +117,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F09B7BA31B0D758C00D7809A /* CoreMedia.framework in Frameworks */,
 				0A355A2613CD2A4C00AB9137 /* AVFoundation.framework in Frameworks */,
 				59E6DE60134FA493009F373F /* AudioToolbox.framework in Frameworks */,
 				59E6DE29134F9EE7009F373F /* UIKit.framework in Frameworks */,
@@ -186,6 +195,9 @@
 				F09E57711B0ACC4B009C2DF3 /* SamplerPreset24.aupreset */,
 				F09E57731B0C579A009C2DF3 /* SamplerPreset25.aupreset */,
 				F09E57751B0C5A60009C2DF3 /* SamplerPreset26.aupreset */,
+				F09B7BA41B0D76A500D7809A /* SamplerPreset27.aupreset */,
+				F09B7BA61B0D7B4500D7809A /* SamplerPreset28.aupreset */,
+				F09B7BB61B0D8B2700D7809A /* SamplerPreset29.aupreset */,
 				F09E57671B0ABF39009C2DF3 /* 2layers.aupreset */,
 			);
 			name = Resources;
@@ -216,6 +228,7 @@
 		59E6DE27134F9EE7009F373F /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				F09B7BA21B0D758C00D7809A /* CoreMedia.framework */,
 				0A355A2513CD2A4C00AB9137 /* AVFoundation.framework */,
 				59E6DE5F134FA493009F373F /* AudioToolbox.framework */,
 				59E6DE28134F9EE7009F373F /* UIKit.framework */,
@@ -291,6 +304,7 @@
 				F0441D52188008B400E19AFD /* 084 hardhop.wav in Resources */,
 				F0441D4E187FB87700E19AFD /* synthicoDrums.wav in Resources */,
 				F09E57721B0ACC4B009C2DF3 /* SamplerPreset24.aupreset in Resources */,
+				F09B7BA71B0D7B4500D7809A /* SamplerPreset28.aupreset in Resources */,
 				F09E576E1B0AC879009C2DF3 /* SamplerPreset22.aupreset in Resources */,
 				F0441D5E18801D5A00E19AFD /* zeb.wav in Resources */,
 				F0441D42187E10DF00E19AFD /* fmvoc.wav in Resources */,
@@ -298,6 +312,7 @@
 				F09E57761B0C5A60009C2DF3 /* SamplerPreset26.aupreset in Resources */,
 				F09E576A1B0AC616009C2DF3 /* SamplerPreset20.aupreset in Resources */,
 				F09E57741B0C579A009C2DF3 /* SamplerPreset25.aupreset in Resources */,
+				F09B7BA51B0D76A500D7809A /* SamplerPreset27.aupreset in Resources */,
 				F0441D5C18801BE100E19AFD /* sine440.wav in Resources */,
 				F09E57661B0AB008009C2DF3 /* SweepPad18-64.aupreset in Resources */,
 				0A355A0D13CCB3E200AB9137 /* InfoPlist.strings in Resources */,
@@ -318,6 +333,7 @@
 				F00C301218824EB000821540 /* SWEEPERD.wav in Resources */,
 				0A355A1E13CCB74600AB9137 /* Icon-Small@2x.png in Resources */,
 				F09E57701B0AC9FF009C2DF3 /* SamplerPreset23.aupreset in Resources */,
+				F09B7BB71B0D8B2700D7809A /* SamplerPreset29.aupreset in Resources */,
 				0A355A1F13CCB74600AB9137 /* Icon.png in Resources */,
 				0A355A2013CCB74600AB9137 /* Icon@2x.png in Resources */,
 				0A23778F13D3A20B004C7E14 /* Default.png in Resources */,
