@@ -53,6 +53,8 @@
 		F09E57741B0C579A009C2DF3 /* SamplerPreset25.aupreset in Resources */ = {isa = PBXBuildFile; fileRef = F09E57731B0C579A009C2DF3 /* SamplerPreset25.aupreset */; };
 		F09E57761B0C5A60009C2DF3 /* SamplerPreset26.aupreset in Resources */ = {isa = PBXBuildFile; fileRef = F09E57751B0C5A60009C2DF3 /* SamplerPreset26.aupreset */; };
 		F0A5BD3C18F191D800A3B6D0 /* 4SecSig.wav in Resources */ = {isa = PBXBuildFile; fileRef = F0A5BD3B18F191D800A3B6D0 /* 4SecSig.wav */; };
+		F0B0A3931B16B06C00E57DA3 /* SamplerPreset31.aupreset in Resources */ = {isa = PBXBuildFile; fileRef = F0B0A3921B16B06C00E57DA3 /* SamplerPreset31.aupreset */; };
+		F0B0A3951B16B85A00E57DA3 /* SamplerPreset32.aupreset in Resources */ = {isa = PBXBuildFile; fileRef = F0B0A3941B16B85A00E57DA3 /* SamplerPreset32.aupreset */; };
 		F0C42C931887813400330B66 /* berilium.wav in Resources */ = {isa = PBXBuildFile; fileRef = F0C42C921887813400330B66 /* berilium.wav */; };
 /* End PBXBuildFile section */
 
@@ -109,6 +111,8 @@
 		F09E57731B0C579A009C2DF3 /* SamplerPreset25.aupreset */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = SamplerPreset25.aupreset; sourceTree = "<group>"; };
 		F09E57751B0C5A60009C2DF3 /* SamplerPreset26.aupreset */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = SamplerPreset26.aupreset; sourceTree = "<group>"; };
 		F0A5BD3B18F191D800A3B6D0 /* 4SecSig.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = 4SecSig.wav; sourceTree = "<group>"; };
+		F0B0A3921B16B06C00E57DA3 /* SamplerPreset31.aupreset */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = SamplerPreset31.aupreset; sourceTree = "<group>"; };
+		F0B0A3941B16B85A00E57DA3 /* SamplerPreset32.aupreset */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = SamplerPreset32.aupreset; sourceTree = "<group>"; };
 		F0C42C921887813400330B66 /* berilium.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = berilium.wav; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -198,6 +202,8 @@
 				F09B7BA41B0D76A500D7809A /* SamplerPreset27.aupreset */,
 				F09B7BA61B0D7B4500D7809A /* SamplerPreset28.aupreset */,
 				F09B7BB61B0D8B2700D7809A /* SamplerPreset29.aupreset */,
+				F0B0A3921B16B06C00E57DA3 /* SamplerPreset31.aupreset */,
+				F0B0A3941B16B85A00E57DA3 /* SamplerPreset32.aupreset */,
 				F09E57671B0ABF39009C2DF3 /* 2layers.aupreset */,
 			);
 			name = Resources;
@@ -277,6 +283,11 @@
 			attributes = {
 				LastUpgradeCheck = 0500;
 				ORGANIZATIONNAME = Apple;
+				TargetAttributes = {
+					59E6DE23134F9EE7009F373F = {
+						DevelopmentTeam = G9C3VREPPJ;
+					};
+				};
 			};
 			buildConfigurationList = 59E6DE1E134F9EE7009F373F /* Build configuration list for PBXProject "LoadPresetDemo" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -311,6 +322,7 @@
 				F09E57681B0ABF39009C2DF3 /* 2layers.aupreset in Resources */,
 				F09E57761B0C5A60009C2DF3 /* SamplerPreset26.aupreset in Resources */,
 				F09E576A1B0AC616009C2DF3 /* SamplerPreset20.aupreset in Resources */,
+				F0B0A3951B16B85A00E57DA3 /* SamplerPreset32.aupreset in Resources */,
 				F09E57741B0C579A009C2DF3 /* SamplerPreset25.aupreset in Resources */,
 				F09B7BA51B0D76A500D7809A /* SamplerPreset27.aupreset in Resources */,
 				F0441D5C18801BE100E19AFD /* sine440.wav in Resources */,
@@ -333,6 +345,7 @@
 				F00C301218824EB000821540 /* SWEEPERD.wav in Resources */,
 				0A355A1E13CCB74600AB9137 /* Icon-Small@2x.png in Resources */,
 				F09E57701B0AC9FF009C2DF3 /* SamplerPreset23.aupreset in Resources */,
+				F0B0A3931B16B06C00E57DA3 /* SamplerPreset31.aupreset in Resources */,
 				F09B7BB71B0D8B2700D7809A /* SamplerPreset29.aupreset in Resources */,
 				0A355A1F13CCB74600AB9137 /* Icon.png in Resources */,
 				0A355A2013CCB74600AB9137 /* Icon@2x.png in Resources */,
@@ -424,7 +437,8 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ENABLE_OBJC_ARC = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Steph O'Hara (5GQYFL9G3E)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -433,7 +447,7 @@
 				INFOPLIST_FILE = "LoadPresetDemo/LoadPresetDemo-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				PRODUCT_NAME = "Load Presets";
-				PROVISIONING_PROFILE = "8388B728-8D5F-41CE-A67E-BF49D8C9BA57";
+				PROVISIONING_PROFILE = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -443,7 +457,8 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ENABLE_OBJC_ARC = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Steph O'Hara (5GQYFL9G3E)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "LoadPresetDemo/LoadPresetDemo-Prefix.pch";
@@ -451,7 +466,7 @@
 				INFOPLIST_FILE = "LoadPresetDemo/LoadPresetDemo-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				PRODUCT_NAME = "Load Presets";
-				PROVISIONING_PROFILE = "8388B728-8D5F-41CE-A67E-BF49D8C9BA57";
+				PROVISIONING_PROFILE = "";
 				VALIDATE_PRODUCT = YES;
 				WRAPPER_EXTENSION = app;
 			};

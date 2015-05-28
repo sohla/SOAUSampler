@@ -20,6 +20,46 @@
 				<array>
 					<dict>
 						<key>ID</key>
+						<integer>3</integer>
+						<key>control</key>
+						<integer>0</integer>
+						<key>destination</key>
+						<integer>605028352</integer>
+						<key>enabled</key>
+						<true/>
+						<key>inverse</key>
+						<false/>
+						<key>max value</key>
+						<integer>1000</integer>
+						<key>min value</key>
+						<real>1</real>
+						<key>source</key>
+						<integer>3</integer>
+						<key>transform</key>
+						<integer>1</integer>
+					</dict>
+					<dict>
+						<key>ID</key>
+						<integer>4</integer>
+						<key>control</key>
+						<integer>0</integer>
+						<key>destination</key>
+						<integer>601882624</integer>
+						<key>enabled</key>
+						<true/>
+						<key>inverse</key>
+						<false/>
+						<key>max value</key>
+						<integer>1000</integer>
+						<key>min value</key>
+						<integer>1</integer>
+						<key>source</key>
+						<integer>4</integer>
+						<key>transform</key>
+						<integer>1</integer>
+					</dict>
+					<dict>
+						<key>ID</key>
 						<integer>0</integer>
 						<key>control</key>
 						<integer>0</integer>
@@ -96,7 +136,7 @@
 								<key>stage</key>
 								<integer>1</integer>
 								<key>time</key>
-								<real>0.008721317164599895</real>
+								<real>0.0025</real>
 							</dict>
 							<dict>
 								<key>curve</key>
@@ -126,7 +166,7 @@
 								<key>stage</key>
 								<integer>5</integer>
 								<key>time</key>
-								<real>0.01</real>
+								<real>0.009999999776482582</real>
 							</dict>
 							<dict>
 								<key>curve</key>
@@ -204,12 +244,8 @@
 	<data>AAAAAAAAAAAAAAAEAAADhAAAAAAAAAOFAAAAAAAAA4YAAAAAAAADhwAAAAA=</data>
 	<key>file-references</key>
 	<dict>
-		<key>Sample:268435457</key>
-		<string>/Users/soh_la/Library/Audio/Sounds/kick_boom.wav</string>
 		<key>Sample:268435458</key>
 		<string>/Users/soh_la/Library/Audio/Sounds/SWEEPERD.wav</string>
-		<key>Sample:268435459</key>
-		<string>/Users/soh_la/Library/Audio/Sounds/fmvoc.wav</string>
 	</dict>
 	<key>fine tune</key>
 	<real>0</real>
@@ -218,7 +254,7 @@
 	<key>manufacturer</key>
 	<integer>1634758764</integer>
 	<key>name</key>
-	<string>SamplerPreset25</string>
+	<string>SamplerPreset32</string>
 	<key>output</key>
 	<integer>0</integer>
 	<key>pan</key>

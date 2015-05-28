@@ -41,8 +41,8 @@ static OSStatus renderCallback(	void *							inRefCon,
         UInt16 length = beat * renderData->length;
         
         if(renderData->frameAccumOff > length){
-            renderData->frameAccumOff = -(beat - length);
             noteOFF(renderData, -beat);
+            renderData->frameAccumOff = -(beat - length);
         }
         
         if(renderData->frameAccum > beat){
@@ -71,30 +71,25 @@ static void noteOn(RenderData     *renderData,
     float val = 12.0 + (renderData->layer * 12);
     UInt32 noteNum = val;
     
-    //            // pitch bend (for fun) use layer
-    //            result = MusicDeviceMIDIEvent (samplerUnit, 0xE0, 0x00, 0x00, inNumberFrames - renderData->frameAccum);
     
-    //            // pan controller
-    //           result = MusicDeviceMIDIEvent (samplerUnit, 0xB0, 10, renderData->modCntl, inNumberFrames - renderData->frameAccum);
-    
-    // pitch controller 2
-    // bipolar -6400 to 6400
     //UInt8 pitch = 52 + renderData->modCntl;
     UInt8 pitch = (64 - 13) + (24 * renderData->pitch);
-    
-    
-    //UInt8 pitch = (64 - 12) + (2 * (rand()%(int)(1+48*renderData->pitch)));
+    //UInt8 pitch = (64 - 13) + (2 * (rand()%(int)(1+48*renderData->pitch)));
     //UInt8 pitch = 64 + (2 * (rand()%(int)(1+6*renderData->pitch)));
     result = MusicDeviceMIDIEvent (samplerUnit, 0xB0, 2, pitch, inNumberFrames - renderData->frameAccum);
     
-    // hold controller 3
-    
-    //• need to work tempo into this formulars
-//    result = MusicDeviceMIDIEvent (samplerUnit, 0xB0, 3, renderData->length * 127.0, inNumberFrames - renderData->frameAccum);
+    // release controller 3
+    result = MusicDeviceMIDIEvent (samplerUnit, 0xB0, 3, renderData->release * 127.0, inNumberFrames - renderData->frameAccum);
 
     // attack controller 4
-    //result = MusicDeviceMIDIEvent (samplerUnit, 0xB0, 4, renderData->attack * 127.0, inNumberFrames - renderData->frameAccum);
+    result = MusicDeviceMIDIEvent (samplerUnit, 0xB0, 4, renderData->attack * 127.0, inNumberFrames - renderData->frameAccum);
 
+    
+    
+    
+    
+    
+    
     // decay controller 5
     //result = MusicDeviceMIDIEvent (samplerUnit, 0xB0, 5, renderData->release * 127.0, inNumberFrames - renderData->frameAccum);
 
@@ -119,15 +114,16 @@ static void noteOn(RenderData     *renderData,
     // sample start
     // Sampler Start factor 0 to 0.99
     UInt32 pos = renderData->position * 130.0f; // what the hey ? it seems we need to over scale
-    result = MusicDeviceMIDIEvent (samplerUnit, 0xB0, 1, pos, inNumberFrames - renderData->frameAccum);
+//    result = MusicDeviceMIDIEvent (samplerUnit, 0xB0, 1, pos, inNumberFrames - renderData->frameAccum-64);
     
     // oh look, we can do it via sending message directly via kAudioUnitScope_Group
-    //            AudioUnitSetParameter(samplerUnit,
-    //                                  1,
-    //                                  kAudioUnitScope_Group,
-    //                                  0,
-    //                                  pos,
-    //                                  inNumberFrames - renderData->frameAccum);
+    // also seems "quieter" ie. less zipper noise when using this directily
+            AudioUnitSetParameter(samplerUnit,
+                                  1,
+                                  kAudioUnitScope_Group,
+                                  0,
+                                  pos,
+                                  inNumberFrames - renderData->frameAccum);
     
     
     // note on
@@ -153,13 +149,9 @@ static void noteOFF(RenderData     *renderData,
     OSStatus result = noErr;
     
     AudioUnit samplerUnit = renderData->samplerUnit;
-    UInt32 noteCommand = 	kMIDIMessage_NoteOn << 4 | 0;
+    UInt32 noteCommand = 	kMIDIMessage_NoteOff << 4 | 0;
     UInt32 onVelocity = 0;
-
-    // note off (length)
-    noteCommand = 	kMIDIMessage_NoteOff << 4 | 0;
     result = MusicDeviceMIDIEvent (samplerUnit, noteCommand, renderData->prevNote, onVelocity,0);
-    
     NSLog(@"NOTE OFF");
 
     //NSLog(@"NOTE OFF %ld",renderData->frameAccumOff);
@@ -300,9 +292,9 @@ static void noteOFF(RenderData     *renderData,
     renderData->layer = 0;
     
     renderData->pitch = 0.5f;
-    renderData->length = 1.0f;
+    renderData->length = 0.5f;
     renderData->attack = 0.1f;
-    renderData->release = 1.0f;
+    renderData->release = 0.3f;
     renderData->position = 0.0f;
     
 	// Obtain a reference to the I/O unit from its node
@@ -394,7 +386,7 @@ static void noteOFF(RenderData     *renderData,
     
     
     UISlider *slider = (UISlider*)sender;
-    renderData->tempo = 60.0f + ([slider value] * 400.0);
+    renderData->tempo = 60.0f + ([slider value] * 800.0);
     self.tempoLabel.text = [NSString stringWithFormat:@"%.0f",renderData->tempo];
     
     // need to reset these since large jumps in tempo will set the accum's out of sync
@@ -404,7 +396,7 @@ static void noteOFF(RenderData     *renderData,
 
 - (IBAction)onLengthChanged:(UISlider *)sender {
     
-    renderData->length = [sender value];
+    renderData->length = 0.0001f + ([sender value] * 0.9999f);//[sender value];
 }
 
 - (IBAction)onPitchChanged:(UISlider *)sender {
@@ -451,7 +443,7 @@ static void noteOFF(RenderData     *renderData,
     
     float val = roundf([sender value] * 16.0f) / 16.0;
     [sender setValue:val];
-    NSLog(@"%f",[sender value]);
+//    NSLog(@"%f",[sender value]);
     
     renderData->position = [sender value];
 }
@@ -927,7 +919,9 @@ static void noteOFF(RenderData     *renderData,
     [super viewDidLoad];
 
     
-    NSString *title = @"SamplerPreset25"; // pitch, start factor
+//    NSString *title = @"SamplerPreset25"; // pitch, start factor
+//    NSString *title = @"SamplerPreset31"; // pitch, start factor, release factor #3
+    NSString *title = @"SamplerPreset32"; // pitch, start factor, release factor #3, attack factor #4
 //    NSString *title = @"SamplerPreset28"; // hold
 //    NSString *title = @"SamplerPreset29"; // hold, attack
 //    NSString *title = @"SamplerPreset30"; // hold, attack, decay

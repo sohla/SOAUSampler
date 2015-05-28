@@ -20,6 +20,26 @@
 				<array>
 					<dict>
 						<key>ID</key>
+						<integer>3</integer>
+						<key>control</key>
+						<integer>0</integer>
+						<key>destination</key>
+						<integer>605028352</integer>
+						<key>enabled</key>
+						<true/>
+						<key>inverse</key>
+						<false/>
+						<key>max value</key>
+						<integer>1000</integer>
+						<key>min value</key>
+						<integer>1</integer>
+						<key>source</key>
+						<integer>3</integer>
+						<key>transform</key>
+						<integer>1</integer>
+					</dict>
+					<dict>
+						<key>ID</key>
 						<integer>0</integer>
 						<key>control</key>
 						<integer>0</integer>
@@ -218,7 +238,7 @@
 	<key>manufacturer</key>
 	<integer>1634758764</integer>
 	<key>name</key>
-	<string>SamplerPreset25</string>
+	<string>SamplerPreset31</string>
 	<key>output</key>
 	<integer>0</integer>
 	<key>pan</key>
