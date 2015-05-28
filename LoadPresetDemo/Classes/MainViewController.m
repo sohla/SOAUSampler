@@ -23,6 +23,11 @@ static void noteOn(RenderData     *renderData,
 static void noteOFF(RenderData     *renderData,
                    UInt32			inNumberFrames);
 
+
+
+//-------------------------------------------------------------
+//
+//-------------------------------------------------------------
 static OSStatus renderCallback(	void *							inRefCon,
 							   AudioUnitRenderActionFlags *	ioActionFlags,
 							   const AudioTimeStamp *			inTimeStamp,
@@ -56,6 +61,9 @@ static OSStatus renderCallback(	void *							inRefCon,
 	
 }
 
+//-------------------------------------------------------------
+//
+//-------------------------------------------------------------
 
 static void noteOn(RenderData     *renderData,
                      UInt32			inNumberFrames){
@@ -113,6 +121,10 @@ static void noteOn(RenderData     *renderData,
 
 }
 
+//-------------------------------------------------------------
+//
+//-------------------------------------------------------------
+
 static void noteOFF(RenderData     *renderData,
                     UInt32			inNumberFrames){
 
@@ -132,9 +144,6 @@ static void noteOFF(RenderData     *renderData,
 //
 //-------------------------------------------------------------
 
-
-
-// private class extension
 @interface MainViewController ()
 @property (readwrite) Float64   graphSampleRate;
 @property (readwrite) AUGraph   processingGraph;
@@ -143,14 +152,11 @@ static void noteOFF(RenderData     *renderData,
 @property (weak, nonatomic) IBOutlet UIProgressView *cpuLoadView;
 
 @property (nonatomic, strong) CADisplayLink *displayLink;
-
-//@property (retain, nonatomic) NSDictionary *samplerPropertyList;
 @property (retain, nonatomic) NSArray *wavefiles;
 
+
 -(NSArray*)getAllBundleFilesForTypes:(NSArray*)types;
-
-- (OSStatus)    injectDataIntoPropertyList:(NSURL*)presetURL withDataBlock:(void (^)(NSDictionary*))blockWithInstrumentData;
-
+//-(OSStatus)injectDataIntoPropertyList:(NSURL*)presetURL withDataBlock:(void (^)(NSDictionary*))blockWithInstrumentData;
 -(OSStatus)loadWavefile:(NSString*)path forLayer:(UInt8)index;
 
 
@@ -183,7 +189,7 @@ static void noteOFF(RenderData     *renderData,
     
     // Specify that this object is the delegate of the audio session, so that
     //    this object's endInterruption method will be invoked when needed.
-    [mySession setDelegate: self];
+//    [mySession setDelegate: self];
     
     // Assign the Playback category to the audio session. This category supports
     //    audio output with the Ring/Silent switch in the Silent position.
@@ -194,7 +200,7 @@ static void noteOFF(RenderData     *renderData,
     // Request a desired hardware sample rate.
     self.graphSampleRate = 44100.0;    // Hertz
     
-    [mySession setPreferredHardwareSampleRate: self.graphSampleRate error: &audioSessionError];
+    [mySession setPreferredSampleRate:self.graphSampleRate error:&audioSessionError];
     if (audioSessionError != nil) {NSLog (@"Error setting preferred hardware sample rate."); return NO;}
     
     // Activate the audio session
@@ -202,7 +208,7 @@ static void noteOFF(RenderData     *renderData,
     if (audioSessionError != nil) {NSLog (@"Error activating the audio session."); return NO;}
     
     // Obtain the actual hardware sample rate and store it for later use in the audio processing graph.
-    self.graphSampleRate = [mySession currentHardwareSampleRate];
+    self.graphSampleRate = [mySession sampleRate];
     
     return YES;
 }
@@ -377,6 +383,9 @@ static void noteOFF(RenderData     *renderData,
 - (IBAction)onLengthChanged:(UISlider *)sender {
     
     renderData->length = 0.0001f + ([sender value] * 0.9999f);//[sender value];
+    renderData->frameAccumOff = 0;
+    renderData->frameAccum = 0;
+
 }
 
 - (IBAction)onPitchChanged:(UISlider *)sender {
@@ -503,7 +512,7 @@ static void noteOFF(RenderData     *renderData,
                                       sizeof(CFPropertyListRef)
                                       );
         
-        if (result != noErr) {NSLog (@"Error AudioUnitSetProperty : kAudioUnitProperty_ClassInfo %d",result); return NO;}
+        if (result != noErr) {NSLog (@"Error AudioUnitSetProperty : kAudioUnitProperty_ClassInfo %d",(int)result); return NO;}
         
         CFRelease(presetPropertyList);
         
@@ -747,7 +756,7 @@ static void noteOFF(RenderData     *renderData,
                                   &propListSize
                                   );
     
-    if (result != noErr) {NSLog (@"Error CFPropertyListGetData %d",result); return NO;}
+    if (result != noErr) {NSLog (@"Error CFPropertyListGetData %d",(int)result); return NO;}
 
     // pass objc data to block
     NSDictionary *plData = (__bridge NSDictionary*)presetPropertyList;
@@ -766,7 +775,7 @@ static void noteOFF(RenderData     *renderData,
                                   sizeof(CFPropertyListRef)
                                   );
     
-    if (result != noErr) {NSLog (@"Error AudioUnitSetProperty : kAudioUnitProperty_ClassInfo %d",result); return NO;}
+    if (result != noErr) {NSLog (@"Error AudioUnitSetProperty : kAudioUnitProperty_ClassInfo %d",(int)result); return NO;}
 
     
     return result;
@@ -816,7 +825,7 @@ static void noteOFF(RenderData     *renderData,
         return;
     }
     
-    if (flags & AVAudioSessionInterruptionFlags_ShouldResume) {
+    if (flags & AVAudioSessionInterruptionOptionShouldResume) {
         
         /*
          In a shipping application, check here to see if the hardware sample rate changed from 
@@ -871,20 +880,12 @@ static void noteOFF(RenderData     *renderData,
         
     self = [super initWithNibName: nibNameOrNil bundle: nibBundleOrNil];
         
-    // If object initialization fails, return immediately.
     if (!self) {
-//        _samplerPropertyList = [[NSDictionary alloc] init];
         
         return nil;
     }
     
-    // NOTE :
-    // We have to edit .aupreset manually for
-    // connections : attack and decay max. = 1000
-    // envelope : attack = 0.0025 & release = 0.01
-
-    
-    // Set up the audio session for this app, in the process obtaining the 
+    // Set up the audio session for this app, in the process obtaining the
     // hardware sample rate for use in the audio processing graph.
     BOOL audioSessionActivated = [self setupAudioSession];
     NSAssert (audioSessionActivated == YES, @"Unable to set up audio session.");
@@ -900,6 +901,12 @@ static void noteOFF(RenderData     *renderData,
 - (void) viewDidLoad {
 
     [super viewDidLoad];
+
+    // NOTE :
+    // We have to edit .aupreset manually for
+    // connections : attack and decay max. = 1000
+    // envelope : attack = 0.0025 & release = 0.01
+    
 
     
 //    NSString *title = @"SamplerPreset25"; // pitch, start factor
@@ -920,18 +927,10 @@ static void noteOFF(RenderData     *renderData,
     [self duplicateLayers:9];
     
     [self populateSamplerWithAudioFilePaths:self.wavefiles];
-
-    
-    
     
     [self registerForUIApplicationNotifications];
-
     
     [self.layerSelection setSelectedSegmentIndex:0];
-    // only after property list has loaded
-    // load first wavefile in tableview
-//    NSString *path = [self.wavefiles objectAtIndex:0];
-//    [self loadWavefile:path forLayer:[self.layerSelection selectedSegmentIndex]];
 
     [self.tempoSlider setValue:0.5];
     
