@@ -38,15 +38,14 @@ static OSStatus renderCallback(	void *							inRefCon,
     if (*ioActionFlags & kAudioUnitRenderAction_PostRender) {
 
         UInt16 beat = 44100 * (60.0f / renderData->tempo);
-        UInt16 length = beat;// * renderData->length;
+        UInt16 length = beat * renderData->length;
         
-//        if(renderData->frameAccumOff > length){
-//            renderData->frameAccumOff = 0;
-//            noteOFF(renderData, -beat);
-//        }
+        if(renderData->frameAccumOff > length){
+            renderData->frameAccumOff = -(beat - length);
+            noteOFF(renderData, -beat);
+        }
         
         if(renderData->frameAccum > beat){
-            noteOFF(renderData, -beat);
             renderData->frameAccum = 0;
             noteOn(renderData,-beat);
         }
@@ -54,6 +53,8 @@ static OSStatus renderCallback(	void *							inRefCon,
         renderData->frameAccum += inNumberFrames;
         renderData->frameAccumOff += inNumberFrames;
     }
+    
+
 	return noErr;
 	
 }
@@ -79,23 +80,23 @@ static void noteOn(RenderData     *renderData,
     // pitch controller 2
     // bipolar -6400 to 6400
     //UInt8 pitch = 52 + renderData->modCntl;
-    //UInt8 pitch = (64 - 12) + (24 * renderData->pitch);
+    UInt8 pitch = (64 - 13) + (24 * renderData->pitch);
     
     
-    UInt8 pitch = (64 - 12) + (2 * (rand()%(int)(1+48*renderData->pitch)));
+    //UInt8 pitch = (64 - 12) + (2 * (rand()%(int)(1+48*renderData->pitch)));
     //UInt8 pitch = 64 + (2 * (rand()%(int)(1+6*renderData->pitch)));
     result = MusicDeviceMIDIEvent (samplerUnit, 0xB0, 2, pitch, inNumberFrames - renderData->frameAccum);
     
     // hold controller 3
     
     //• need to work tempo into this formulars
-    result = MusicDeviceMIDIEvent (samplerUnit, 0xB0, 3, renderData->length * 127.0, inNumberFrames - renderData->frameAccum);
+//    result = MusicDeviceMIDIEvent (samplerUnit, 0xB0, 3, renderData->length * 127.0, inNumberFrames - renderData->frameAccum);
 
     // attack controller 4
-    result = MusicDeviceMIDIEvent (samplerUnit, 0xB0, 4, renderData->attack * 127.0, inNumberFrames - renderData->frameAccum);
+    //result = MusicDeviceMIDIEvent (samplerUnit, 0xB0, 4, renderData->attack * 127.0, inNumberFrames - renderData->frameAccum);
 
     // decay controller 5
-    result = MusicDeviceMIDIEvent (samplerUnit, 0xB0, 5, renderData->release * 127.0, inNumberFrames - renderData->frameAccum);
+    //result = MusicDeviceMIDIEvent (samplerUnit, 0xB0, 5, renderData->release * 127.0, inNumberFrames - renderData->frameAccum);
 
     
 //    hold = length - decay
@@ -142,7 +143,7 @@ static void noteOn(RenderData     *renderData,
         renderData->modCntl = 0;
     }
     
-    //NSLog(@"NOTE ON %ld %ld",renderData->frameAccum, pos);
+    NSLog(@"NOTE ON");
 
 }
 
@@ -159,6 +160,8 @@ static void noteOFF(RenderData     *renderData,
     noteCommand = 	kMIDIMessage_NoteOff << 4 | 0;
     result = MusicDeviceMIDIEvent (samplerUnit, noteCommand, renderData->prevNote, onVelocity,0);
     
+    NSLog(@"NOTE OFF");
+
     //NSLog(@"NOTE OFF %ld",renderData->frameAccumOff);
 
 }
@@ -923,7 +926,13 @@ static void noteOFF(RenderData     *renderData,
 
     [super viewDidLoad];
 
-    NSString *title = @"SamplerPreset29";
+    
+    NSString *title = @"SamplerPreset25"; // pitch, start factor
+//    NSString *title = @"SamplerPreset28"; // hold
+//    NSString *title = @"SamplerPreset29"; // hold, attack
+//    NSString *title = @"SamplerPreset30"; // hold, attack, decay
+    
+    
 //    NSString *title = @"SweepPad18-64";
 	NSURL *presetURL = [[NSURL alloc] initFileURLWithPath:[[NSBundle mainBundle] pathForResource:title ofType:@"aupreset"]];
 

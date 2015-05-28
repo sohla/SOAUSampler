@@ -124,7 +124,7 @@
 								<key>stage</key>
 								<integer>2</integer>
 								<key>time</key>
-								<real>1</real>
+								<integer>1</integer>
 							</dict>
 							<dict>
 								<key>curve</key>
