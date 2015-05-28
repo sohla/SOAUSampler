@@ -55,6 +55,7 @@
 		F0A5BD3C18F191D800A3B6D0 /* 4SecSig.wav in Resources */ = {isa = PBXBuildFile; fileRef = F0A5BD3B18F191D800A3B6D0 /* 4SecSig.wav */; };
 		F0B0A3931B16B06C00E57DA3 /* SamplerPreset31.aupreset in Resources */ = {isa = PBXBuildFile; fileRef = F0B0A3921B16B06C00E57DA3 /* SamplerPreset31.aupreset */; };
 		F0B0A3951B16B85A00E57DA3 /* SamplerPreset32.aupreset in Resources */ = {isa = PBXBuildFile; fileRef = F0B0A3941B16B85A00E57DA3 /* SamplerPreset32.aupreset */; };
+		F0B0A3971B16C75D00E57DA3 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F0B0A3961B16C75D00E57DA3 /* QuartzCore.framework */; };
 		F0C42C931887813400330B66 /* berilium.wav in Resources */ = {isa = PBXBuildFile; fileRef = F0C42C921887813400330B66 /* berilium.wav */; };
 /* End PBXBuildFile section */
 
@@ -113,6 +114,7 @@
 		F0A5BD3B18F191D800A3B6D0 /* 4SecSig.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = 4SecSig.wav; sourceTree = "<group>"; };
 		F0B0A3921B16B06C00E57DA3 /* SamplerPreset31.aupreset */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = SamplerPreset31.aupreset; sourceTree = "<group>"; };
 		F0B0A3941B16B85A00E57DA3 /* SamplerPreset32.aupreset */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = SamplerPreset32.aupreset; sourceTree = "<group>"; };
+		F0B0A3961B16C75D00E57DA3 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		F0C42C921887813400330B66 /* berilium.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = berilium.wav; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -121,6 +123,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F0B0A3971B16C75D00E57DA3 /* QuartzCore.framework in Frameworks */,
 				F09B7BA31B0D758C00D7809A /* CoreMedia.framework in Frameworks */,
 				0A355A2613CD2A4C00AB9137 /* AVFoundation.framework in Frameworks */,
 				59E6DE60134FA493009F373F /* AudioToolbox.framework in Frameworks */,
@@ -234,6 +237,7 @@
 		59E6DE27134F9EE7009F373F /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				F0B0A3961B16C75D00E57DA3 /* QuartzCore.framework */,
 				F09B7BA21B0D758C00D7809A /* CoreMedia.framework */,
 				0A355A2513CD2A4C00AB9137 /* AVFoundation.framework */,
 				59E6DE5F134FA493009F373F /* AudioToolbox.framework */,
@@ -445,7 +449,8 @@
 				GCC_PREFIX_HEADER = "LoadPresetDemo/LoadPresetDemo-Prefix.pch";
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				INFOPLIST_FILE = "LoadPresetDemo/LoadPresetDemo-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
+				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = "Load Presets";
 				PROVISIONING_PROFILE = "";
 				WRAPPER_EXTENSION = app;
@@ -464,7 +469,8 @@
 				GCC_PREFIX_HEADER = "LoadPresetDemo/LoadPresetDemo-Prefix.pch";
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				INFOPLIST_FILE = "LoadPresetDemo/LoadPresetDemo-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
+				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_NAME = "Load Presets";
 				PROVISIONING_PROFILE = "";
 				VALIDATE_PRODUCT = YES;

@@ -13,9 +13,6 @@ enum {
 	kMIDIMessage_NoteOff   = 0x8,
 };
 
-#define kLowNote  48
-#define kHighNote 72
-#define kMidNote  60
 
 //-------------------------------------------------------------
 //
@@ -84,34 +81,7 @@ static void noteOn(RenderData     *renderData,
     // attack controller 4
     result = MusicDeviceMIDIEvent (samplerUnit, 0xB0, 4, renderData->attack * 127.0, inNumberFrames - renderData->frameAccum);
 
-    
-    
-    
-    
-    
-    
-    // decay controller 5
-    //result = MusicDeviceMIDIEvent (samplerUnit, 0xB0, 5, renderData->release * 127.0, inNumberFrames - renderData->frameAccum);
-
-    
-//    hold = length - decay
-    
-    
-    // attack controller 3
-//-    result = MusicDeviceMIDIEvent (samplerUnit, 0xB0, 3, renderData->attack * 127.0, inNumberFrames - renderData->frameAccum);
-    
-    
-
-
-
-    // decay controller 8
-//    result = MusicDeviceMIDIEvent (samplerUnit, 0xB0, 8, renderData->release * 127.0, inNumberFrames - renderData->frameAccum);
-
-    
-    
-    
-    
-    // sample start
+     // sample start
     // Sampler Start factor 0 to 0.99
     UInt32 pos = renderData->position * 130.0f; // what the hey ? it seems we need to over scale
 //    result = MusicDeviceMIDIEvent (samplerUnit, 0xB0, 1, pos, inNumberFrames - renderData->frameAccum-64);
@@ -170,6 +140,9 @@ static void noteOFF(RenderData     *renderData,
 @property (readwrite) AUGraph   processingGraph;
 @property (readwrite) AudioUnit samplerUnit;
 @property (readwrite) AudioUnit ioUnit;
+@property (weak, nonatomic) IBOutlet UIProgressView *cpuLoadView;
+
+@property (nonatomic, strong) CADisplayLink *displayLink;
 
 //@property (retain, nonatomic) NSDictionary *samplerPropertyList;
 @property (retain, nonatomic) NSArray *wavefiles;
@@ -380,6 +353,13 @@ static void noteOFF(RenderData     *renderData,
         CAShow (graph); 
     }
 }
+-(float)getCPULoad{
+    
+    OSStatus result = noErr;
+    float load = 0.0f;
+    result = (AUGraphGetCPULoad(self.processingGraph,&load), "AUGraphGetCPULoad");
+    return load;
+}
 
 
 - (IBAction)onTempoChanged:(UISlider *)sender {
@@ -425,7 +405,6 @@ static void noteOFF(RenderData     *renderData,
 }
 
 - (IBAction)onLayerSelection:(UISegmentedControl *)sender {
-
 
     renderData->layer = [sender selectedSegmentIndex];
 
@@ -899,8 +878,12 @@ static void noteOFF(RenderData     *renderData,
         return nil;
     }
     
-    
+    // NOTE :
+    // We have to edit .aupreset manually for
+    // connections : attack and decay max. = 1000
+    // envelope : attack = 0.0025 & release = 0.01
 
+    
     // Set up the audio session for this app, in the process obtaining the 
     // hardware sample rate for use in the audio processing graph.
     BOOL audioSessionActivated = [self setupAudioSession];
@@ -934,7 +917,7 @@ static void noteOFF(RenderData     *renderData,
     
     [self loadPropertyList:presetURL];
     
-    [self duplicateLayers:8];
+    [self duplicateLayers:9];
     
     [self populateSamplerWithAudioFilePaths:self.wavefiles];
 
@@ -951,6 +934,13 @@ static void noteOFF(RenderData     *renderData,
 //    [self loadWavefile:path forLayer:[self.layerSelection selectedSegmentIndex]];
 
     [self.tempoSlider setValue:0.5];
+    
+    for(int i=0;i<8;i++){
+        NSString *path = [self.wavefiles objectAtIndex:i];
+        [self loadWavefile:path forLayer:i];
+
+        
+    }
 
 }
 
@@ -959,9 +949,17 @@ static void noteOFF(RenderData     *renderData,
 
 -(void)viewDidAppear:(BOOL)animated{
     
+    _displayLink = [CADisplayLink displayLinkWithTarget:self selector:@selector(onDisplayLink:)];
+    [self.displayLink setFrameInterval:10];
+    [self.displayLink addToRunLoop:[NSRunLoop mainRunLoop] forMode:NSDefaultRunLoopMode];
     
 }
-
+-(void)viewDidDisappear:(BOOL)animated{
+    
+    [self.displayLink removeFromRunLoop:[NSRunLoop mainRunLoop] forMode:NSDefaultRunLoopMode];
+    [self.displayLink invalidate];
+    
+}
 - (BOOL) shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
 
     // Return YES for supported orientations
@@ -1004,5 +1002,17 @@ static void noteOFF(RenderData     *renderData,
     NSString *path = [self.wavefiles objectAtIndex:indexPath.row];
     [self loadWavefile:path forLayer:[self.layerSelection selectedSegmentIndex]];
 
+}
+
+-(void)onDisplayLink:(CADisplayLink *)sender{
+    
+    UInt32 index = arc4random()%8;
+    
+    [self.layerSelection setSelectedSegmentIndex:index];
+    [self.layerSelection sendActionsForControlEvents:UIControlEventValueChanged];
+
+    
+    
+    [self.cpuLoadView setProgress:[self getCPULoad]];
 }
 @end

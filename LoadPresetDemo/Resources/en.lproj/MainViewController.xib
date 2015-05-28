@@ -6,6 +6,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="MainViewController">
             <connections>
+                <outlet property="cpuLoadView" destination="nfT-ej-Zn5" id="c8I-n6-zKJ"/>
                 <outlet property="filesTableView" destination="utF-PA-a57" id="yEl-qd-wT2"/>
                 <outlet property="layerSelection" destination="gAJ-S5-OVn" id="mqq-Cu-FID"/>
                 <outlet property="tempoLabel" destination="OrB-m7-4Gk" id="Yfc-Xd-zOI"/>
@@ -137,11 +138,16 @@
                         <segment title="6"/>
                         <segment title="7"/>
                         <segment title="8"/>
+                        <segment title="9"/>
                     </segments>
                     <connections>
                         <action selector="onLayerSelection:" destination="-1" eventType="valueChanged" id="nyM-Ve-1WG"/>
                     </connections>
                 </segmentedControl>
+                <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" progress="0.5" id="nfT-ej-Zn5">
+                    <rect key="frame" x="0.0" y="43" width="320" height="2"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                </progressView>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <simulatedScreenMetrics key="simulatedDestinationMetrics"/>
