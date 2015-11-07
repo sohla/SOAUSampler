@@ -1005,13 +1005,12 @@ static void noteOFF(RenderData     *renderData,
 
 -(void)onDisplayLink:(CADisplayLink *)sender{
     
-    UInt32 index = arc4random()%8;
-    
-    [self.layerSelection setSelectedSegmentIndex:index];
-    [self.layerSelection sendActionsForControlEvents:UIControlEventValueChanged];
-
-    
-    
+    if(NO){
+        UInt32 index = arc4random()%8;
+        
+        [self.layerSelection setSelectedSegmentIndex:index];
+        [self.layerSelection sendActionsForControlEvents:UIControlEventValueChanged];
+    }
     [self.cpuLoadView setProgress:[self getCPULoad]];
 }
 @end
