@@ -8,8 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		0A23778F13D3A20B004C7E14 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 0A23778E13D3A20B004C7E14 /* Default.png */; };
-		0A355A0413CCB2E100AB9137 /* LoadPresetDemoAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A355A0113CCB2E100AB9137 /* LoadPresetDemoAppDelegate.m */; };
-		0A355A0513CCB2E100AB9137 /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A355A0313CCB2E100AB9137 /* MainViewController.m */; };
 		0A355A0D13CCB3E200AB9137 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 0A355A0713CCB3E200AB9137 /* InfoPlist.strings */; };
 		0A355A0E13CCB3E200AB9137 /* MainViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0A355A0913CCB3E200AB9137 /* MainViewController.xib */; };
 		0A355A0F13CCB3E200AB9137 /* MainWindow_iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0A355A0B13CCB3E200AB9137 /* MainWindow_iPhone.xib */; };
@@ -36,35 +34,33 @@
 		F0441D5C18801BE100E19AFD /* sine440.wav in Resources */ = {isa = PBXBuildFile; fileRef = F0441D5B18801BE100E19AFD /* sine440.wav */; };
 		F0441D5E18801D5A00E19AFD /* zeb.wav in Resources */ = {isa = PBXBuildFile; fileRef = F0441D5D18801D5A00E19AFD /* zeb.wav */; };
 		F055192519F7F4E800287D38 /* Sounds in Resources */ = {isa = PBXBuildFile; fileRef = F055192419F7F4E800287D38 /* Sounds */; };
+		F079E5821BED83BB00AF1F3A /* LoadPresetDemoAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = F079E57F1BED83BB00AF1F3A /* LoadPresetDemoAppDelegate.m */; };
+		F079E5831BED83BB00AF1F3A /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F079E5811BED83BB00AF1F3A /* MainViewController.m */; };
+		F079E5931BED846100AF1F3A /* 2layers.aupreset in Resources */ = {isa = PBXBuildFile; fileRef = F079E5851BED846100AF1F3A /* 2layers.aupreset */; };
+		F079E5941BED846100AF1F3A /* SamplerPreset20.aupreset in Resources */ = {isa = PBXBuildFile; fileRef = F079E5861BED846100AF1F3A /* SamplerPreset20.aupreset */; };
+		F079E5951BED846100AF1F3A /* SamplerPreset21.aupreset in Resources */ = {isa = PBXBuildFile; fileRef = F079E5871BED846100AF1F3A /* SamplerPreset21.aupreset */; };
+		F079E5961BED846100AF1F3A /* SamplerPreset22.aupreset in Resources */ = {isa = PBXBuildFile; fileRef = F079E5881BED846100AF1F3A /* SamplerPreset22.aupreset */; };
+		F079E5971BED846100AF1F3A /* SamplerPreset23.aupreset in Resources */ = {isa = PBXBuildFile; fileRef = F079E5891BED846100AF1F3A /* SamplerPreset23.aupreset */; };
+		F079E5981BED846100AF1F3A /* SamplerPreset24.aupreset in Resources */ = {isa = PBXBuildFile; fileRef = F079E58A1BED846100AF1F3A /* SamplerPreset24.aupreset */; };
+		F079E5991BED846100AF1F3A /* SamplerPreset25.aupreset in Resources */ = {isa = PBXBuildFile; fileRef = F079E58B1BED846100AF1F3A /* SamplerPreset25.aupreset */; };
+		F079E59A1BED846100AF1F3A /* SamplerPreset26.aupreset in Resources */ = {isa = PBXBuildFile; fileRef = F079E58C1BED846100AF1F3A /* SamplerPreset26.aupreset */; };
+		F079E59B1BED846100AF1F3A /* SamplerPreset27.aupreset in Resources */ = {isa = PBXBuildFile; fileRef = F079E58D1BED846100AF1F3A /* SamplerPreset27.aupreset */; };
+		F079E59C1BED846100AF1F3A /* SamplerPreset28.aupreset in Resources */ = {isa = PBXBuildFile; fileRef = F079E58E1BED846100AF1F3A /* SamplerPreset28.aupreset */; };
+		F079E59D1BED846100AF1F3A /* SamplerPreset29.aupreset in Resources */ = {isa = PBXBuildFile; fileRef = F079E58F1BED846100AF1F3A /* SamplerPreset29.aupreset */; };
+		F079E59E1BED846100AF1F3A /* SamplerPreset31.aupreset in Resources */ = {isa = PBXBuildFile; fileRef = F079E5901BED846100AF1F3A /* SamplerPreset31.aupreset */; };
+		F079E59F1BED846100AF1F3A /* SamplerPreset32.aupreset in Resources */ = {isa = PBXBuildFile; fileRef = F079E5911BED846100AF1F3A /* SamplerPreset32.aupreset */; };
+		F079E5A01BED846100AF1F3A /* SweepPad18-64.aupreset in Resources */ = {isa = PBXBuildFile; fileRef = F079E5921BED846100AF1F3A /* SweepPad18-64.aupreset */; };
 		F09B7BA31B0D758C00D7809A /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F09B7BA21B0D758C00D7809A /* CoreMedia.framework */; };
-		F09B7BA51B0D76A500D7809A /* SamplerPreset27.aupreset in Resources */ = {isa = PBXBuildFile; fileRef = F09B7BA41B0D76A500D7809A /* SamplerPreset27.aupreset */; };
-		F09B7BA71B0D7B4500D7809A /* SamplerPreset28.aupreset in Resources */ = {isa = PBXBuildFile; fileRef = F09B7BA61B0D7B4500D7809A /* SamplerPreset28.aupreset */; };
-		F09B7BB71B0D8B2700D7809A /* SamplerPreset29.aupreset in Resources */ = {isa = PBXBuildFile; fileRef = F09B7BB61B0D8B2700D7809A /* SamplerPreset29.aupreset */; };
 		F09DE5F818810A6200971B1A /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F09DE5F718810A6200971B1A /* Default-568h@2x.png */; };
 		F09DE6031881721F00971B1A /* QuasiA 048.wav in Resources */ = {isa = PBXBuildFile; fileRef = F09DE6021881721F00971B1A /* QuasiA 048.wav */; };
 		F09DE6051881730E00971B1A /* D.B. Bass One Shot 11 (G).wav in Resources */ = {isa = PBXBuildFile; fileRef = F09DE6041881730E00971B1A /* D.B. Bass One Shot 11 (G).wav */; };
-		F09E57661B0AB008009C2DF3 /* SweepPad18-64.aupreset in Resources */ = {isa = PBXBuildFile; fileRef = F09E57651B0AB008009C2DF3 /* SweepPad18-64.aupreset */; };
-		F09E57681B0ABF39009C2DF3 /* 2layers.aupreset in Resources */ = {isa = PBXBuildFile; fileRef = F09E57671B0ABF39009C2DF3 /* 2layers.aupreset */; };
-		F09E576A1B0AC616009C2DF3 /* SamplerPreset20.aupreset in Resources */ = {isa = PBXBuildFile; fileRef = F09E57691B0AC616009C2DF3 /* SamplerPreset20.aupreset */; };
-		F09E576C1B0AC68D009C2DF3 /* SamplerPreset21.aupreset in Resources */ = {isa = PBXBuildFile; fileRef = F09E576B1B0AC68D009C2DF3 /* SamplerPreset21.aupreset */; };
-		F09E576E1B0AC879009C2DF3 /* SamplerPreset22.aupreset in Resources */ = {isa = PBXBuildFile; fileRef = F09E576D1B0AC879009C2DF3 /* SamplerPreset22.aupreset */; };
-		F09E57701B0AC9FF009C2DF3 /* SamplerPreset23.aupreset in Resources */ = {isa = PBXBuildFile; fileRef = F09E576F1B0AC9FF009C2DF3 /* SamplerPreset23.aupreset */; };
-		F09E57721B0ACC4B009C2DF3 /* SamplerPreset24.aupreset in Resources */ = {isa = PBXBuildFile; fileRef = F09E57711B0ACC4B009C2DF3 /* SamplerPreset24.aupreset */; };
-		F09E57741B0C579A009C2DF3 /* SamplerPreset25.aupreset in Resources */ = {isa = PBXBuildFile; fileRef = F09E57731B0C579A009C2DF3 /* SamplerPreset25.aupreset */; };
-		F09E57761B0C5A60009C2DF3 /* SamplerPreset26.aupreset in Resources */ = {isa = PBXBuildFile; fileRef = F09E57751B0C5A60009C2DF3 /* SamplerPreset26.aupreset */; };
 		F0A5BD3C18F191D800A3B6D0 /* 4SecSig.wav in Resources */ = {isa = PBXBuildFile; fileRef = F0A5BD3B18F191D800A3B6D0 /* 4SecSig.wav */; };
-		F0B0A3931B16B06C00E57DA3 /* SamplerPreset31.aupreset in Resources */ = {isa = PBXBuildFile; fileRef = F0B0A3921B16B06C00E57DA3 /* SamplerPreset31.aupreset */; };
-		F0B0A3951B16B85A00E57DA3 /* SamplerPreset32.aupreset in Resources */ = {isa = PBXBuildFile; fileRef = F0B0A3941B16B85A00E57DA3 /* SamplerPreset32.aupreset */; };
 		F0B0A3971B16C75D00E57DA3 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F0B0A3961B16C75D00E57DA3 /* QuartzCore.framework */; };
 		F0C42C931887813400330B66 /* berilium.wav in Resources */ = {isa = PBXBuildFile; fileRef = F0C42C921887813400330B66 /* berilium.wav */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		0A23778E13D3A20B004C7E14 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
-		0A355A0013CCB2E100AB9137 /* LoadPresetDemoAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoadPresetDemoAppDelegate.h; sourceTree = "<group>"; };
-		0A355A0113CCB2E100AB9137 /* LoadPresetDemoAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoadPresetDemoAppDelegate.m; sourceTree = "<group>"; };
-		0A355A0213CCB2E100AB9137 /* MainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainViewController.h; sourceTree = "<group>"; };
-		0A355A0313CCB2E100AB9137 /* MainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainViewController.m; sourceTree = "<group>"; };
 		0A355A0813CCB3E200AB9137 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = InfoPlist.strings; sourceTree = "<group>"; };
 		0A355A0A13CCB3E200AB9137 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = MainViewController.xib; sourceTree = "<group>"; };
 		0A355A0C13CCB3E200AB9137 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = MainWindow_iPhone.xib; sourceTree = "<group>"; };
@@ -75,13 +71,11 @@
 		0A355A1913CCB74600AB9137 /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
 		0A355A1A13CCB74600AB9137 /* Icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon@2x.png"; sourceTree = "<group>"; };
 		0A355A2513CD2A4C00AB9137 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
-		5912FFB1139B1CCD00E2ACAA /* ReadMe.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = ReadMe.txt; sourceTree = "<group>"; };
 		59E6DE24134F9EE7009F373F /* Load Presets.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Load Presets.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		59E6DE28134F9EE7009F373F /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		59E6DE2A134F9EE7009F373F /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		59E6DE2C134F9EE8009F373F /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		59E6DE30134F9EE8009F373F /* LoadPresetDemo-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "LoadPresetDemo-Info.plist"; sourceTree = "<group>"; };
-		59E6DE34134F9EE8009F373F /* LoadPresetDemo-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "LoadPresetDemo-Prefix.pch"; sourceTree = "<group>"; };
 		59E6DE35134F9EE8009F373F /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		59E6DE5F134FA493009F373F /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		F00C301118824EB000821540 /* SWEEPERD.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = SWEEPERD.wav; sourceTree = "<group>"; };
@@ -95,25 +89,30 @@
 		F0441D5B18801BE100E19AFD /* sine440.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = sine440.wav; sourceTree = "<group>"; };
 		F0441D5D18801D5A00E19AFD /* zeb.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = zeb.wav; sourceTree = "<group>"; };
 		F055192419F7F4E800287D38 /* Sounds */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Sounds; sourceTree = "<group>"; };
+		F079E5761BED833D00AF1F3A /* SOAUSampler-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SOAUSampler-Prefix.pch"; sourceTree = "<group>"; };
+		F079E57E1BED83BB00AF1F3A /* LoadPresetDemoAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoadPresetDemoAppDelegate.h; sourceTree = "<group>"; };
+		F079E57F1BED83BB00AF1F3A /* LoadPresetDemoAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoadPresetDemoAppDelegate.m; sourceTree = "<group>"; };
+		F079E5801BED83BB00AF1F3A /* MainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainViewController.h; sourceTree = "<group>"; };
+		F079E5811BED83BB00AF1F3A /* MainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainViewController.m; sourceTree = "<group>"; };
+		F079E5851BED846100AF1F3A /* 2layers.aupreset */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = 2layers.aupreset; sourceTree = "<group>"; };
+		F079E5861BED846100AF1F3A /* SamplerPreset20.aupreset */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = SamplerPreset20.aupreset; sourceTree = "<group>"; };
+		F079E5871BED846100AF1F3A /* SamplerPreset21.aupreset */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = SamplerPreset21.aupreset; sourceTree = "<group>"; };
+		F079E5881BED846100AF1F3A /* SamplerPreset22.aupreset */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = SamplerPreset22.aupreset; sourceTree = "<group>"; };
+		F079E5891BED846100AF1F3A /* SamplerPreset23.aupreset */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = SamplerPreset23.aupreset; sourceTree = "<group>"; };
+		F079E58A1BED846100AF1F3A /* SamplerPreset24.aupreset */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = SamplerPreset24.aupreset; sourceTree = "<group>"; };
+		F079E58B1BED846100AF1F3A /* SamplerPreset25.aupreset */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = SamplerPreset25.aupreset; sourceTree = "<group>"; };
+		F079E58C1BED846100AF1F3A /* SamplerPreset26.aupreset */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = SamplerPreset26.aupreset; sourceTree = "<group>"; };
+		F079E58D1BED846100AF1F3A /* SamplerPreset27.aupreset */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = SamplerPreset27.aupreset; sourceTree = "<group>"; };
+		F079E58E1BED846100AF1F3A /* SamplerPreset28.aupreset */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = SamplerPreset28.aupreset; sourceTree = "<group>"; };
+		F079E58F1BED846100AF1F3A /* SamplerPreset29.aupreset */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = SamplerPreset29.aupreset; sourceTree = "<group>"; };
+		F079E5901BED846100AF1F3A /* SamplerPreset31.aupreset */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = SamplerPreset31.aupreset; sourceTree = "<group>"; };
+		F079E5911BED846100AF1F3A /* SamplerPreset32.aupreset */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = SamplerPreset32.aupreset; sourceTree = "<group>"; };
+		F079E5921BED846100AF1F3A /* SweepPad18-64.aupreset */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = "SweepPad18-64.aupreset"; sourceTree = "<group>"; };
 		F09B7BA21B0D758C00D7809A /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
-		F09B7BA41B0D76A500D7809A /* SamplerPreset27.aupreset */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = SamplerPreset27.aupreset; sourceTree = "<group>"; };
-		F09B7BA61B0D7B4500D7809A /* SamplerPreset28.aupreset */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = SamplerPreset28.aupreset; sourceTree = "<group>"; };
-		F09B7BB61B0D8B2700D7809A /* SamplerPreset29.aupreset */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = SamplerPreset29.aupreset; sourceTree = "<group>"; };
 		F09DE5F718810A6200971B1A /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		F09DE6021881721F00971B1A /* QuasiA 048.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "QuasiA 048.wav"; sourceTree = "<group>"; };
 		F09DE6041881730E00971B1A /* D.B. Bass One Shot 11 (G).wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "D.B. Bass One Shot 11 (G).wav"; sourceTree = "<group>"; };
-		F09E57651B0AB008009C2DF3 /* SweepPad18-64.aupreset */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = "SweepPad18-64.aupreset"; sourceTree = "<group>"; };
-		F09E57671B0ABF39009C2DF3 /* 2layers.aupreset */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = 2layers.aupreset; sourceTree = "<group>"; };
-		F09E57691B0AC616009C2DF3 /* SamplerPreset20.aupreset */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = SamplerPreset20.aupreset; sourceTree = "<group>"; };
-		F09E576B1B0AC68D009C2DF3 /* SamplerPreset21.aupreset */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = SamplerPreset21.aupreset; sourceTree = "<group>"; };
-		F09E576D1B0AC879009C2DF3 /* SamplerPreset22.aupreset */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = SamplerPreset22.aupreset; sourceTree = "<group>"; };
-		F09E576F1B0AC9FF009C2DF3 /* SamplerPreset23.aupreset */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = SamplerPreset23.aupreset; sourceTree = "<group>"; };
-		F09E57711B0ACC4B009C2DF3 /* SamplerPreset24.aupreset */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = SamplerPreset24.aupreset; sourceTree = "<group>"; };
-		F09E57731B0C579A009C2DF3 /* SamplerPreset25.aupreset */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = SamplerPreset25.aupreset; sourceTree = "<group>"; };
-		F09E57751B0C5A60009C2DF3 /* SamplerPreset26.aupreset */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = SamplerPreset26.aupreset; sourceTree = "<group>"; };
 		F0A5BD3B18F191D800A3B6D0 /* 4SecSig.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = 4SecSig.wav; sourceTree = "<group>"; };
-		F0B0A3921B16B06C00E57DA3 /* SamplerPreset31.aupreset */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = SamplerPreset31.aupreset; sourceTree = "<group>"; };
-		F0B0A3941B16B85A00E57DA3 /* SamplerPreset32.aupreset */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = SamplerPreset32.aupreset; sourceTree = "<group>"; };
 		F0B0A3961B16C75D00E57DA3 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		F0C42C921887813400330B66 /* berilium.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = berilium.wav; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -136,18 +135,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		0A3559FF13CCB2E100AB9137 /* Classes */ = {
-			isa = PBXGroup;
-			children = (
-				0A355A0013CCB2E100AB9137 /* LoadPresetDemoAppDelegate.h */,
-				0A355A0113CCB2E100AB9137 /* LoadPresetDemoAppDelegate.m */,
-				0A355A0213CCB2E100AB9137 /* MainViewController.h */,
-				0A355A0313CCB2E100AB9137 /* MainViewController.m */,
-			);
-			name = Classes;
-			path = LoadPresetDemo/Classes;
-			sourceTree = "<group>";
-		};
 		0A355A0613CCB3E200AB9137 /* en.lproj */ = {
 			isa = PBXGroup;
 			children = (
@@ -194,20 +181,6 @@
 				F0441D41187E10DF00E19AFD /* fmvoc.wav */,
 				0A355A0613CCB3E200AB9137 /* en.lproj */,
 				0A355A1413CCB74600AB9137 /* Images */,
-				F09E57651B0AB008009C2DF3 /* SweepPad18-64.aupreset */,
-				F09E57691B0AC616009C2DF3 /* SamplerPreset20.aupreset */,
-				F09E576B1B0AC68D009C2DF3 /* SamplerPreset21.aupreset */,
-				F09E576D1B0AC879009C2DF3 /* SamplerPreset22.aupreset */,
-				F09E576F1B0AC9FF009C2DF3 /* SamplerPreset23.aupreset */,
-				F09E57711B0ACC4B009C2DF3 /* SamplerPreset24.aupreset */,
-				F09E57731B0C579A009C2DF3 /* SamplerPreset25.aupreset */,
-				F09E57751B0C5A60009C2DF3 /* SamplerPreset26.aupreset */,
-				F09B7BA41B0D76A500D7809A /* SamplerPreset27.aupreset */,
-				F09B7BA61B0D7B4500D7809A /* SamplerPreset28.aupreset */,
-				F09B7BB61B0D8B2700D7809A /* SamplerPreset29.aupreset */,
-				F0B0A3921B16B06C00E57DA3 /* SamplerPreset31.aupreset */,
-				F0B0A3941B16B85A00E57DA3 /* SamplerPreset32.aupreset */,
-				F09E57671B0ABF39009C2DF3 /* 2layers.aupreset */,
 			);
 			name = Resources;
 			path = LoadPresetDemo;
@@ -217,8 +190,8 @@
 			isa = PBXGroup;
 			children = (
 				F09DE5F718810A6200971B1A /* Default-568h@2x.png */,
-				5912FFB1139B1CCD00E2ACAA /* ReadMe.txt */,
-				0A3559FF13CCB2E100AB9137 /* Classes */,
+				F079E57D1BED83BB00AF1F3A /* Classes */,
+				F079E5841BED846100AF1F3A /* AUPresets */,
 				5993ABEF138DFAF500AF7AD8 /* Resources */,
 				59E6DE2F134F9EE8009F373F /* Other Sources */,
 				59E6DE27134F9EE7009F373F /* Frameworks */,
@@ -252,11 +225,43 @@
 			isa = PBXGroup;
 			children = (
 				59E6DE30134F9EE8009F373F /* LoadPresetDemo-Info.plist */,
-				59E6DE34134F9EE8009F373F /* LoadPresetDemo-Prefix.pch */,
+				F079E5761BED833D00AF1F3A /* SOAUSampler-Prefix.pch */,
 				59E6DE35134F9EE8009F373F /* main.m */,
 			);
 			name = "Other Sources";
 			path = LoadPresetDemo;
+			sourceTree = "<group>";
+		};
+		F079E57D1BED83BB00AF1F3A /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				F079E57E1BED83BB00AF1F3A /* LoadPresetDemoAppDelegate.h */,
+				F079E57F1BED83BB00AF1F3A /* LoadPresetDemoAppDelegate.m */,
+				F079E5801BED83BB00AF1F3A /* MainViewController.h */,
+				F079E5811BED83BB00AF1F3A /* MainViewController.m */,
+			);
+			path = Classes;
+			sourceTree = "<group>";
+		};
+		F079E5841BED846100AF1F3A /* AUPresets */ = {
+			isa = PBXGroup;
+			children = (
+				F079E5851BED846100AF1F3A /* 2layers.aupreset */,
+				F079E5861BED846100AF1F3A /* SamplerPreset20.aupreset */,
+				F079E5871BED846100AF1F3A /* SamplerPreset21.aupreset */,
+				F079E5881BED846100AF1F3A /* SamplerPreset22.aupreset */,
+				F079E5891BED846100AF1F3A /* SamplerPreset23.aupreset */,
+				F079E58A1BED846100AF1F3A /* SamplerPreset24.aupreset */,
+				F079E58B1BED846100AF1F3A /* SamplerPreset25.aupreset */,
+				F079E58C1BED846100AF1F3A /* SamplerPreset26.aupreset */,
+				F079E58D1BED846100AF1F3A /* SamplerPreset27.aupreset */,
+				F079E58E1BED846100AF1F3A /* SamplerPreset28.aupreset */,
+				F079E58F1BED846100AF1F3A /* SamplerPreset29.aupreset */,
+				F079E5901BED846100AF1F3A /* SamplerPreset31.aupreset */,
+				F079E5911BED846100AF1F3A /* SamplerPreset32.aupreset */,
+				F079E5921BED846100AF1F3A /* SweepPad18-64.aupreset */,
+			);
+			path = AUPresets;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -315,45 +320,45 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F079E59C1BED846100AF1F3A /* SamplerPreset28.aupreset in Resources */,
 				F09DE6031881721F00971B1A /* QuasiA 048.wav in Resources */,
 				F0441D52188008B400E19AFD /* 084 hardhop.wav in Resources */,
+				F079E5931BED846100AF1F3A /* 2layers.aupreset in Resources */,
 				F0441D4E187FB87700E19AFD /* synthicoDrums.wav in Resources */,
-				F09E57721B0ACC4B009C2DF3 /* SamplerPreset24.aupreset in Resources */,
-				F09B7BA71B0D7B4500D7809A /* SamplerPreset28.aupreset in Resources */,
-				F09E576E1B0AC879009C2DF3 /* SamplerPreset22.aupreset in Resources */,
+				F079E5941BED846100AF1F3A /* SamplerPreset20.aupreset in Resources */,
 				F0441D5E18801D5A00E19AFD /* zeb.wav in Resources */,
 				F0441D42187E10DF00E19AFD /* fmvoc.wav in Resources */,
-				F09E57681B0ABF39009C2DF3 /* 2layers.aupreset in Resources */,
-				F09E57761B0C5A60009C2DF3 /* SamplerPreset26.aupreset in Resources */,
-				F09E576A1B0AC616009C2DF3 /* SamplerPreset20.aupreset in Resources */,
-				F0B0A3951B16B85A00E57DA3 /* SamplerPreset32.aupreset in Resources */,
-				F09E57741B0C579A009C2DF3 /* SamplerPreset25.aupreset in Resources */,
-				F09B7BA51B0D76A500D7809A /* SamplerPreset27.aupreset in Resources */,
 				F0441D5C18801BE100E19AFD /* sine440.wav in Resources */,
-				F09E57661B0AB008009C2DF3 /* SweepPad18-64.aupreset in Resources */,
 				0A355A0D13CCB3E200AB9137 /* InfoPlist.strings in Resources */,
 				0A355A0E13CCB3E200AB9137 /* MainViewController.xib in Resources */,
-				F09E576C1B0AC68D009C2DF3 /* SamplerPreset21.aupreset in Resources */,
 				F025850A18A8DEFD0068C0F1 /* 67361__bidone__affen-schreit.mp3 in Resources */,
+				F079E5991BED846100AF1F3A /* SamplerPreset25.aupreset in Resources */,
 				F09DE5F818810A6200971B1A /* Default-568h@2x.png in Resources */,
 				F0A5BD3C18F191D800A3B6D0 /* 4SecSig.wav in Resources */,
 				F0441D4C187FB50600E19AFD /* robotic1234.wav in Resources */,
 				0A355A0F13CCB3E200AB9137 /* MainWindow_iPhone.xib in Resources */,
 				F0441D44187F318600E19AFD /* hihat_OpenAndCloseHat.wav in Resources */,
+				F079E59B1BED846100AF1F3A /* SamplerPreset27.aupreset in Resources */,
 				F055192519F7F4E800287D38 /* Sounds in Resources */,
 				F025850E18A8E80B0068C0F1 /* bip_201335_123127.m4a in Resources */,
 				0A355A1B13CCB74600AB9137 /* Icon-72.png in Resources */,
 				0A355A1C13CCB74600AB9137 /* Icon-Small-50.png in Resources */,
 				F0C42C931887813400330B66 /* berilium.wav in Resources */,
 				0A355A1D13CCB74600AB9137 /* Icon-Small.png in Resources */,
+				F079E59F1BED846100AF1F3A /* SamplerPreset32.aupreset in Resources */,
 				F00C301218824EB000821540 /* SWEEPERD.wav in Resources */,
+				F079E5951BED846100AF1F3A /* SamplerPreset21.aupreset in Resources */,
+				F079E5961BED846100AF1F3A /* SamplerPreset22.aupreset in Resources */,
 				0A355A1E13CCB74600AB9137 /* Icon-Small@2x.png in Resources */,
-				F09E57701B0AC9FF009C2DF3 /* SamplerPreset23.aupreset in Resources */,
-				F0B0A3931B16B06C00E57DA3 /* SamplerPreset31.aupreset in Resources */,
-				F09B7BB71B0D8B2700D7809A /* SamplerPreset29.aupreset in Resources */,
+				F079E5A01BED846100AF1F3A /* SweepPad18-64.aupreset in Resources */,
 				0A355A1F13CCB74600AB9137 /* Icon.png in Resources */,
 				0A355A2013CCB74600AB9137 /* Icon@2x.png in Resources */,
+				F079E5981BED846100AF1F3A /* SamplerPreset24.aupreset in Resources */,
+				F079E59E1BED846100AF1F3A /* SamplerPreset31.aupreset in Resources */,
 				0A23778F13D3A20B004C7E14 /* Default.png in Resources */,
+				F079E59D1BED846100AF1F3A /* SamplerPreset29.aupreset in Resources */,
+				F079E5971BED846100AF1F3A /* SamplerPreset23.aupreset in Resources */,
+				F079E59A1BED846100AF1F3A /* SamplerPreset26.aupreset in Resources */,
 				F09DE6051881730E00971B1A /* D.B. Bass One Shot 11 (G).wav in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -365,9 +370,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F079E5821BED83BB00AF1F3A /* LoadPresetDemoAppDelegate.m in Sources */,
+				F079E5831BED83BB00AF1F3A /* MainViewController.m in Sources */,
 				59E6DE36134F9EE8009F373F /* main.m in Sources */,
-				0A355A0413CCB2E100AB9137 /* LoadPresetDemoAppDelegate.m in Sources */,
-				0A355A0513CCB2E100AB9137 /* MainViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -447,7 +452,7 @@
 				COPY_PHASE_STRIP = NO;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "LoadPresetDemo/LoadPresetDemo-Prefix.pch";
+				GCC_PREFIX_HEADER = "LoadPresetDemo/SOAUSampler-Prefix.pch";
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				INFOPLIST_FILE = "LoadPresetDemo/LoadPresetDemo-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
@@ -468,7 +473,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "LoadPresetDemo/LoadPresetDemo-Prefix.pch";
+				GCC_PREFIX_HEADER = "LoadPresetDemo/SOAUSampler-Prefix.pch";
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				INFOPLIST_FILE = "LoadPresetDemo/LoadPresetDemo-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
