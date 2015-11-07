@@ -262,9 +262,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		59E6DE23134F9EE7009F373F /* LoadPresetDemo */ = {
+		59E6DE23134F9EE7009F373F /* SOAUSampler */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 59E6DE4A134F9EE8009F373F /* Build configuration list for PBXNativeTarget "LoadPresetDemo" */;
+			buildConfigurationList = 59E6DE4A134F9EE8009F373F /* Build configuration list for PBXNativeTarget "SOAUSampler" */;
 			buildPhases = (
 				59E6DE20134F9EE7009F373F /* Sources */,
 				59E6DE21134F9EE7009F373F /* Frameworks */,
@@ -274,7 +274,7 @@
 			);
 			dependencies = (
 			);
-			name = LoadPresetDemo;
+			name = SOAUSampler;
 			productName = LoadPresetDemo;
 			productReference = 59E6DE24134F9EE7009F373F /* Load Presets.app */;
 			productType = "com.apple.product-type.application";
@@ -285,7 +285,7 @@
 		59E6DE1B134F9EE7009F373F /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0500;
+				LastUpgradeCheck = 0710;
 				ORGANIZATIONNAME = Apple;
 				TargetAttributes = {
 					59E6DE23134F9EE7009F373F = {
@@ -293,7 +293,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 59E6DE1E134F9EE7009F373F /* Build configuration list for PBXProject "LoadPresetDemo" */;
+			buildConfigurationList = 59E6DE1E134F9EE7009F373F /* Build configuration list for PBXProject "SOAUSampler" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -305,7 +305,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				59E6DE23134F9EE7009F373F /* LoadPresetDemo */,
+				59E6DE23134F9EE7009F373F /* SOAUSampler */,
 			);
 		};
 /* End PBXProject section */
@@ -405,6 +405,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PREPROCESSOR_DEFINITIONS = "DEBUG=1";
@@ -413,7 +414,7 @@
 				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = 1;
@@ -429,7 +430,7 @@
 				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = 1;
@@ -451,6 +452,7 @@
 				INFOPLIST_FILE = "LoadPresetDemo/LoadPresetDemo-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.sohla.playertap;
 				PRODUCT_NAME = "Load Presets";
 				PROVISIONING_PROFILE = "";
 				WRAPPER_EXTENSION = app;
@@ -471,6 +473,7 @@
 				INFOPLIST_FILE = "LoadPresetDemo/LoadPresetDemo-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				ONLY_ACTIVE_ARCH = NO;
+				PRODUCT_BUNDLE_IDENTIFIER = com.sohla.playertap;
 				PRODUCT_NAME = "Load Presets";
 				PROVISIONING_PROFILE = "";
 				VALIDATE_PRODUCT = YES;
@@ -481,7 +484,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		59E6DE1E134F9EE7009F373F /* Build configuration list for PBXProject "LoadPresetDemo" */ = {
+		59E6DE1E134F9EE7009F373F /* Build configuration list for PBXProject "SOAUSampler" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				59E6DE48134F9EE8009F373F /* Debug */,
@@ -490,7 +493,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		59E6DE4A134F9EE8009F373F /* Build configuration list for PBXNativeTarget "LoadPresetDemo" */ = {
+		59E6DE4A134F9EE8009F373F /* Build configuration list for PBXNativeTarget "SOAUSampler" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				59E6DE4B134F9EE8009F373F /* Debug */,

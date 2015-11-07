@@ -2,6 +2,6 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "self:LoadPresetDemo.xcodeproj">
+      location = "self:/Users/soh_la/Develop/iOS/Projects/SOAUSampler/SOAUSampler.xcodeproj">
    </FileRef>
 </Workspace>
