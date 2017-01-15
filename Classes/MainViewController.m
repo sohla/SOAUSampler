@@ -55,7 +55,7 @@ static OSStatus renderCallback(	void *							inRefCon,
         renderData->frameAccum += inNumberFrames;
         renderData->frameAccumOff += inNumberFrames;
     }
-    
+    //NSLog(@"%ud",inNumberFrames);
 
 	return noErr;
 	
@@ -117,7 +117,7 @@ static void noteOn(RenderData     *renderData,
         renderData->modCntl = 0;
     }
     
-    NSLog(@"NOTE ON");
+    //NSLog(@"NOTE ON");
 
 }
 
@@ -134,7 +134,7 @@ static void noteOFF(RenderData     *renderData,
     UInt32 noteCommand = 	kMIDIMessage_NoteOff << 4 | 0;
     UInt32 onVelocity = 0;
     result = MusicDeviceMIDIEvent (samplerUnit, noteCommand, renderData->prevNote, onVelocity,0);
-    NSLog(@"NOTE OFF");
+    //NSLog(@"NOTE OFF");
 
     //NSLog(@"NOTE OFF %ld",renderData->frameAccumOff);
 

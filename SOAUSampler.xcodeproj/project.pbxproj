@@ -455,7 +455,7 @@
 				GCC_PREFIX_HEADER = "LoadPresetDemo/SOAUSampler-Prefix.pch";
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				INFOPLIST_FILE = "LoadPresetDemo/LoadPresetDemo-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.1;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.sohla.playertap;
 				PRODUCT_NAME = "Load Presets";
@@ -476,7 +476,7 @@
 				GCC_PREFIX_HEADER = "LoadPresetDemo/SOAUSampler-Prefix.pch";
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				INFOPLIST_FILE = "LoadPresetDemo/LoadPresetDemo-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.1;
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = com.sohla.playertap;
 				PRODUCT_NAME = "Load Presets";
